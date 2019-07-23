@@ -2,13 +2,9 @@
   "root": true,
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "jest/globals": true
   },   
-  "ecmaFeatures": {
-    "modules": true,
-    "spread" : true,
-    "restParams" : true
-  },
   "extends": ["airbnb-base"],
   "globals": {
     "Atomics": "readonly",
@@ -18,16 +14,17 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
+  "plugins": ["jest"],
   "rules": {
     "comma-dangle": 0,
     "consistent-return": 0,
     "curly": ["error", "multi-line"],
-    "eofline": true,
-    "import/no-unresolved": [2, { "commonjs": true }],
-    "indent": [true, "spaces", 2],
+    "eofline": "always",
+    "import/no-unresolved": [2, { "commonjs": 2 }],
+    "indent": [2, 2],
     "max-len": ["error", { "code": 80 }],
     "new-cap": 0,
-    "no-console": [true, "log", "info", "error", "warn"],
+    "no-console": 2,
     "no-param-reassign": 0,
     "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
     "no-unused-vars": ["error", { "varsIgnorePattern": "should|expect" }],
