@@ -7,7 +7,8 @@
     "start": "node dist/index.js",
     "start:dev": "nodemon --exec babel-node server/app.js",
     "build": "babel server --out-dir dist",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "author": "Andela Simulations Programme",
   "license": "MIT",
@@ -20,6 +21,7 @@
     "coverageDirectory": "coverage"
   },
   "dependencies": {
+    "coveralls": "^3.0.5",
     "dotenv": "^8.0.0",
     "eslint-plugin-jest": "^22.13.6",
     "express": "^4.17.1",
