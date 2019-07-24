@@ -3,6 +3,11 @@
   "env": {
     "es6": true,
     "node": true
+  },   
+  "ecmaFeatures": {
+    "modules": true,
+    "spread" : true,
+    "restParams" : true
   },
   "extends": ["airbnb-base"],
   "globals": {
