@@ -1,0 +1,40 @@
+openapi: 3.0.1
+
+info:
+  title: Authors Haven API Documentation
+  description: Create a community of like minded authors to foster inspiration and innovation by leveraging the modern web.
+  version: 1.0.0
+  contact:
+    email: teamrambo50@gmail.com
+
+license:
+  name: Apache 2.0
+  url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: /
+    desription: Localhost server
+  - url: https://authors-haven-development.herokuapp.com/
+    desription: Heroku development server
+
+paths:
+  /:
+    summary: Represent root of the application
+    description: Represent root of the application.
+    get:
+      summary: Returns a welcome message.
+      description: Returns a welcome message.
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Welcome to Authors Haven
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

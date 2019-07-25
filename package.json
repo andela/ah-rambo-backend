@@ -6,16 +6,19 @@
   "scripts": {
     "start": "node dist/index.js",
     "start:dev": "nodemon --exec babel-node server/index.js",
-    "build": "babel server --out-dir dist",
+    "build": "babel server --out-dir dist && npm run copy:docs",
     "test": "nyc mocha --timeout 1000 -r esm --exit",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "copy:docs": "cp -r server/docs/ dist/docs/"
   },
   "author": "Andela Simulations Programme",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "swagger-ui-express": "^4.0.7",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
