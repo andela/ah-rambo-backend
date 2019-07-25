@@ -3,7 +3,7 @@
   "env": {
     "es6": true,
     "node": true,
-    "jest/globals": true
+    "mocha": true
   },   
   "extends": ["airbnb-base"],
   "globals": {
@@ -14,7 +14,6 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["jest"],
   "rules": {
     "comma-dangle": 0,
     "consistent-return": 0,

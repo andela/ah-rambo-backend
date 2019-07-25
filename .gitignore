@@ -39,3 +39,7 @@ node_modules
 
 #build folder
 dist
+.nyc_output
+
+#coverage file
+lcov.info
