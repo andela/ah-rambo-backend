@@ -1,5 +1,6 @@
 [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 [![Coverage Status](https://coveralls.io/repos/github/andela/ah-rambo-backend/badge.svg?branch=ch-setup-unit-test-167190523)](https://coveralls.io/github/andela/ah-rambo-backend?branch=ch-setup-unit-test-167190523)
+[![Build Status](https://travis-ci.com/andela/ah-rambo-backend.svg?branch=develop)](https://travis-ci.com/andela/ah-rambo-backend)
 # Authors Haven - A Social platform for the creative at heart.
 
 ## Vision
