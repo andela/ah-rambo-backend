@@ -18,10 +18,10 @@ if (dbUrl.use_env_variable) {
   sequelize = new Sequelize(dbUrl.database, dbUrl.user, dbUrl.password, dbUrl);
 }
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => (
-    file.indexOf('.') !== 0) && (file !== base) && (file.slice(-3) === '.js'))
+fs.readdirSync(__dirname)
+  .filter(
+    file => file.indexOf('.') !== 0 && file !== base && file.slice(-3) === '.js'
+  )
   .forEach((file) => {
     const model = sequelize.import(path.join(__dirname, file));
     db[model.name] = model;

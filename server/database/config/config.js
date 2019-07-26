@@ -12,12 +12,12 @@ const test = {
   password: null,
   database: 'database_test',
   host: '127.0.0.1',
-  dialect: 'sqlite',
+  dialect: 'sqlite'
 };
 
 const production = {
   use_env_variable: process.env.HEROKU_POSTGRESQL_TEAL_URL,
-  dialect: 'postgres',
+  dialect: 'postgres'
 };
 
 export { development, test, production };
