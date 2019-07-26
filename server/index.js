@@ -6,9 +6,6 @@ import YAML from 'yamljs';
 import path from 'path';
 import Debug from 'debug';
 
-
-config();
-
 const PORT = process.env.PORT || 9000;
 
 config();
