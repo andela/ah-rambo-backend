@@ -4,11 +4,13 @@ import { config } from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
+import Debug from 'debug';
+
+const PORT = process.env.PORT || 9000;
 
 config();
 
-const { log } = console;
-const PORT = process.env.PORT || 9000;
+const debug = Debug('dev');
 
 const app = express();
 const swaggerDoc = YAML.load(
@@ -28,6 +30,6 @@ app.use('*', (request, response) => {
   response.status(404).send('Not Found');
 });
 
-app.listen(PORT, () => log(`Server started on port ${PORT}`));
+app.listen(PORT, () => debug(`Server started on port ${PORT}`));
 
 export default app;

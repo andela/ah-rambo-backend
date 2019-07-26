@@ -6,13 +6,17 @@
   "scripts": {
     "lint": "eslint '**/*.js'",
     "lint:fix": "prettier-eslint '**/*.js' --write",
-    "start": "node dist/index.js",
-    "start:dev": "nodemon --exec babel-node server/index.js",
-    "build": "babel server --out-dir dist && npm run copy:docs",
-    "test": "nyc mocha --timeout 1000 -r esm --exit",
     "test:staged": "nyc mocha --timeout 1000 -r esm --exit && nyc check-coverage --statements 100 --functions 100 --lines 100 --branches 100",
+    "build": "babel server --out-dir dist && npm run copy:docs",
+    "copy:docs": "cp -r server/docs/ dist/docs/",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "copy:docs": "cp -r server/docs/ dist/docs/"
+    "db:migrate": "sequelize db:migrate",
+    "db:migrate-undo": "sequelize db:migrate:undo:all",
+    "db:rollback": "npm run db:back && npm run db:roll && npm run db:seed",
+    "db:seed": "sequelize db:seed:all",
+    "start": "node dist/index.js",
+    "start:dev": "cross-env NODE_ENV=development DEBUG=dev nodemon --exec babel-node server",
+    "test": "nyc mocha --timeout 1000 -r esm --exit"
   },
   "husky": {
     "hooks": {
@@ -22,11 +26,18 @@
   "author": "Andela Simulations Programme",
   "license": "MIT",
   "dependencies": {
+    "coveralls": "^3.0.5",
+    "debug": "^4.1.1",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
     "swagger-ui-express": "^4.0.7",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "pg": "^7.11.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.10.2",
+    "sequelize-cli": "^5.5.0",
+    "sqlite3": "^4.0.9"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -38,6 +49,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "coveralls": "^3.0.5",
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.2",
