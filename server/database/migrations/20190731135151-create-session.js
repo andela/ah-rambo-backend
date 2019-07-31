@@ -25,7 +25,6 @@ module.exports = {
       type: Sequelize.DATE
     },
     ipAddress: {
-      allowNull: false,
       type: Sequelize.STRING
     },
     token: {
@@ -33,7 +32,6 @@ module.exports = {
       type: Sequelize.STRING
     },
     userAgent: {
-      allowNull: false,
       type: Sequelize.STRING
     },
     createdAt: {

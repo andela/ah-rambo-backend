@@ -16,7 +16,7 @@
     "db:seed": "sequelize db:seed:all",
     "start": "node dist/index.js",
     "start:dev": "DEBUG=dev nodemon --exec babel-node server",
-    "test": "nyc mocha --timeout 1000 -r esm --exit"
+    "test": "npm run db:rollback && nyc mocha --timeout 1000 -r esm --exit"
   },
   "husky": {
     "hooks": {

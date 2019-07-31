@@ -1,5 +1,6 @@
+/* eslint-disable max-len */
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.bulkInsert(
+  up: queryInterface => queryInterface.bulkInsert(
     'Sessions',
     [
       {
@@ -31,5 +32,5 @@ module.exports = {
     ],
     {}
   ),
-  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Sessions', null, {})
+  down: queryInterface => queryInterface.bulkDelete('Sessions', null, {})
 };
