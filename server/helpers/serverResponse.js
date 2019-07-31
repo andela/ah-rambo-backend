@@ -13,7 +13,7 @@ const serverResponse = (res, code, data) => res.status(code).json({ ...data });
  * @returns {JSON} JSON response with server error details
  */
 const serverError = res => res.status(500).json({
-  error: 'A fix is in progress'
+  error: 'server error, this will be resolved shortly'
 });
 
 export { serverResponse, serverError };

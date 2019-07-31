@@ -23,20 +23,20 @@ class Users {
    * @param {Object} res express response object
    * @returns {JSON} JSON object with details of new user
    */
-  static async signUp(req, res) {
+  static async create(req, res) {
     try {
       const { password, confirmPassword } = req.body;
       if (password !== confirmPassword) {
-        return serverResponse(res, 400, { error: 'Passwords do not match' });
+        return serverResponse(res, 400, { error: 'passwords do not match' });
       }
       if (await checkEmail(req.body.email)) {
         return serverResponse(res, 409, {
-          error: 'Email has already been taken'
+          error: 'email has already been taken'
         });
       }
       if (await checkUserName(req.body.userName)) {
         return serverResponse(res, 409, {
-          error: 'Username has already been taken'
+          error: 'username has already been taken'
         });
       }
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -45,7 +45,6 @@ class Users {
         password: hashedPassword
       });
       delete user.dataValues.password;
-      // const token = await generateToken(user.id);
       return serverResponse(res, 201, { user });
     } catch (error) {
       return serverError(res);
