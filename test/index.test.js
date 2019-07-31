@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../server';
+import './users/index.test';
 import './helpers/index.test';
 
 const { expect } = chai;

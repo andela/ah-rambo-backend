@@ -32,9 +32,74 @@ paths:
               schema:
                 type: string
                 example: Welcome to Authors Haven
+  "/api/v1/sessions/create":
+    summary: Login Route
+    post:
+      description: Login Route
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              - password
+              properties:
+                userLogin:
+                  type: string
+                  minLength: 2
+                  example: adechukwu
+                password:
+                  type: string
+                  minLength: 4
+                  example: password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/loginResponse"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        '403':
+          description: Incorrect username or password
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"
+      
+  
 
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
+  schemas:
+    loginResponse:
+      type: object
+      properties:
+        user:
+          type: object
+    errorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    serverResponse:
+      type: object
+      properties:
+        error:
+          type: string
