@@ -8,10 +8,7 @@ const development = {
 };
 
 const test = {
-  user: 'root',
-  password: null,
-  database: 'database_test',
-  host: '127.0.0.1',
+  storage: ':memory',
   dialect: 'sqlite'
 };
 
