@@ -31,8 +31,39 @@ describe('User Signup Validation', () => {
     lastName: 'Haven',
     userName: 'authorshaven',
     email: 'sample.email@authorshaven.com',
-    password: 'sample.email@authorshaven.com'
+    password: 'sample.email@authorshaven.com',
+    confirmPassword: 'sample.email@authorshaven.com'
   };
+
+  it('should return error if any field value is not a string', () => {
+    const invalidUserData = { ...validUserSignupData };
+    invalidUserData.firstName = 123;
+
+    req.body = invalidUserData;
+    validateUserSignup(req, res, next);
+
+    expect(res.statusCode).to.equal(422);
+    expect(res.body).to.haveOwnProperty('errors');
+    expect(res.body.errors).to.haveOwnProperty('firstName');
+    expect(res.body.errors.firstName).to.match(
+      /first name should be a string/i
+    );
+  });
+
+  it('should return error if passwords do not match', () => {
+    const invalidUserData = { ...validUserSignupData };
+    invalidUserData.confirmPassword = 'qwertyui';
+
+    req.body = invalidUserData;
+    validateUserSignup(req, res, next);
+
+    expect(res.statusCode).to.equal(422);
+    expect(res.body).to.haveOwnProperty('errors');
+    expect(res.body.errors).to.haveOwnProperty('confirmPassword');
+    expect(res.body.errors.confirmPassword).to.match(
+      /confirm password must match password/i
+    );
+  });
 
   it('should call the next function if all fields are valid', () => {
     const validUserData = { ...validUserSignupData };
