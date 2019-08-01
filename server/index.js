@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
 import Debug from 'debug';
+import routes from './routes';
 
 const PORT = process.env.PORT || 9000;
 
@@ -25,6 +26,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.get('/', (request, response) => {
   response.status(200).send('Welcome to Authors Haven ');
 });
+
+app.use('/api/v1', routes);
 
 app.use('*', (request, response) => {
   response.status(404).send('Not Found');

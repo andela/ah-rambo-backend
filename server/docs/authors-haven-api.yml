@@ -32,9 +32,51 @@ paths:
               schema:
                 type: string
                 example: Welcome to Authors Haven
+  /api/v1/users:
+    post:
+      summary: Route for signing new users up
+      description: Allow new users to register to use the application on providing valid details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/UserSignUp'
+        description: user to be created
+      responses:
+        201:
+          description: new user created successfully
+        409:
+          description: Conflict. Email or username exists
+        500:
+          description: Internal server error
 
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
+  UserSignUp:
+    type: object
+    required:
+    - firstName
+    - lastName
+    - userName
+    - email
+    - password
+    properties:
+      firstName:
+        type: string
+        example: Rihanna
+      lastName:
+        type: string
+        example: Adeyemo
+      userName:
+        type: string
+        example: Riri
+      email:
+        type: string
+        example: riri.adeyemo@andela.com
+      password:
+        type: string
+        example: incorrect
