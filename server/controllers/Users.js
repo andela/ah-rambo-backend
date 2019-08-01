@@ -15,7 +15,7 @@ const { User } = models;
  */
 class Users {
   /**
-   * @name signUp
+   * @name create
    * @async
    * @static
    * @memberof Users
