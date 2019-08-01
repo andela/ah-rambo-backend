@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-module.exports = {
+export default {
   up: queryInterface => queryInterface.bulkInsert(
     'Sessions',
     [
