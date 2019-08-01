@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs';
 import helpers from '../helpers';
-// import models from '../database/models';
+import models from '../database/models';
 
-// const { Session } = models;
+const Session = models.Sessions;
 const {
   findUser,
   // generateToken,
@@ -60,6 +60,25 @@ class Sessions {
       // });
       delete dataValues.password;
       return serverResponse(res, 200, { user: { ...dataValues } });
+    } catch (error) {
+      serverError(res);
+    }
+  }
+
+  /**
+   *
+   *
+   * @static
+   * @param {object} req - request object
+   * @param {object} res - response object
+   * @memberof Sessions
+   * @returns {json}  object
+   */
+  static async destroy(req, res) {
+    try {
+      const { token } = req.params;
+      await Session.update({ active: false }, { where: { token } });
+      return serverResponse(res, 200, { message: 'signout successful' });
     } catch (error) {
       serverError(res);
     }

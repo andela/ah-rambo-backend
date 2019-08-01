@@ -18,9 +18,12 @@ const wrongUser = {
   password: 'password'
 };
 
+const sessionToken = 'eyJhbGciOiJIUzI1NiIsInR5pXVCJ9.SflKxwRJSMeKKF2QhgdhdhdhdhdT4fwpMeJf36POk6yJV_adQssw5c';
+
 export default {
   rightUserWithUserName,
   rightUserWithEmail,
   userWithId,
-  wrongUser
+  wrongUser,
+  sessionToken
 };

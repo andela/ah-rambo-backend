@@ -1,20 +1,21 @@
 import chai, { expect } from 'chai';
 import sinon from 'sinon';
 import chaiHttp from 'chai-http';
-// import app from '../../server';
-// import userData from './__mocks__/user';
+import server from '../../server';
+import userData from './__mocks__/user';
 import Sessions from '../../server/controllers/Sessions';
 
 chai.use(chaiHttp);
 
 // const BASE_URL = '/api/v1/sessions/create';
 const { create } = Sessions;
-// const {
-//   rightUserWithUserName,
-//   rightUserWithEmail,
-//   userWithId,
-//   wrongUser
-// } = userData;
+const {
+  //   rightUserWithUserName,
+  //   rightUserWithEmail,
+  //   userWithId,
+  //   wrongUser,
+  sessionToken
+} = userData;
 
 // describe('LOGIN TEST', () => {
 //   it('should login in user if the right email is provided', async () => {
@@ -85,6 +86,15 @@ describe('SERVER TEST', () => {
     };
     await create({}, res);
     sinon.assert.calledOnce(next);
+  });
+});
+
+describe('Sign out Test', () => {
+  it('should set session active to false when signing out', async () => {
+    const response = await chai
+      .request(server)
+      .patch(`/api/v1/sessions/${sessionToken}/destroy`);
+    expect(response).to.have.status(200);
   });
 });
 

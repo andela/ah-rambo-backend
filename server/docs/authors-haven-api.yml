@@ -32,6 +32,7 @@ paths:
               schema:
                 type: string
                 example: Welcome to Authors Haven
+
   "/api/v1/sessions/create":
     summary: Login Route
     post:
@@ -43,8 +44,8 @@ paths:
             schema:
               type: object
               required:
-              - email
-              - password
+                - email
+                - password
               properties:
                 userLogin:
                   type: string
@@ -79,8 +80,44 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/serverResponse"
-      
-  
+
+  "/api/v1/sessions/{token}/destroy":
+    summary: Signout Route
+    patch:
+      description: Signout Route
+      parameters:
+        - name: token
+          in: path
+          description: Enter User Token
+          required: true
+          schema:
+            type: string
+            format: int64
+      responses:
+        "200":
+          description: Signout successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/signoutResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "403":
+          description: Incorrect username or password
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"
 
 components:
   securitySchemes:
@@ -102,4 +139,9 @@ components:
       type: object
       properties:
         error:
+          type: string
+    signoutResponse:
+      type: object
+      properties:
+        message:
           type: string
