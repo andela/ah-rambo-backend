@@ -43,3 +43,6 @@ dist
 
 #coverage file
 lcov.info
+
+#misc
+:memory
