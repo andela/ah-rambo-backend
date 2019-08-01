@@ -1,8 +1,9 @@
 import express from 'express';
+import users from './user';
 import session from './session';
 
-const router = express.Router();
+const route = express.Router();
 
-router.use('/', session);
+route.use('/', users, session);
 
-export default router;
+export default route;
