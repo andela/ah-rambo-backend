@@ -8,7 +8,7 @@ const getNewUser = () => {
   const newUser = {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
-    userName: faker.name.findName(),
+    userName: faker.random.alphaNumeric(10),
     email: faker.internet.email(),
     password: faker.internet.password()
   };

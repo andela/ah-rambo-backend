@@ -12,6 +12,12 @@ import { serverResponse } from './serverResponse';
 const setCustomMessage = label => (errors) => {
   errors.forEach((err) => {
     switch (err.type) {
+    case 'any.required':
+      err.message = `${label} is required`;
+      break;
+    case 'any.allowOnly':
+      err.message = `${label} must match password`;
+      break;
     case 'string.alphanum':
       err.message = `${label} should contain only letters and numbers`;
       break;
@@ -28,7 +34,7 @@ const setCustomMessage = label => (errors) => {
       err.message = `${label} should not contain spaces`;
       break;
     default:
-      err.message = `${label} is required`;
+      err.message = `${label} should be a string`;
       break;
     }
   });

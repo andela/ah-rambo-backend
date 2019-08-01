@@ -34,16 +34,6 @@ describe('POST User', () => {
     expect(response.body.user.email).to.equal(existingEmail);
   });
 
-  it('should return an error if passwords do not match', async () => {
-    const user = getNewUser();
-    const response = await chai
-      .request(app)
-      .post(`${baseUrl}/users/create`)
-      .send(user);
-    expect(response).to.have.status(400);
-    expect(response.body.error).to.equal('passwords do not match');
-  });
-
   it('should not register user with existing email', async () => {
     const user = getNewUser();
     const response = await chai

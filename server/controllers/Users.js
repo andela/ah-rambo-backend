@@ -25,10 +25,6 @@ class Users {
    */
   static async create(req, res) {
     try {
-      const { password, confirmPassword } = req.body;
-      if (password !== confirmPassword) {
-        return serverResponse(res, 400, { error: 'passwords do not match' });
-      }
       if (await checkEmail(req.body.email)) {
         return serverResponse(res, 409, {
           error: 'email has already been taken'
@@ -39,7 +35,7 @@ class Users {
           error: 'username has already been taken'
         });
       }
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const user = await User.create({
         ...req.body,
         password: hashedPassword
