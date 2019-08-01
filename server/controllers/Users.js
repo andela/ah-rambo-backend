@@ -1,13 +1,11 @@
 import bcrypt from 'bcryptjs';
 import models from '../database/models';
-import {
-  serverResponse,
-  serverError,
-  checkEmail,
-  checkUserName
-} from '../helpers';
+import helpers from '../helpers';
 
 const { User } = models;
+const {
+  serverResponse, serverError, checkEmail, checkUserName
+} = helpers;
 
 /**
  * @export

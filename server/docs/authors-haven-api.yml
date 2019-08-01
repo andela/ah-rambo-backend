@@ -50,6 +50,24 @@ paths:
           description: Conflict. Email or username exists
         500:
           description: Internal server error
+  "/api/v1/sessions/create":
+    summary: Login Route
+    post:
+      description: Login Route
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/UserSignUp'
+        description: user to be created
+      responses:
+        201:
+          description: new user created successfully
+        409:
+          description: Conflict. Email or username exists
+        500:
+          description: Internal server error
 
 components:
   securitySchemes:
@@ -80,3 +98,19 @@ components:
       password:
         type: string
         example: incorrect
+  schemas:
+    loginResponse:
+      type: object
+      properties:
+        user:
+          type: object
+    errorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    serverResponse:
+      type: object
+      properties:
+        error:
+          type: string

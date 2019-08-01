@@ -3,7 +3,7 @@ import chaiHttp from 'chai-http';
 import { config } from 'dotenv';
 import sinon from 'sinon';
 import app from '../../server';
-import getNewUser from './_mocks_';
+import getNewUser from './__mocks__';
 import models from '../../server/database/models';
 
 const { User } = models;
@@ -91,3 +91,5 @@ describe('POST User', () => {
     );
   });
 });
+
+export default chai;
