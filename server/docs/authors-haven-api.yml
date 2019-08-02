@@ -121,6 +121,40 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/fbserverResponse"
+
+  /api/v1/sessions/destroy:
+    get:
+      summary: Sign out Route
+      description: Sign out Route
+      responses:
+        "200":
+          description: Sign out successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/signoutResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "403":
+          description: Incorrect username or password
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"
+      security:
+        - BearerAuth: []
+
+    
 components:
   securitySchemes:
     BearerAuth:
@@ -210,3 +244,9 @@ components:
       properties:
         message:
           type: string
+    signoutResponse:
+      type: object
+      properties:
+        message:
+          type: string
+

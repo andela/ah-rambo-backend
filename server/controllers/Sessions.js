@@ -14,7 +14,7 @@ const { Session } = models;
 /**
  *
  *
- * @class Session
+ * @class Sessions
  */
 class Sessions {
   /**
@@ -45,7 +45,7 @@ class Sessions {
       const { devicePlatform, userAgent } = getUserAgent(req);
       const { id, dataValues } = user;
       const expiresAt = expiryDate(devicePlatform);
-      const token = generateToken(id);
+      const token = generateToken({ id });
       await Session.create({
         userId: id,
         token,
@@ -57,6 +57,25 @@ class Sessions {
       res.set('Authorization', token);
       delete dataValues.password;
       return serverResponse(res, 200, { user: { ...dataValues }, token });
+    } catch (error) {
+      serverError(res);
+    }
+  }
+
+  /**
+   *
+   *
+   * @static
+   * @param {object} req - request object
+   * @param {object} res - response object
+   * @memberof Sessions
+   * @returns {json}  object
+   */
+  static async destroy(req, res) {
+    try {
+      const token = req.headers.authorization;
+      await Session.update({ active: false }, { where: { token } });
+      return serverResponse(res, 200, { message: 'sign out successful' });
     } catch (error) {
       serverError(res);
     }
