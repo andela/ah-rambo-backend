@@ -1,3 +1,4 @@
-import './signup.test';
+import * as signUp from './signup.test';
+import * as sessions from './sessions.test';
 
-export default './signup.test';
+export { signUp, sessions };

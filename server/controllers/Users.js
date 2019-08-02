@@ -4,7 +4,8 @@ import {
   serverResponse,
   serverError,
   checkEmail,
-  checkUserName
+  checkUserName,
+  generateToken
 } from '../helpers';
 
 const { User } = models;
@@ -40,8 +41,10 @@ class Users {
         ...req.body,
         password: hashedPassword
       });
+      const token = generateToken(user.id);
+      res.set('Authorization', token);
       delete user.dataValues.password;
-      return serverResponse(res, 201, { user });
+      return serverResponse(res, 201, { user, token });
     } catch (error) {
       return serverError(res);
     }

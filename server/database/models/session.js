@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
   const Session = sequelize.define(
-    'Sessions',
+    'Session',
     {
       userId: DataTypes.INTEGER,
       active: DataTypes.BOOLEAN,
