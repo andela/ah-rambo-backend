@@ -18,4 +18,12 @@ const checkEmail = email => User.findOne({ where: { email } });
  */
 const checkUserName = userName => User.findOne({ where: { userName } });
 
-export { checkEmail, checkUserName };
+/**
+ * @name checkId
+ * @description function that checks if the username provided is in the database
+ * @param {Number} id id to check in the database
+ * @returns {Boolean} True or false value indicating if username exists
+ */
+const checkId = id => User.findOne({ where: { id } });
+
+export { checkEmail, checkUserName, checkId };
