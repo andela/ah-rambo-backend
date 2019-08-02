@@ -6,7 +6,6 @@
   "scripts": {
     "lint": "eslint '**/*.js'",
     "lint:fix": "prettier-eslint '**/*.js' --write",
-    "test:staged": "nyc mocha --timeout 1000 -r esm --exit",
     "build": "babel server --out-dir dist && npm run copy:docs",
     "copy:docs": "cp -r server/docs/ dist/docs/",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
@@ -20,7 +19,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run test:staged"
+      "pre-commit": "lint-staged && npm test"
     }
   },
   "author": "Andela Simulations Programme",

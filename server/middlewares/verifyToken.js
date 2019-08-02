@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { serverResponse, findToken, checkId } from '../helpers';
 
-
 /**
  * @name verifyToken
  * @param {object} request
@@ -23,7 +22,7 @@ const verifyToken = async (request, response, next) => {
       });
     }
     request.user = user;
-    const session = await findToken(token);
+    const session = await findToken({ token });
     if (!session) {
       return serverResponse(response, 440, {
         message: 'session expired'

@@ -3,7 +3,7 @@ import chaiHttp from 'chai-http';
 import { config } from 'dotenv';
 import sinon from 'sinon';
 import app from '../../server';
-import getNewUser from './_mocks_';
+import getNewUser from './__mocks__';
 import models from '../../server/database/models';
 
 const { User } = models;
@@ -31,6 +31,9 @@ describe('POST User', () => {
     expect(response).to.have.status(201);
     expect(response.body).to.be.an('object');
     expect(response.body.user.userName).to.equal(existingUserName);
+    expect(response.body).to.have.key('user', 'token');
+    expect(response.body.user).to.not.have.property('password');
+    expect(response.body.token).to.equal(response.header.authorization);
     expect(response.body.user.email).to.equal(existingEmail);
   });
 
