@@ -5,7 +5,7 @@ import mocks from './__mocks__';
 
 const { expect } = chai;
 const { body } = mocks;
-const { Sessions } = models;
+const { Session } = models;
 
 describe('Test generateToken function', () => {
   it('should return a token', () => {
@@ -17,7 +17,7 @@ describe('Test generateToken function', () => {
   it('should return a token', async () => {
     const payload = { id: 1 };
     const token = generateToken(payload);
-    const session = await Sessions.create({
+    const session = await Session.create({
       ...body,
       token
     });

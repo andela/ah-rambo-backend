@@ -32,7 +32,7 @@ paths:
               schema:
                 type: string
                 example: Welcome to Authors Haven
-  /api/v1/users:
+  /api/v1/users/create:
     post:
       summary: Route for signing new users up
       description: Allow new users to register to use the application on providing valid details
@@ -50,7 +50,77 @@ paths:
           description: Conflict. Email or username exists
         500:
           description: Internal server error
-
+  /api/v1/sessions/create:
+    post:
+      summary: Login Route
+      description: Allow existing users to login to use the application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              - password
+              properties:
+                userLogin:
+                  type: string
+                  minLength: 6
+                  example: JhayXXX
+                password:
+                  type: string
+                  minLength: 8
+                  example: incorrect
+      responses:
+        200:
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/loginResponse"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        403:
+          description: Incorrect username or password
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        500:
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"
+  /api/v1/auth/facebook:
+    get:
+      summary: Route for signing new using facebook
+      description: Allow new user to Login using facebook
+      responses:
+        302:
+          description: redirect url
+  /api/v1/auth/facebook/callback:
+    get:
+      summary: redirect url for facebook login/signup
+      description: Allow existing users to signup or login
+      responses:
+        200:
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/FacebookUserSignUp"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/fbserverResponse"
 components:
   securitySchemes:
     BearerAuth:
@@ -73,10 +143,70 @@ components:
         example: Adeyemo
       userName:
         type: string
-        example: Riri
+        example: RiriAde
       email:
         type: string
         example: riri.adeyemo@andela.com
       password:
         type: string
         example: incorrect
+      confirmPassword:
+        type: string
+        example: incorrect
+  FacebookUserSignUp:
+    type: object
+    required:
+    - firstName
+    - lastName
+    - userName
+    - email
+    - password
+    - token
+    properties:
+      id:
+        type: string
+        example: 1
+      firstName:
+        type: string
+        example: Adekay
+      lastName:
+        type: string
+        example: Ade
+      userName:
+        type: string
+        example: korey
+      email:
+        type: string
+        example: riri.adeyemo@andela.com
+      password:
+        type: string
+        example: incorrect
+      confirmPassword:
+        type: string
+        example: incorrect
+      token:
+        type: string
+        example: bhddmdmddddddddddddmddnddb
+  schemas:
+    loginResponse:
+      type: object
+      properties:
+        user:
+          type: object
+        token:
+          type: string
+    errorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    serverResponse:
+      type: object
+      properties:
+        error:
+          type: string
+    fbserverResponse:
+      type: object
+      properties:
+        message:
+          type: string
