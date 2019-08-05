@@ -1,8 +1,14 @@
 import bcrypt from 'bcryptjs';
 import models from '../database/models';
-import { serverResponse, serverError, generateToken } from '../helpers';
+import {
+  serverResponse,
+  serverError,
+  generateToken,
+  expiryDate,
+  getUserAgent
+} from '../helpers';
 
-const { User } = models;
+const { User, Session } = models;
 
 /**
  * @export
@@ -35,7 +41,18 @@ class Users {
         ...req.body,
         password: hashedPassword
       });
+      const { devicePlatform, userAgent } = getUserAgent(req);
       const token = generateToken(user.id);
+      const { id } = user;
+      const expiresAt = expiryDate(devicePlatform);
+      await Session.create({
+        userId: id,
+        token,
+        expiresAt,
+        userAgent,
+        ipAddress: req.ip,
+        devicePlatform
+      });
       res.set('Authorization', token);
       delete user.dataValues.password;
       return serverResponse(res, 201, { user, token });
