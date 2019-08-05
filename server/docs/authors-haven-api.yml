@@ -97,7 +97,30 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/serverResponse"
-
+  /api/v1/auth/facebook:
+    get:
+      summary: Route for signing new using facebook
+      description: Allow new user to Login using facebook
+      responses:
+        302:
+          description: redirect url
+  /api/v1/auth/facebook/callback:
+    get:
+      summary: redirect url for facebook login/signup
+      description: Allow existing users to signup or login
+      responses:
+        200:
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/FacebookUserSignUp"
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/fbserverResponse"
 components:
   securitySchemes:
     BearerAuth:
@@ -130,6 +153,40 @@ components:
       confirmPassword:
         type: string
         example: incorrect
+  FacebookUserSignUp:
+    type: object
+    required:
+    - firstName
+    - lastName
+    - userName
+    - email
+    - password
+    - token
+    properties:
+      id:
+        type: string
+        example: 1
+      firstName:
+        type: string
+        example: Adekay
+      lastName:
+        type: string
+        example: Ade
+      userName:
+        type: string
+        example: korey
+      email:
+        type: string
+        example: riri.adeyemo@andela.com
+      password:
+        type: string
+        example: incorrect
+      confirmPassword:
+        type: string
+        example: incorrect
+      token:
+        type: string
+        example: bhddmdmddddddddddddmddnddb
   schemas:
     loginResponse:
       type: object
@@ -147,4 +204,9 @@ components:
       type: object
       properties:
         error:
+          type: string
+    fbserverResponse:
+      type: object
+      properties:
+        message:
           type: string

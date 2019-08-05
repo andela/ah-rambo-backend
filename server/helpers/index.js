@@ -6,6 +6,8 @@ import { setCustomMessage, validateInputs } from './validationHelper';
 import findUser from './findUser';
 import dateHelper from './dateHelper';
 import getUserAgent from './getUserAgent';
+import createSocialUsers from './createSocialUsers';
+import getSocialUserData from './getSocialUserData';
 
 const { expiryDate } = dateHelper;
 
@@ -21,5 +23,7 @@ export {
   findToken,
   generateToken,
   getUserAgent,
+  createSocialUsers,
+  getSocialUserData,
   checkId
 };

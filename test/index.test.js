@@ -4,11 +4,10 @@ import server from '../server';
 import './users';
 import './helpers';
 import './middlewares';
+import './auth';
 
 const { expect } = chai;
-
 chai.use(chaiHttp);
-
 describe('SERVER TEST', () => {
   it('its expected to return a string on default url path', async () => {
     const response = await chai.request(server).get('/');
