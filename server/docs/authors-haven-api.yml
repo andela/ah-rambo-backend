@@ -114,47 +114,38 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/FacebookUserSignUp"
+                "$ref": "#/components/SocialUserSignUp"
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/fbserverResponse"
+                "$ref": "#/components/schemas/SocialserverResponse"
 
-  /api/v1/sessions/destroy:
+  /api/v1/auth/google:
     get:
-      summary: Sign out Route
-      description: Sign out Route
+      summary: Route for signing new using google
+      description: Allow new user to Login using google
       responses:
-        "200":
-          description: Sign out successful
+        302:
+          description: redirect url
+  /api/v1/auth/google/callback:
+    get:
+      summary: redirect url for google login/signup
+      description: Allow existing users to signup or login
+      responses:
+        200:
+          description: Login successful
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/signoutResponse"
-        "400":
+                "$ref": "#/components/SocialUserSignUp"
+        400:
           description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "403":
-          description: Incorrect username or password
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "500":
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/serverResponse"
-      security:
-        - BearerAuth: []
-
-    
+                "$ref": "#/components/schemas/SocialserverResponse"
 components:
   securitySchemes:
     BearerAuth:
@@ -187,7 +178,7 @@ components:
       confirmPassword:
         type: string
         example: incorrect
-  FacebookUserSignUp:
+  SocialUserSignUp:
     type: object
     required:
     - firstName
@@ -239,14 +230,16 @@ components:
       properties:
         error:
           type: string
-    fbserverResponse:
+    SocialserverResponse:
       type: object
       properties:
         message:
           type: string
+          example: Auth failed
     signoutResponse:
       type: object
       properties:
         message:
           type: string
+
 

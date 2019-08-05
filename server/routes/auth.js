@@ -12,7 +12,7 @@ auth.get(
   '/facebook/callback',
   passport.authenticate('facebook', { session: false, failureRedirect: '/' }),
   PassportError.passportErrors,
-  Auth.facebookSocialLogin
+  Auth.socialLogin
 );
 auth.get(
   '/google',
@@ -22,6 +22,6 @@ auth.get(
 auth.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/' }),
-  Auth.facebookSocialLogin
+  Auth.socialLogin
 );
 export default auth;

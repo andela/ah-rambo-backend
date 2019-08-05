@@ -1,31 +1,32 @@
 /**
- * @name facebookData
+ * @name getuserData
  * @async
  * @param {Object} request express request object
- * @returns {Object} facebookUserData with details of new user
+ * @returns {Object} facebook or Google data with details of new user
  */
-const facebookData = (request) => {
+const getuserData = (request) => {
   const { email } = request.user._json;
   const { givenName, familyName } = request.user.name;
-  const facebookUserData = {
+  const data = {
     email,
     givenName,
     familyName
   };
-  return facebookUserData;
+  return data;
 };
 /**
  * @name getSocialUserData
  * @async
  * @param {Object} request express request object
- * @param {string} provider provider type of social media authenticator
  * @returns {Object} userData  with details of new user
  */
-const getSocialUserData = (request, provider) => {
+const getSocialUserData = (request) => {
   let userData;
-  switch (provider) {
-  case 'facebook': {
-    userData = facebookData(request);
+  const { path } = request.route;
+  switch (path) {
+  case '/facebook/callback':
+  case '/google/callback': {
+    userData = getuserData(request);
     break;
   }
   default:
