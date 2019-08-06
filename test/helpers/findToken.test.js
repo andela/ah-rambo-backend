@@ -10,6 +10,6 @@ describe('verify token middleware', () => {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
     };
     const session = await findToken(params);
-    expect(session).to.equal(undefined);
+    expect(session).to.equal(false);
   });
 });
