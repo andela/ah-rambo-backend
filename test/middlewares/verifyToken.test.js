@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import middlewares from '../../server/middlewares';
 import models from '../../server/database/models';
-import { generateToken, checkId } from '../../server/helpers';
+import { generateToken } from '../../server/helpers';
 
 const { verifyToken } = middlewares;
 const { User, Session } = models;
@@ -28,7 +28,7 @@ describe('verify token middleware', () => {
 
   it('return error for non existing user', async () => {
     const token = generateToken(2);
-    const user = checkId(1);
+    const user = User.findById(1);
     const request = { headers: { authorization: token } };
 
     sinon.stub(User, 'findOne').returns(false);

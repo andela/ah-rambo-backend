@@ -13,7 +13,7 @@ const test = {
 };
 
 const production = {
-  use_env_variable: process.env.HEROKU_POSTGRESQL_TEAL_URL,
+  use_env_variable: 'DATABASE_URL',
   dialect: 'postgres'
 };
 

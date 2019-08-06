@@ -1,10 +1,11 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../server';
-import './users';
+import './auth';
 import './helpers';
 import './middlewares';
-import './auth';
+import './models';
+import './users';
 
 const { expect } = chai;
 chai.use(chaiHttp);
