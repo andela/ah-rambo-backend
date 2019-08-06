@@ -9,7 +9,7 @@ import models from '../../server/database/models';
 chai.use(chaiHttp);
 
 const LOGIN_URL = `${process.env.BASE_URL}/sessions/create`;
-const { create } = Sessions;
+const { create, destroy } = Sessions;
 const { Session } = models;
 const { rightUserWithUserName, rightUserWithEmail, wrongUser } = userData;
 
@@ -115,6 +115,50 @@ describe('LOGIN SERVER ERROR TEST', () => {
       })
     };
     await create({}, res);
+    sinon.assert.calledOnce(next);
+  });
+});
+
+describe('Sign out Test', () => {
+  let sessionToken;
+  before(async () => {
+    const response = await chai
+      .request(app)
+      .post(`${LOGIN_URL}`)
+      .send(rightUserWithEmail);
+    sessionToken = response.body.token;
+  });
+
+  it('should set session active to false when signing out', async () => {
+    const response = await chai
+      .request(app)
+      .get('/api/v1/sessions/destroy')
+      .set('authorization', sessionToken);
+    expect(response).to.have.status(200);
+    expect(response.body.message).to.deep.equal('sign out successful');
+  });
+
+  it('sign out successful even when token is invalid', async () => {
+    const response = await chai
+      .request(app)
+      .get('/api/v1/sessions/destroy')
+      .set('authorization', 'invalid.session.Token');
+    expect(response).to.have.status(200);
+    expect(response.body.message).to.deep.equal('sign out successful');
+  });
+
+  it('should respond with error 500 if there is an error', async () => {
+    const stubfunc = { destroy };
+    const sandbox = sinon.createSandbox();
+    sandbox.stub(stubfunc, 'destroy').rejects(new Error('Server Error'));
+
+    const next = sinon.spy();
+    const res = {
+      status: () => ({
+        json: next
+      })
+    };
+    await destroy({}, res);
     sinon.assert.calledOnce(next);
   });
 });
