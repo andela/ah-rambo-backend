@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken';
-import { serverResponse, findToken, checkId } from '../helpers';
+import models from '../database/models';
+import { serverResponse, findToken } from '../helpers';
+
+const { User } = models;
 
 /**
  * @name verifyToken
@@ -15,7 +18,7 @@ const verifyToken = async (request, response, next) => {
       return serverResponse(response, 401, { message: 'no token provided' });
     }
     const decoded = await jwt.verify(token, process.env.JWT_KEY);
-    const user = await checkId(decoded.id);
+    const user = await User.findById(decoded.id);
     if (!user) {
       return serverResponse(response, 404, {
         message: 'user does not exist'

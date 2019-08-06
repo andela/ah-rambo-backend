@@ -1,12 +1,6 @@
 import bcrypt from 'bcryptjs';
 import models from '../database/models';
-import {
-  serverResponse,
-  serverError,
-  checkEmail,
-  checkUserName,
-  generateToken
-} from '../helpers';
+import { serverResponse, serverError, generateToken } from '../helpers';
 
 const { User } = models;
 
@@ -26,12 +20,12 @@ class Users {
    */
   static async create(req, res) {
     try {
-      if (await checkEmail(req.body.email)) {
+      if (await User.findByEmail(req.body.email)) {
         return serverResponse(res, 409, {
           error: 'email has already been taken'
         });
       }
-      if (await checkUserName(req.body.userName)) {
+      if (await User.findByUsername(req.body.userName)) {
         return serverResponse(res, 409, {
           error: 'username has already been taken'
         });
