@@ -1,3 +1,4 @@
-import * as SocialMocks from './facebookLogin.test';
+import * as facebookTest from './facebook.test';
+import * as googleTest from './google.test';
 
-export default SocialMocks;
+export { facebookTest, googleTest };

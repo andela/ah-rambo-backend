@@ -18,13 +18,10 @@ class Auth {
    * @param {Object} response express response object
    * @returns {JSON} JSON object with details of new user
    */
-  static async facebookSocialLogin(request, response) {
+  static async socialLogin(request, response) {
     const { devicePlatform, userAgent } = getUserAgent(request);
     const { ip } = request;
-    const { givenName, familyName, email } = getSocialUserData(
-      request,
-      'facebook'
-    );
+    const { givenName, familyName, email } = getSocialUserData(request);
     const data = {
       firstName: givenName,
       lastName: familyName,

@@ -12,6 +12,16 @@ auth.get(
   '/facebook/callback',
   passport.authenticate('facebook', { session: false, failureRedirect: '/' }),
   PassportError.passportErrors,
-  Auth.facebookSocialLogin
+  Auth.socialLogin
+);
+auth.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+auth.get(
+  '/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  Auth.socialLogin
 );
 export default auth;
