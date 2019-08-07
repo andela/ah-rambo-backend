@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
 import Debug from 'debug';
+import session from 'express-session';
 import routes from './routes';
 
 const PORT = process.env.PORT || 9000;
@@ -18,6 +19,13 @@ const swaggerDoc = YAML.load(
   path.join(__dirname, './docs/authors-haven-api.yml')
 );
 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true
+  })
+);
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
