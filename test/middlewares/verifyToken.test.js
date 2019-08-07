@@ -27,7 +27,7 @@ describe('verify token middleware', () => {
   });
 
   it('return error for non existing user', async () => {
-    const token = generateToken(2);
+    const token = generateToken({ id: 2 });
     const user = User.findById(1);
     const request = { headers: { authorization: token } };
 
@@ -41,7 +41,7 @@ describe('verify token middleware', () => {
   });
 
   it('return error for expired token', async () => {
-    const token = generateToken(1);
+    const token = generateToken({ id: 1 });
     const request = { headers: { authorization: token } };
     sinon.stub(User, 'findOne').returns(true);
     sinon.stub(Session, 'findOne').returns(false);
@@ -54,7 +54,7 @@ describe('verify token middleware', () => {
   });
 
   it('it should go to next', async () => {
-    const token = generateToken(1);
+    const token = generateToken({ id: 1 });
     const request = { headers: { authorization: token } };
     sinon.stub(User, 'findOne').returns(true);
     sinon.stub(Session, 'findOne').returns(true);
