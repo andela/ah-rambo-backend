@@ -24,17 +24,25 @@ class Followers {
         user: { id },
         params: { username }
       } = req;
-      const user = await User.findByUsername(username);
-      const error = Followers.canFollowOrUnfollow(user, id);
+
+      const userThatWantsToFollow = await User.findById(id);
+      const userToBeFollowed = await User.findByUsername(username);
+      const error = Followers.canFollowOrUnfollow(userToBeFollowed, id);
       if (error) return serverResponse(res, error.status, error.message);
       const follower = await UserFollower.findOrCreate({
         where: {
-          userId: user.id,
+          userId: userToBeFollowed.id,
           followerId: id
         }
       });
       const { dataValues } = follower[0];
-      serverResponse(res, 200, {
+
+      await Followers.UpdateUserFollowersAndFollowingsCount(
+        userThatWantsToFollow,
+        userToBeFollowed
+      );
+
+      return serverResponse(res, 200, {
         following: { message: 'followed successfully', data: dataValues }
       });
     } catch (error) {
@@ -57,19 +65,26 @@ class Followers {
         user: { id },
         params: { username }
       } = req;
-      const user = await User.findByUsername(username);
-      const error = Followers.canFollowOrUnfollow(user, id);
+      const userThatWantsToUnfollow = await User.findById(id);
+      const userToBeUnfollowed = await User.findByUsername(username);
+      const error = Followers.canFollowOrUnfollow(userToBeUnfollowed, id);
       if (error) return serverResponse(res, error.status, error.message);
       await UserFollower.destroy({
         where: {
-          userId: user.id,
+          userId: userToBeUnfollowed.id,
           followerId: id
         }
       });
-      serverResponse(res, 200, {
+
+      await Followers.UpdateUserFollowersAndFollowingsCount(
+        userThatWantsToUnfollow,
+        userToBeUnfollowed
+      );
+
+      return serverResponse(res, 200, {
         data: {
           message: `you sucessfully unfollowed ${username}`,
-          id: user.id
+          id: userToBeUnfollowed.id
         }
       });
     } catch (error) {
@@ -160,6 +175,25 @@ class Followers {
       };
     }
     return false;
+  }
+
+  /**
+   * @name UpdateUserFollowersAndFollowingsCount
+   * @async
+   * @static
+   * @memberof Followers
+   * @param {Object} source the source user object
+   * @param {Object} target the target user object
+   * @returns {Null} Null object
+   */
+  static async UpdateUserFollowersAndFollowingsCount(source, target) {
+    const followingsCount = await source.countAllFollowings();
+    const followersCount = await target.countAllFollowers();
+
+    await User.update({ followingsCount }, { where: { id: source.id } });
+    await User.update({ followersCount }, { where: { id: target.id } });
+
+    return null;
   }
 }
 

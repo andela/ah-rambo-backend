@@ -6,17 +6,20 @@ import { serverResponse } from './serverResponse';
  *
  * @name setCustomMessage
  * @param {string} label - Label of the field
+ * @param {string} action - Action a user wants to perform
  *
  * @returns {array} Contains Joi error object
  */
-const setCustomMessage = label => (errors) => {
+const setCustomMessage = (label, action = 'user signup') => (errors) => {
   errors.forEach((err) => {
     switch (err.type) {
     case 'any.required':
       err.message = `${label} is required`;
       break;
     case 'any.allowOnly':
-      err.message = `${label} must match password`;
+      err.message = action === 'profile edit'
+        ? `${label} must only be identified by either fullname or username`
+        : `${label} must match password`;
       break;
     case 'string.alphanum':
       err.message = `${label} should contain only letters and numbers`;
@@ -28,10 +31,15 @@ const setCustomMessage = label => (errors) => {
       err.message = `${label} should not be more than ${err.context.limit} characters`;
       break;
     case 'string.regex.base':
-      err.message = `${label} is invalid`;
+      err.message = action === 'profile edit'
+        ? `${label} must contain only letters and/or spaces`
+        : `${label} is invalid`;
       break;
     case 'string.regex.invert.base':
       err.message = `${label} should not contain spaces`;
+      break;
+    case 'string.uri':
+      err.message = `${label} format is invalid`;
       break;
     default:
       err.message = `${label} should be a string`;

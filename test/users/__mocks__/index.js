@@ -15,4 +15,45 @@ const getNewUser = () => {
   return newUser;
 };
 
-export default getNewUser;
+/**
+ * @name getNewUserWithProfile
+ * @returns {Object} details of a new user with full profile
+ */
+const getNewUserWithProfile = () => {
+  const newUserWithProfile = {
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    userName: faker.random.alphaNumeric(10),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+    avatarUrl: faker.internet.avatar(),
+    bio: faker.lorem.sentence(),
+    followingsCount: faker.random.number(),
+    followersCount: faker.random.number(),
+    identifiedBy: 'fullname',
+    location: faker.address.city(),
+    occupation: faker.name.jobTitle()
+  };
+  return newUserWithProfile;
+};
+
+/**
+ * @name getUserThatEditsProfile
+ * @returns {Object} details of a user that wants to edit profile
+ */
+const getUserThatEditsProfile = () => {
+  const userThatEditsProfile = {
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    userName: faker.random.alphaNumeric(10),
+    email: faker.internet.email(),
+    avatarUrl: faker.internet.avatar(),
+    bio: faker.lorem.sentence(),
+    identifiedBy: 'fullname',
+    location: faker.address.city(),
+    occupation: faker.name.jobTitle()
+  };
+  return userThatEditsProfile;
+};
+
+export { getNewUser, getNewUserWithProfile, getUserThatEditsProfile };

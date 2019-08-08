@@ -4,7 +4,7 @@ import chaiHttp from 'chai-http';
 import sinon from 'sinon';
 import app from '../../server';
 import models from '../../server/database/models';
-import getNewUser from './__mocks__';
+import { getNewUser } from './__mocks__';
 import { generateToken } from '../../server/helpers';
 
 config();

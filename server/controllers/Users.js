@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import models from '../database/models';
+import Profiles from './Profiles';
 import {
   serverResponse,
   serverError,
@@ -37,15 +38,18 @@ class Users {
           error: 'username has already been taken'
         });
       }
+
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const user = await User.create({
         ...req.body,
         password: hashedPassword
       });
+
       const { devicePlatform, userAgent } = getUserAgent(req);
       const { id } = user;
       const token = generateToken({ id }, '24h');
       const expiresAt = expiryDate(devicePlatform);
+
       await Session.create({
         userId: id,
         token,
@@ -54,6 +58,7 @@ class Users {
         ipAddress: req.ip,
         devicePlatform
       });
+
       res.set('Authorization', token);
       delete user.dataValues.password;
       sendVerificationEmail({ ...user.dataValues, token });

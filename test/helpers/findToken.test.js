@@ -1,7 +1,8 @@
+/* eslint-disable max-len */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { findToken } from '../../server/helpers';
-import getNewUser from '../users/__mocks__';
+import { getNewUser } from '../users/__mocks__';
 import app from '../../server';
 
 chai.use(chaiHttp);

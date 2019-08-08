@@ -62,23 +62,102 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
       allowNull: false
+    },
+    avatarUrl: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      defaultValue:
+        'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png',
+      validate: {
+        isUrl: {
+          msg: 'avatar url format is invalid'
+        }
+      }
+    },
+    bio: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        len: {
+          args: [0, 160],
+          msg: 'user bio must not be more than 160 characters'
+        }
+      }
+    },
+    followingsCount: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+      validate: {
+        isInt: {
+          msg: 'user followings count must be an integer'
+        },
+        min: {
+          args: [0],
+          msg: 'user followings count must not be less than 0'
+        }
+      }
+    },
+    followersCount: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+      validate: {
+        isInt: {
+          msg: 'user followers count must be an integer'
+        },
+        min: {
+          args: [0],
+          msg: 'user followers count must not be less than 0'
+        }
+      }
+    },
+    identifiedBy: {
+      type: DataTypes.ENUM,
+      values: ['fullname', 'username'],
+      allowNull: true,
+      defaultValue: 'fullname',
+      validate: {
+        isIn: {
+          args: [['fullname', 'username']],
+          msg: 'user must only be identified by either fullname or username'
+        }
+      }
+    },
+    location: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    occupation: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        is: {
+          args: /^[a-zA-Z ]*$/,
+          msg: 'user occupation must contain only letters and/or spaces'
+        }
+      }
     }
   });
+
   User.findByEmail = async (email) => {
     const user = await User.findOne({ where: { email } });
     if (user) return user.dataValues;
     return null;
   };
+
   User.findByUsername = async (userName) => {
     const user = await User.findOne({ where: { userName } });
-    if (user) return user.dataValues;
+    if (user) return user;
     return null;
   };
+
   User.findById = async (id) => {
     const user = await User.findOne({ where: { id } });
     if (user) return user;
     return null;
   };
+
   User.associate = (models) => {
     User.hasMany(models.Session, {
       foreignKey: 'userId',
@@ -86,15 +165,25 @@ export default (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     });
+
     User.hasMany(models.UserFollower, {
       foreignKey: 'userId',
       onDelete: 'CASCADE',
       as: 'AllFollowers'
     });
+
     User.hasMany(models.UserFollower, {
       foreignKey: 'followerId',
       onDelete: 'CASCADE',
       as: 'AllFollowings'
+    });
+
+    User.belongsToMany(models.Category, {
+      foreignKey: 'userId',
+      otherKey: 'categoryId',
+      through: 'UserCategory',
+      as: 'PreferredCategories',
+      timestamps: false
     });
   };
 

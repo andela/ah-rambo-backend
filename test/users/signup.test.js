@@ -3,8 +3,9 @@ import chaiHttp from 'chai-http';
 import { config } from 'dotenv';
 import sinon from 'sinon';
 import app from '../../server';
-import getNewUser from './__mocks__';
+import { getNewUser } from './__mocks__';
 import models from '../../server/database/models';
+import Profiles from '../../server/controllers/Profiles';
 
 const { User, Session } = models;
 
@@ -121,6 +122,7 @@ describe('POST User', () => {
     expect(res.body.error).to.equal(
       'server error, this will be resolved shortly'
     );
+
     stub.restore();
   });
 });

@@ -30,6 +30,34 @@ export default {
       defaultValue: false,
       allowNull: false
     },
+    avatarUrl: {
+      type: Sequelize.TEXT,
+      allowNull: true
+    },
+    bio: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    followingsCount: {
+      type: Sequelize.INTEGER,
+      allowNull: true
+    },
+    followersCount: {
+      type: Sequelize.INTEGER,
+      allowNull: true
+    },
+    identifiedBy: {
+      type: Sequelize.ENUM('fullname', 'username'),
+      allowNull: true
+    },
+    location: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    occupation: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
