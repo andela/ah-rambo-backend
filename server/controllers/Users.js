@@ -42,8 +42,8 @@ class Users {
         password: hashedPassword
       });
       const { devicePlatform, userAgent } = getUserAgent(req);
-      const token = generateToken(user.id);
       const { id } = user;
+      const token = generateToken({ id });
       const expiresAt = expiryDate(devicePlatform);
       await Session.create({
         userId: id,

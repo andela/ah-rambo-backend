@@ -2,8 +2,7 @@ import jwt from 'jsonwebtoken';
 
 /**
  * @name generateToken
- * @param {string} payload
- * @param {string} expiresIn
+ * @param {object} payload
  * @return {string} token
  */
 const generateToken = payload => jwt.sign(payload, process.env.JWT_KEY);
