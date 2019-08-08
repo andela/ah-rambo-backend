@@ -78,7 +78,8 @@ export default (sequelize, DataTypes) => {
     User.hasMany(models.Session, {
       foreignKey: 'userId',
       as: 'sessions',
-      onDelete: 'cascade'
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     });
   };
   return User;

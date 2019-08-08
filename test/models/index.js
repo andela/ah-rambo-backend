@@ -1,3 +1,4 @@
-import './user.test';
+import * as user from './user.test';
+import * as sessions from './sessions.test';
 
-export default './user.test';
+export { user, sessions };

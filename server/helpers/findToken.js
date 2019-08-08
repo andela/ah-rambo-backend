@@ -4,13 +4,13 @@ const { Session } = models;
 
 /**
  * @name findUser
- * @param {string} param
- * @return {string} object
+ * @param {string} token
+ * @return {object} object
  */
-const findToken = async (param) => {
-  const session = await Session.findOne({ active: true }, { where: param });
-  if (new Date(Date.now()) >= session.expiresAt) {
-    await Session.update({ active: false }, { where: param });
+const findToken = async (token) => {
+  const session = await Session.findActiveSessionByToken(token);
+  if (session && new Date(Date.now()) >= session.expiresAt) {
+    await Session.update({ active: false }, { where: { token } });
     return false;
   }
 
