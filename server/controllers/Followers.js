@@ -37,7 +37,7 @@ class Followers {
       });
       const { dataValues } = follower[0];
 
-      await Followers.UpdateUserFollowersAndFollowingsCount(
+      await Followers.updateFollowsCount(
         userThatWantsToFollow,
         userToBeFollowed
       );
@@ -76,7 +76,7 @@ class Followers {
         }
       });
 
-      await Followers.UpdateUserFollowersAndFollowingsCount(
+      await Followers.updateFollowsCount(
         userThatWantsToUnfollow,
         userToBeUnfollowed
       );
@@ -178,7 +178,7 @@ class Followers {
   }
 
   /**
-   * @name UpdateUserFollowersAndFollowingsCount
+   * @name UpdateFollowsCount
    * @async
    * @static
    * @memberof Followers
@@ -186,7 +186,7 @@ class Followers {
    * @param {Object} target the target user object
    * @returns {Null} Null object
    */
-  static async UpdateUserFollowersAndFollowingsCount(source, target) {
+  static async updateFollowsCount(source, target) {
     const followingsCount = await source.countAllFollowings();
     const followersCount = await target.countAllFollowers();
 

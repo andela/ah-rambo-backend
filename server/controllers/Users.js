@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs';
 import models from '../database/models';
-import Profiles from './Profiles';
 import {
   serverResponse,
   serverError,

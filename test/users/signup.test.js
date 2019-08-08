@@ -5,7 +5,6 @@ import sinon from 'sinon';
 import app from '../../server';
 import { getNewUser } from './__mocks__';
 import models from '../../server/database/models';
-import Profiles from '../../server/controllers/Profiles';
 
 const { User, Session } = models;
 
