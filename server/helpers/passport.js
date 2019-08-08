@@ -1,6 +1,7 @@
 import passport from 'passport';
 import facebook from './facebook';
 import google from './google';
+import twitter from './twitter';
 
 export default (app) => {
   app.use(passport.initialize());
@@ -12,4 +13,5 @@ export default (app) => {
   });
   facebook();
   google();
+  twitter();
 };

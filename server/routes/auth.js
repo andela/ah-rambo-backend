@@ -24,4 +24,13 @@ auth.get(
   passport.authenticate('google', { failureRedirect: '/' }),
   Auth.socialLogin
 );
+
+auth.get('/twitter', passport.authenticate('twitter'));
+
+auth.get(
+  '/twitter/callback',
+  passport.authenticate('twitter', { failureRedirect: '/' }),
+  Auth.socialLogin
+);
+
 export default auth;

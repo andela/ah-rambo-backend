@@ -121,5 +121,6 @@ describe('POST User', () => {
     expect(res.body.error).to.equal(
       'server error, this will be resolved shortly'
     );
+    stub.restore();
   });
 });
