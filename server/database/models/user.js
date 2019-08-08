@@ -86,6 +86,17 @@ export default (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     });
+    User.hasMany(models.UserFollower, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE',
+      as: 'AllFollowers'
+    });
+    User.hasMany(models.UserFollower, {
+      foreignKey: 'followerId',
+      onDelete: 'CASCADE',
+      as: 'AllFollowings'
+    });
   };
+
   return User;
 };
