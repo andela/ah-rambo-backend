@@ -171,11 +171,194 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/SocialserverResponse"
+        "403":
+          description: Incorrect username or password
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"
+      security:
+        - BearerAuth: []
+  /api/v1/profiles/{username}/follow:
+    post:
+      summary: Follow user route
+      description: Follow user route
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: Username to follow
+          schema:
+            type : string
+      responses:
+        "200":
+          description: follow successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/followResponse"
+        "401":
+          description: token expired
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "404":
+          description: user not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "409":
+          description: user cannot perform this action
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"
+    delete:
+      summary: Unfollow user route
+      description: Unfollow user route
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: Username to unfollow
+          schema:
+            type : string
+      responses:
+        "200":
+          description: unfollow successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/unfollowResponse"
+        "401":
+          description: token expired
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "404":
+          description: user not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "409":
+          description: user cannot perform this action
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"  
+                
+  /api/v1/user/followings:
+    get:
+      summary: User followings route
+      description: Get all user followed by a particular user 
+      security:
+        - ApiKeyAuth: []
+      responses:
+        "200":
+          description: request successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/followingResponse"
+        "401":
+          description: token expired
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "404":
+          description: user not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "409":
+          description: user cannot perform this action
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"
+                
+  /api/v1/user/followers:
+    get:
+      summary: User followers route
+      description: Get all user following a particular user
+      security:
+        - ApiKeyAuth: []
+      responses:
+        "200":
+          description: request successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/followerResponse"
+        "401":
+          description: token expired
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "404":
+          description: user not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "409":
+          description: user cannot perform this action
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"
+
+    
 components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
   UserSignUp:
     type: object
     required:
@@ -243,6 +426,22 @@ components:
       properties:
         user:
           type: object
+          properties:
+            id: 
+              type: integer
+              example: 1
+            userName:
+              type: string
+              example: JhayXXX
+            firstName:
+              type: string
+              example: ade
+            lastName:
+              type: string
+              example: chukwu
+            email:
+              type: string
+              example: abiola@andela.com
         token:
           type: string
     errorResponse:
@@ -266,5 +465,106 @@ components:
       properties:
         message:
           type: string
-
-
+    followResponse:
+      type: object
+      properties:
+        following:
+          type: object
+          properties:
+            message:
+              type: string
+              example: followed successfully
+            data:
+              type: object
+              properties:
+                id: 
+                  type: integer
+                  example: 1
+                userId:
+                  type: integer
+                  example: 1
+                followerId:
+                  type: integer
+                  example: 2
+        
+    unfollowResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id: 
+              type: integer
+            message:
+              type: string
+              example: you successfully unfollowed user2
+    followingResponse:
+      type: object
+      properties:
+        followings:
+          type: array
+          items:
+            type: object
+            properties:
+              id: 
+                type: integer
+                example: 1
+              userId:
+                type: integer
+                example: 1
+              followerId:
+                type: integer
+                example: 2
+              following:
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                    example: 1
+                  userName:
+                    type: string
+                    example: JhayXXX
+                  firstName:
+                    type: string
+                    example: ade
+                  lastName:
+                    type: string
+                    example: chukwu
+                  email:
+                    type: string
+                    example: abiola@andela.com
+    followerResponse:
+      type: object
+      properties:
+        followers:
+          type: array
+          items:
+            type: object
+            properties:
+              id: 
+                type: integer
+                example: 1
+              userId:
+                type: integer
+                example: 1
+              followerId:
+                type: integer
+                example: 2
+              follower:
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                    example: 1
+                  userName:
+                    type: string
+                    example: JhayXXX
+                  firstName:
+                    type: string
+                    example: ade
+                  lastName:
+                    type: string
+                    example: chukwu
+                  email:
+                    type: string
+                    example: abiola@andela.com

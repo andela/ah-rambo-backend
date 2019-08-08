@@ -6,6 +6,7 @@ import './helpers';
 import './middlewares';
 import './models';
 import './users';
+import './followers';
 
 const { expect } = chai;
 chai.use(chaiHttp);
