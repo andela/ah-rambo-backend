@@ -8,5 +8,6 @@ const { validateUserSignup, verifyToken } = middlewares;
 
 route.post('/create', validateUserSignup, Users.create);
 route.get('/verifyEmail/:token', verifyToken, Users.verifyUserEmail);
+route.get('/verificationEmail/:email', Users.resendVerificationEmail);
 
 export default route;

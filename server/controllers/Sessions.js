@@ -51,7 +51,8 @@ class Sessions {
       if (!isValid && !user.verified) {
         await Session.update({ active: false }, { where: { userId: user.id } });
         return serverResponse(res, 403, {
-          error: 'please verify your email address'
+          error: 'please verify your email address',
+          email: user.email
         });
       }
       await Session.create({
