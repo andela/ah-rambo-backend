@@ -106,6 +106,25 @@ class Users {
       return serverError(res);
     }
   }
+
+  /**
+   * @name changePassword
+   * @async
+   * @static
+   * @memberof Users
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} JSON object with details of new user
+   */
+  static async changePassword(req, res) {
+    const { password } = req.body;
+    const { id } = req.user.dataValues;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await User.update({ password: hashedPassword }, { where: { id } });
+    return serverResponse(res, 200, {
+      message: 'password changed successfully'
+    });
+  }
 }
 
 export default Users;
