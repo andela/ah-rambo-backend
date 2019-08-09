@@ -86,6 +86,26 @@ class Users {
       return serverError(res);
     }
   }
+
+  /** @name resendVerificationEmail
+   * @async
+   * @static
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} Json response to the user
+   */
+  static async resendVerificationEmail(req, res) {
+    try {
+      const { email } = req.params;
+      const user = await User.findByEmail(email);
+      if (!user) return serverResponse(res, 404, { error: 'user not found' });
+      const token = generateToken({ id: user.id }, '24h');
+      sendVerificationEmail({ ...user, token });
+      return serverResponse(res, 200, { message: 'email sent successfully' });
+    } catch (error) {
+      return serverError(res);
+    }
+  }
 }
 
 export default Users;
