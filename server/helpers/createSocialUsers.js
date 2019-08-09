@@ -25,7 +25,8 @@ const createSocialUser = async (data) => {
     defaults: {
       firstName,
       lastName,
-      email
+      email,
+      verified: true
     }
   });
   const result = { ...users[0].dataValues };
