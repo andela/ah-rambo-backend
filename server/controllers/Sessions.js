@@ -46,6 +46,14 @@ class Sessions {
       const { id, dataValues } = user;
       const expiresAt = expiryDate(devicePlatform);
       const token = generateToken({ id });
+      const validityPeriod = Date.now() - 24 * 360000;
+      const isValid = validityPeriod < Date.parse(user.createdAt);
+      if (!isValid && !user.verified) {
+        await Session.update({ active: false }, { where: { userId: user.id } });
+        return serverResponse(res, 403, {
+          error: 'please verify your email address'
+        });
+      }
       await Session.create({
         userId: id,
         token,

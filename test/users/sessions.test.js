@@ -5,12 +5,13 @@ import app from '../../server';
 import userData from './__mocks__/user';
 import Sessions from '../../server/controllers/Sessions';
 import models from '../../server/database/models';
+import getNewUser from './__mocks__';
 
 chai.use(chaiHttp);
 
 const LOGIN_URL = `${process.env.BASE_URL}/sessions/create`;
 const { create, destroy } = Sessions;
-const { Session } = models;
+const { Session, User } = models;
 const { rightUserWithUserName, rightUserWithEmail, wrongUser } = userData;
 
 describe('LOGIN TEST', () => {
@@ -99,6 +100,33 @@ describe('LOGIN TEST', () => {
     expect(response).to.have.status(200);
     expect(response.body.user.id).to.equal(session.userId);
     expect(session.devicePlatform).to.not.have.property('mobile');
+  });
+});
+
+context("when user isn't verified and was registered above 24 hours", () => {
+  let newUser;
+  let user;
+  before(async () => {
+    user = getNewUser();
+    newUser = await chai
+      .request(app)
+      .post('/api/v1/users/create')
+      .send({ ...user, confirmPassword: user.password });
+  });
+
+  it('returns an error', async () => {
+    const newRegTime = Date.now() - 25 * 360000;
+    const { email, id } = newUser.body.user;
+    await User.update({ createdAt: newRegTime }, { where: { id } });
+    const response = await chai
+      .request(app)
+      .post(`${LOGIN_URL}`)
+      .send({
+        userLogin: email,
+        password: user.password
+      });
+    expect(response).to.have.status(403);
+    expect(response.body.error).to.equal('please verify your email address');
   });
 });
 

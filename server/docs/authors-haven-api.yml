@@ -348,8 +348,22 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/serverResponse"
-
-    
+  /api/v1/users/verifyEmail/{token}:
+    get:
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+          description: The token sent to the user's email for verification
+      summary: Route for verifying emails
+      description: Allow registered users to verify their emails
+      responses:
+        200:
+          description: Success. Email verification was successful
+        500:
+          description: Internal server errorcomponents     
 components:
   securitySchemes:
     BearerAuth:

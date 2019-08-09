@@ -57,6 +57,11 @@ export default (sequelize, DataTypes) => {
           msg: 'Password must be between 8 and 254 chars long'
         }
       }
+    },
+    verified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
     }
   });
   User.findByEmail = async (email) => {

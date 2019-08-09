@@ -5,7 +5,7 @@ import middlewares from '../../server/middlewares';
 import models from '../../server/database/models';
 import { generateToken } from '../../server/helpers';
 
-const { verifyToken } = middlewares;
+const { verifyToken, getSessionFromToken } = middlewares;
 const { User, Session } = models;
 
 chai.use(sinonChai);
@@ -46,11 +46,13 @@ describe('verify token middleware', () => {
     sinon.stub(User, 'findOne').returns(true);
     sinon.stub(Session, 'findOne').returns(false);
     const response = { status() {}, json() {} };
+    response.locals = {};
+    response.locals.token = 'token';
     const next = sinon.spy();
     const status = sinon.stub(response, 'status').returnsThis();
     sinon.stub(response, 'json').returns({});
-    await verifyToken(request, response, next);
-    expect(status).to.calledWith(440);
+    await getSessionFromToken(request, response, next);
+    expect(status).to.calledWith(404);
   });
 
   it('it should go to next', async () => {
@@ -75,5 +77,30 @@ describe('verify token middleware', () => {
     sinon.stub(response, 'json').returns({});
     await verifyToken(request, response, next);
     expect(status).to.calledWith(401);
+  });
+
+  context('when getSession middleware is successfully called', () => {
+    it('returns next', async () => {
+      const token = generateToken({ id: 1 });
+      const request = {};
+      const response = { status() {}, json() {} };
+      response.locals = {};
+      response.locals.token = token;
+      const next = sinon.spy();
+      sinon.stub(response, 'status').returnsThis();
+      sinon.stub(response, 'json').returns({});
+      await getSessionFromToken(request, response, next);
+    });
+  });
+
+  context('when a token is not provided to the verifyToken function', () => {
+    it('returns an authorization error', async () => {
+      const next = sinon.stub();
+      const request = { headers: { authorization: '' }, params: {} };
+      const response = { status() {}, json() {} };
+      const status = sinon.stub(response, 'status').returnsThis();
+      await verifyToken(request, response, next);
+      expect(status).to.calledWith(401);
+    });
   });
 });

@@ -5,7 +5,8 @@ import {
   serverError,
   generateToken,
   expiryDate,
-  getUserAgent
+  getUserAgent,
+  sendVerificationEmail
 } from '../helpers';
 
 const { User, Session } = models;
@@ -43,7 +44,7 @@ class Users {
       });
       const { devicePlatform, userAgent } = getUserAgent(req);
       const { id } = user;
-      const token = generateToken({ id });
+      const token = generateToken({ id }, '24h');
       const expiresAt = expiryDate(devicePlatform);
       await Session.create({
         userId: id,
@@ -55,7 +56,32 @@ class Users {
       });
       res.set('Authorization', token);
       delete user.dataValues.password;
+      sendVerificationEmail({ ...user.dataValues, token });
       return serverResponse(res, 201, { user, token });
+    } catch (error) {
+      return serverError(res);
+    }
+  }
+
+  /**
+   * @name verifyUserEmail
+   * @async
+   * @static
+   * @description function that sends email for password reset
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} success message when email is sent
+   */
+  static async verifyUserEmail(req, res) {
+    try {
+      const { user } = req;
+      if (user.verified) {
+        return serverResponse(res, 200, { message: 'email already verified' });
+      }
+      await User.update({ verified: true }, { where: { email: user.email } });
+      return serverResponse(res, 200, {
+        message: 'email verification successful'
+      });
     } catch (error) {
       return serverError(res);
     }

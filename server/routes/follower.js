@@ -1,6 +1,6 @@
 import express from 'express';
 import Followers from '../controllers/Followers';
-import verifyToken from '../middlewares/verifyToken';
+import { verifyToken } from '../middlewares/verifyToken';
 
 const route = express.Router();
 

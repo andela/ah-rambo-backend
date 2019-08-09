@@ -13,7 +13,7 @@ const { User } = models;
  */
 const verifyToken = async (request, response, next) => {
   try {
-    const token = request.headers.authorization;
+    const token = request.headers.authorization || request.params.token;
     if (!token) {
       return serverResponse(response, 401, { message: 'no token provided' });
     }
@@ -25,16 +25,29 @@ const verifyToken = async (request, response, next) => {
       });
     }
     request.user = user;
-    const session = await findToken(token);
-    if (!session) {
-      return serverResponse(response, 440, {
-        message: 'session expired'
-      });
-    }
+    response.locals.token = token;
     next();
   } catch (err) {
     return serverResponse(response, 401, { message: err.name });
   }
 };
 
-export default verifyToken;
+/**
+ * @name getSessionFromToken
+ * @param {Object} request request object
+ * @param {Object} response express response object
+ * @param {Object} next express next function that calls the next middleware
+ * @returns {Void} it calls the next middleware
+ */
+const getSessionFromToken = async (request, response, next) => {
+  const { token } = response.locals;
+  const session = await findToken(token);
+  if (!session) {
+    return serverResponse(response, 404, {
+      message: 'session not found. please re-authenticate to continue'
+    });
+  }
+  next();
+};
+
+export { verifyToken, getSessionFromToken };
