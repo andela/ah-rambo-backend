@@ -2,7 +2,7 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import sinon from 'sinon';
 import app from '../../server';
-import getNewUser from '../users/__mocks__';
+import { getNewUser } from '../users/__mocks__';
 import models from '../../server/database/models';
 import Followers from '../../server/controllers/Followers';
 

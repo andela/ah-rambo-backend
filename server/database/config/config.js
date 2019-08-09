@@ -4,7 +4,8 @@ config();
 
 const development = {
   use_env_variable: 'DB_URL_DEV',
-  dialect: 'postgres'
+  dialect: 'postgres',
+  logging: false
 };
 
 const test = {
@@ -14,7 +15,11 @@ const test = {
 
 const production = {
   use_env_variable: 'DATABASE_URL',
-  dialect: 'postgres'
+  dialect: 'postgres',
+  logging: false,
+  dialectOptions: {
+    ssl: true
+  }
 };
 
 export { development, test, production };

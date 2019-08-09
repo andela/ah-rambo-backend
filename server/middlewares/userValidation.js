@@ -1,5 +1,5 @@
 import Joi from '@hapi/joi';
-import userSignupSchema from '../schemas/userSignup';
+import { userSignup } from '../schemas';
 import { validateInputs } from '../helpers';
 
 /**
@@ -15,7 +15,7 @@ const validateUserSignup = (req, res, next) => {
     abortEarly: false
   };
 
-  Joi.validate(req.body, userSignupSchema, options, validateInputs(res, next));
+  Joi.validate(req.body, userSignup, options, validateInputs(res, next));
 };
 
 export default validateUserSignup;

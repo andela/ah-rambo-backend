@@ -5,7 +5,7 @@ import app from '../../server';
 import userData from './__mocks__/user';
 import Sessions from '../../server/controllers/Sessions';
 import models from '../../server/database/models';
-import getNewUser from './__mocks__';
+import { getNewUser } from './__mocks__';
 
 chai.use(chaiHttp);
 

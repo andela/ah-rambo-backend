@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import models from '../../server/database/models';
-import getNewUser from '../users/__mocks__';
+import { getNewUser } from '../users/__mocks__';
 import app from '../../server';
 
 const { UserFollower } = models;
