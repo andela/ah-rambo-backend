@@ -364,6 +364,34 @@ paths:
           description: Success. Email verification was successful
         500:
           description: Internal server errorcomponents     
+
+  /api/v1/users/changePassword:
+    patch:
+      summary: Logged In user can change their password
+      description: Change user password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/changePasswordDetails'
+      security:
+        - ApiKeyAuth: []
+      responses:
+        "200":
+          description: user password changed successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/changePasswordResponse"
+        "422":
+          description: password does not match validaton errors
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/changePasswordErrorResponse"
+        
+    
 components:
   securitySchemes:
     BearerAuth:
@@ -434,6 +462,18 @@ components:
       token:
         type: string
         example: bhddmdmddddddddddddmddnddb
+  changePasswordDetails:
+    type: object
+    required:
+    - password
+    - confirmPassword
+    properties:
+      password:
+        type: string
+        example: mypassword
+      confirmPassword:
+        type: string
+        example: mypassword
   schemas:
     loginResponse:
       type: object
@@ -582,3 +622,19 @@ components:
                   email:
                     type: string
                     example: abiola@andela.com
+    changePasswordResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: password changed Successfully
+    changePasswordErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            confirmpassword:
+              type: string
+              example: confirm password must match password
+

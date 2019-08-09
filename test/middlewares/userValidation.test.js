@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
 import chai from 'chai';
 import sinon from 'sinon';
-import validateUserSignup from '../../server/middlewares/userValidation';
+import validation from '../../server/middlewares';
 
 const { expect } = chai;
-
+const { validateUserSignup } = validation;
 // ExpressJs req, res, and next mocks
 const next = sinon.stub();
 const req = {};
