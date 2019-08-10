@@ -103,33 +103,6 @@ describe('LOGIN TEST', () => {
   });
 });
 
-context("when user isn't verified and was registered above 24 hours", () => {
-  let newUser;
-  let user;
-  before(async () => {
-    user = getNewUser();
-    newUser = await chai
-      .request(app)
-      .post('/api/v1/users/create')
-      .send({ ...user, confirmPassword: user.password });
-  });
-
-  it('returns an error', async () => {
-    const newRegTime = Date.now() - 25 * 360000;
-    const { email, id } = newUser.body.user;
-    await User.update({ createdAt: newRegTime }, { where: { id } });
-    const response = await chai
-      .request(app)
-      .post(`${LOGIN_URL}`)
-      .send({
-        userLogin: email,
-        password: user.password
-      });
-    expect(response).to.have.status(403);
-    expect(response.body.error).to.equal('please verify your email address');
-  });
-});
-
 describe('LOGIN SERVER ERROR TEST', () => {
   it("should not login in user if there's a server error", async () => {
     const stubfunc = { create };
