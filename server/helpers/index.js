@@ -11,6 +11,7 @@ import imageUpload from './imageUpload';
 import emailTemplates from './emailTemplates';
 import verifyResetPasswordToken from './verifyResetPasswordToken';
 import userResponse from './userResponse';
+import { paginationValues, pageCounter } from './paginationHelper';
 
 const { expiryDate } = dateHelper;
 const { sendResetPasswordEmail, sendVerificationEmail } = emailTemplates;
@@ -31,5 +32,7 @@ export {
   imageUpload,
   sendResetPasswordEmail,
   verifyResetPasswordToken,
-  userResponse
+  userResponse,
+  paginationValues,
+  pageCounter
 };
