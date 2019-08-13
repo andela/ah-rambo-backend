@@ -3,6 +3,7 @@ import validateUserSignup from './userValidation';
 import validateUserPassword from './passwordValidation';
 import validateProfileEdit from './profileValidation';
 import checkUserVerification from './checkUserVerification';
+import multerUploads from './multer';
 
 const middlewares = {
   verifyToken,
@@ -10,7 +11,8 @@ const middlewares = {
   getSessionFromToken,
   validateUserPassword,
   validateProfileEdit,
-  checkUserVerification
+  checkUserVerification,
+  multerUploads
 };
 
 export default middlewares;
