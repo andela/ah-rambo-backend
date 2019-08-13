@@ -8,6 +8,7 @@ import './models';
 import './users';
 import './followers';
 import './profiles';
+import './article';
 
 const { expect } = chai;
 chai.use(chaiHttp);
