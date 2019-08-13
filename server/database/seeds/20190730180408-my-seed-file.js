@@ -29,6 +29,24 @@ export default {
         occupation: 'Software Engineer',
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        firstName: 'jhayX',
+        lastName: 'escanor',
+        userName: 'escanor',
+        email: 'jhayx@email.com',
+        password:
+            '$2a$10$0dVjZKAHBb6Lg.dnujRwme1WbhMAfCIj02uptPxO.u5gNIi5DoqtW',
+        avatarUrl:
+            'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png',
+        bio: 'This is a simple bio of Escanor the sin of pride',
+        followingsCount: 1,
+        followersCount: 1,
+        identifiedBy: 'fullname',
+        location: 'Lagos, Nigeria',
+        occupation: 'Software Engineer',
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ],
     {}

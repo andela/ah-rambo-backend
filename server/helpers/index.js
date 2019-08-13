@@ -8,6 +8,7 @@ import getUserAgent from './getUserAgent';
 import createSocialUsers from './createSocialUsers';
 import getSocialUserData from './getSocialUserData';
 import sendVerificationEmail from './emailTemplates';
+import imageUpload from './imageUpload';
 
 const { expiryDate } = dateHelper;
 
@@ -23,5 +24,6 @@ export {
   getUserAgent,
   createSocialUsers,
   getSocialUserData,
-  sendVerificationEmail
+  sendVerificationEmail,
+  imageUpload
 };

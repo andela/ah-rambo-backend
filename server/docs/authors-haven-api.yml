@@ -392,6 +392,34 @@ paths:
                 "$ref": "#/components/schemas/changePasswordErrorResponse"
         
     
+          description: Internal server errorcomponents         
+  /api/v1/profles/{id}:
+    patch:
+      summary: Route for editing existing user 
+      description: Allow existing users to edit their information
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user id
+          schema:
+            type : string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/EditUser'
+        description: edit user profile
+      responses:
+        200:
+          description: user edited successfully
+        409:
+          description: Conflict. Email or username exists
+        500:
+          description: Internal server error                  
 components:
   securitySchemes:
     BearerAuth:
@@ -474,6 +502,31 @@ components:
       confirmPassword:
         type: string
         example: mypassword
+  EditUser:
+    type: object
+    required:
+    - firstName
+    - lastName
+    - userName
+    - email
+    - avatarUrl
+    properties:
+      firstName:
+        type: string
+        example: Escanor
+      lastName:
+        type: string
+        example: jhayx
+      userName:
+        type: string
+        example: Pride
+      email:
+        type: string
+        example: riri.escanor@andela.com
+      avatarUrl:
+        type: string
+        example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
+  
   schemas:
     loginResponse:
       type: object

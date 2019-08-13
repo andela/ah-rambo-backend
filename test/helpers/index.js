@@ -4,6 +4,7 @@ import * as generateToken from './generateToken.test';
 import * as findToken from './findToken.test';
 import * as dateHelper from './dateHelper.test';
 import * as emailModule from './emailModule.test';
+import * as imageUpload from './imageUpload.test';
 
 export {
   generateToken,
@@ -11,5 +12,6 @@ export {
   sessionMigration,
   callback,
   dateHelper,
-  emailModule
+  emailModule,
+  imageUpload
 };
