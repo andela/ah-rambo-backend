@@ -59,5 +59,9 @@ export default (sequelize, DataTypes) => {
       onUpdate: 'CASCADE'
     });
   };
+
+  Session.revokeAll = async (userId) => {
+    await Session.update({ active: false }, { where: { userId } });
+  };
   return Session;
 };

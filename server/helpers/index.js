@@ -7,10 +7,12 @@ import dateHelper from './dateHelper';
 import getUserAgent from './getUserAgent';
 import createSocialUsers from './createSocialUsers';
 import getSocialUserData from './getSocialUserData';
-import sendVerificationEmail from './emailTemplates';
 import imageUpload from './imageUpload';
+import emailTemplates from './emailTemplates';
+import verifyResetPasswordToken from './verifyResetPasswordToken';
 
 const { expiryDate } = dateHelper;
+const { sendResetPasswordEmail, sendVerificationEmail } = emailTemplates;
 
 export {
   findUser,
@@ -25,5 +27,7 @@ export {
   createSocialUsers,
   getSocialUserData,
   sendVerificationEmail,
-  imageUpload
+  imageUpload,
+  sendResetPasswordEmail,
+  verifyResetPasswordToken
 };

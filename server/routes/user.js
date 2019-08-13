@@ -8,7 +8,8 @@ const {
   verifyToken,
   validateUserPassword,
   validateUserSignup,
-  getSessionFromToken
+  getSessionFromToken,
+  validateResetPassword
 } = middlewares;
 
 route.post('/create', validateUserSignup, Users.create);
@@ -21,4 +22,15 @@ route.patch(
   validateUserPassword,
   Users.changePassword
 );
+route.post(
+  '/resetpassword',
+  validateResetPassword.email,
+  Users.requestPasswordResetLink
+);
+route.patch(
+  '/resetpassword/:token',
+  validateResetPassword.newPassword,
+  Users.resetPassword
+);
+
 export default route;
