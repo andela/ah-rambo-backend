@@ -1,15 +1,18 @@
 import bcrypt from 'bcryptjs';
 import models from '../database/models';
+
 import {
   serverResponse,
   serverError,
   generateToken,
   expiryDate,
   getUserAgent,
-  sendVerificationEmail
+  sendVerificationEmail,
+  sendResetPasswordEmail,
+  verifyResetPasswordToken
 } from '../helpers';
 
-const { User, Session } = models;
+const { User, Session, ResetPassword } = models;
 
 /**
  * @export
@@ -112,6 +115,37 @@ class Users {
   }
 
   /**
+   *
+   * @name requestPasswordResetLink
+   * @static
+   * @param {object} req express object
+   * @param {object} res express object
+   * @memberof Users
+   * @returns {JSON} JSON object
+   */
+  static async requestPasswordResetLink(req, res) {
+    try {
+      const { email } = req.body;
+      const user = await User.findByEmail(email);
+      if (!user) {
+        return serverResponse(res, 404, {
+          message: 'email address not found'
+        });
+      }
+      const { id } = user;
+      const token = generateToken({ id }, '1h');
+      await ResetPassword.create({ token, userId: id });
+      await Session.revokeAll(id);
+      sendResetPasswordEmail({ ...user, token });
+      return serverResponse(res, 200, {
+        message: 'password reset link sent'
+      });
+    } catch (error) {
+      return serverError(res);
+    }
+  }
+
+  /**
    * @name changePassword
    * @async
    * @static
@@ -128,6 +162,41 @@ class Users {
     return serverResponse(res, 200, {
       message: 'password changed successfully'
     });
+  }
+
+  /**
+   *
+   * @static
+   * @param {object} req express object
+   * @param {object} res express object
+   *
+   * @memberof Users
+   * @returns {JSON} JSON object
+   */
+  static async resetPassword(req, res) {
+    try {
+      const { password } = req.body;
+      const { token } = req.params;
+
+      const id = await verifyResetPasswordToken(token);
+      if (!id) {
+        return serverResponse(res, 401, {
+          error: 'link has expired or is invalid'
+        });
+      }
+      const resetToken = await ResetPassword.findOne({
+        where: { token }
+      });
+      if (!resetToken) {
+        return serverResponse(res, 401, { error: 'link has been used' });
+      }
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await User.updatePasswordById(id, hashedPassword);
+      await ResetPassword.destroy({ where: { token } });
+      return serverResponse(res, 200, { message: 'password reset successful' });
+    } catch (error) {
+      return serverError(res);
+    }
   }
 }
 

@@ -158,6 +158,13 @@ export default (sequelize, DataTypes) => {
     return null;
   };
 
+  User.updatePasswordById = async (id, newPassword) => {
+    const user = await User.update(
+      { password: newPassword },
+      { where: { id } }
+    );
+    return user[0];
+  };
   User.associate = (models) => {
     User.hasMany(models.Session, {
       foreignKey: 'userId',
@@ -184,6 +191,11 @@ export default (sequelize, DataTypes) => {
       through: 'UserCategory',
       as: 'PreferredCategories',
       timestamps: false
+    });
+    User.hasMany(models.ResetPassword, {
+      foreignKey: 'userId',
+      as: 'ResetPassword',
+      onDelete: 'CASCADE'
     });
   };
 

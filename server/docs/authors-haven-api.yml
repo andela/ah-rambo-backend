@@ -390,7 +390,88 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/changePasswordErrorResponse"
-        
+  /api/v1/users/resetpassword:
+    post:
+      summary: Request reset password link route
+      description: Allow existing users to request for password reset link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email  
+              properties:
+                email:
+                  type: string
+                  example: JhayXXX@gmail.com
+      responses:
+        200:
+          description: password reset link sent
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/passwordResetLinkResponse"
+        404:
+          description: email address not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        500:
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"
+
+  /api/v1/users/resetpassword/{token}:
+    patch:
+      summary: Reset password route
+      description: Allow existing users to reset password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - password
+              - confirmPassword  
+              properties:
+                password:
+                  type: string
+                  example: JhayXXXgmail.com
+                confirmPassword:
+                  type: string
+                  example: JhayXXXgmail.com
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+          description: The token sent to the user to reset password
+      responses:
+        200:
+          description: password reset successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/passwordResetResponse"
+        401:
+          description: reset link has expired, invalid or been used
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        500:
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"    
     
           description: Internal server errorcomponents         
   /api/v1/profles/{id}:
@@ -690,4 +771,14 @@ components:
             confirmpassword:
               type: string
               example: confirm password must match password
+  passwordResetLinkResponse:
+      type: object
+      properties:
+        message:
+          type: string
+  passwordResetResponse:
+      type: object
+      properties:
+        message:
+          type: string
 

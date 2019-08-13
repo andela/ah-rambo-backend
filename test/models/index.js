@@ -3,6 +3,7 @@ import * as sessions from './sessions.test';
 import * as userFollowers from './userFollowers.test';
 import * as category from './category.test';
 import * as hobby from './hobby.test';
+import './resetPasswordToken.test';
 
 export {
   user, sessions, userFollowers, category, hobby
