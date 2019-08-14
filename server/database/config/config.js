@@ -9,8 +9,8 @@ const development = {
 };
 
 const test = {
-  storage: ':memory',
-  dialect: 'sqlite'
+  use_env_variable: 'DB_URL_TEST',
+  dialect: 'postgres'
 };
 
 const production = {
