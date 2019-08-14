@@ -425,7 +425,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/serverResponse"
-
   /api/v1/users/resetpassword/{token}:
     patch:
       summary: Reset password route
@@ -500,7 +499,37 @@ paths:
         409:
           description: Conflict. Email or username exists
         500:
-          description: Internal server error                  
+          description: Internal server error  
+  /api/v1/profiles/{username}:
+    get:
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: users username
+          schema:
+            type : string
+      summary: Route for getting other users profile
+      description: Allow user to view other user details
+      responses:
+        200:
+          description: user fetched successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/viewResponse"
+        404:
+          description: user does not exist
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        500:
+          description: Internal server error  
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"                    
 components:
   securitySchemes:
     BearerAuth:
@@ -771,14 +800,28 @@ components:
             confirmpassword:
               type: string
               example: confirm password must match password
-  passwordResetLinkResponse:
+    passwordResetLinkResponse:
       type: object
       properties:
         message:
           type: string
-  passwordResetResponse:
+    passwordResetResponse:
       type: object
       properties:
         message:
           type: string
-
+    viewResponse:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 1
+        firstName:
+          type: string
+          example: escanor
+        lastName:
+          type: string
+          example: pride
+        userName:
+          type: string
+          example: prider

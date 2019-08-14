@@ -9,7 +9,8 @@ import {
   getUserAgent,
   sendVerificationEmail,
   sendResetPasswordEmail,
-  verifyResetPasswordToken
+  verifyResetPasswordToken,
+  userResponse
 } from '../helpers';
 
 const { User, Session, ResetPassword } = models;
@@ -62,9 +63,8 @@ class Users {
       });
 
       res.set('Authorization', token);
-      delete user.dataValues.password;
       sendVerificationEmail({ ...user.dataValues, token });
-      return serverResponse(res, 201, { user, token });
+      return userResponse(res, 201, user, token);
     } catch (error) {
       return serverError(res);
     }
