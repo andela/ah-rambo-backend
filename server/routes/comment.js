@@ -4,12 +4,13 @@ import middlewares from '../middlewares';
 
 const route = express.Router();
 
-const { verifyToken, validateCommentBody } = middlewares;
+const { verifyToken, validateCommentBody, getSessionFromToken } = middlewares;
 
 route.post(
   '/:slug/comments',
-  validateCommentBody,
   verifyToken,
+  getSessionFromToken,
+  validateCommentBody,
   Comments.addCommentToArticle
 );
 

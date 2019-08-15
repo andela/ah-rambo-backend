@@ -1,9 +1,7 @@
 import models from '../database/models';
-import { serverResponse, serverError } from '../helpers';
+import { serverResponse, serverError, isFollowing } from '../helpers';
 
-const {
-  Comment, Article, User, UserFollower
-} = models;
+const { Comment, Article, User } = models;
 
 /**
  *
@@ -26,16 +24,12 @@ class Comments {
       const { slug } = req.params;
       const { comment } = req.body;
 
-      const article = await Article.findOne({ where: { slug } });
+      const article = await Article.findBySlug(slug);
       if (!article) {
         return serverResponse(res, 404, { error: 'article not found' });
       }
-
       const articleAuthorId = article.userId;
-      const authorFollower = await UserFollower.findOne({
-        where: { userId: articleAuthorId, followerId: userId }
-      });
-
+      const isUserFollowingAuthor = await isFollowing(articleAuthorId, userId);
       const commentData = await Comment.create({
         userId,
         comment,
@@ -54,8 +48,7 @@ class Comments {
         attributes: ['id', 'userName', 'bio', 'avatarUrl']
       });
 
-      user.following = !!authorFollower;
-      // commentDetail = commentData.dataValues;
+      user.following = isUserFollowingAuthor;
       commentDetail.user = user;
       return serverResponse(res, 201, { comment: commentDetail });
     } catch (error) {
@@ -74,12 +67,11 @@ class Comments {
    */
   static async getAllCommentsForArticle(req, res) {
     const { slug } = req.params;
-    const article = await Article.findOne({
-      where: { slug }
-    });
+    const article = await Article.findBySlug(slug);
     if (!article) {
       return serverResponse(res, 404, { error: 'article not found' });
     }
+
     let comments = await article.getComments({
       attributes: { exclude: ['userId'] },
       include: [
@@ -90,6 +82,7 @@ class Comments {
         }
       ]
     });
+
     if (comments.length < 1) {
       return serverResponse(res, 404, { error: 'article has no comment' });
     }
@@ -99,11 +92,9 @@ class Comments {
       const {
         user: { id }
       } = comment;
-      const authorFollower = await UserFollower.findOne({
-        where: { userId: articleAuthorId, followerId: id }
-      });
+      const isUserFollowingAuthor = await isFollowing(articleAuthorId, id);
       const userDetails = comment.user.dataValues;
-      userDetails.following = !!authorFollower;
+      userDetails.following = isUserFollowingAuthor;
       comment.user = userDetails;
       return comment;
     });

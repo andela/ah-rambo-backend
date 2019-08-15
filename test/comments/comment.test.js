@@ -1,8 +1,12 @@
 /* eslint-disable no-unused-expressions */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
+import sinon from 'sinon';
 import { getNewUser } from '../users/__mocks__';
 import app from '../../server';
+import models from '../../server/database/models';
+
+const { Comment } = models;
 
 chai.use(chaiHttp);
 
@@ -135,6 +139,28 @@ describe('Add Comments to Article Tests', async () => {
       });
     }
   );
+
+  context('When there is server error when making a comment', () => {
+    it('returns a 500 error', async () => {
+      const stub = sinon.stub(Comment, 'create');
+      const error = new Error('server error, this will be resolved shortly');
+      stub.yields(error);
+
+      const res = await chai
+        .request(app)
+        .post(`${baseUrl}/articles/${artilceSlug}/comments`)
+        .set('authorization', commenter.token)
+        .send({
+          comment: new Array(3000).join('a')
+        });
+      expect(res).to.have.status(500);
+      expect(res.body).to.include.key('error');
+      expect(res.body.error).to.equal(
+        'server error, this will be resolved shortly'
+      );
+      stub.restore();
+    });
+  });
 });
 
 describe('Get All Comments for an Article - Test', async () => {
