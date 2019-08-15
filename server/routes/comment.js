@@ -4,16 +4,22 @@ import middlewares from '../middlewares';
 
 const route = express.Router();
 
-const { verifyToken, validateCommentBody, getSessionFromToken } = middlewares;
+const {
+  verifyToken,
+  validateCommentBody,
+  getSessionFromToken,
+  checkUserVerification
+} = middlewares;
 
 route.post(
   '/:slug/comments',
   verifyToken,
   getSessionFromToken,
+  checkUserVerification,
   validateCommentBody,
-  Comments.addCommentToArticle
+  Comments.create
 );
 
-route.get('/:slug/comments', Comments.getAllCommentsForArticle);
+route.get('/:slug/comments', Comments.getArticleComments);
 
 export default route;

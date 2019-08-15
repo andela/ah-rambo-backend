@@ -10,7 +10,7 @@ const { Comment, Article, User } = models;
  */
 class Comments {
   /**
-   * @name addCommentToArticle
+   * @name create
    * @async
    * @static
    * @memberof Comments
@@ -18,7 +18,7 @@ class Comments {
    * @param {Object} res express response object
    * @returns {JSON} JSON object with details of new follower
    */
-  static async addCommentToArticle(req, res) {
+  static async create(req, res) {
     try {
       const { id: userId } = req.user;
       const { slug } = req.params;
@@ -28,36 +28,34 @@ class Comments {
       if (!article) {
         return serverResponse(res, 404, { error: 'article not found' });
       }
-      const articleAuthorId = article.userId;
-      const isUserFollowingAuthor = await isFollowing(articleAuthorId, userId);
-      const commentData = await Comment.create({
+      const articleAuthorId = article.authorId;
+      let commentData = await Comment.create({
         userId,
         comment,
         articleId: article.id
       });
 
-      const commentDetail = {
+      const { dataValues: author } = await commentData.getAuthor({
+        attributes: ['id', 'userName', 'bio', 'avatarUrl']
+      });
+
+      commentData = {
         id: commentData.id,
         comment: commentData.comment,
         articleId: commentData.articleId,
         updatedAt: commentData.updatedAt,
         createdAt: commentData.createdAt
       };
-
-      const { dataValues: user } = await commentData.getUser({
-        attributes: ['id', 'userName', 'bio', 'avatarUrl']
-      });
-
-      user.following = isUserFollowingAuthor;
-      commentDetail.user = user;
-      return serverResponse(res, 201, { comment: commentDetail });
+      author.following = await isFollowing(articleAuthorId, userId);
+      commentData.author = author;
+      return serverResponse(res, 201, { comment: commentData });
     } catch (error) {
       serverError(res);
     }
   }
 
   /**
-   * @name getAllCommentsForArticle
+   * @name getArticleComments
    * @async
    * @static
    * @memberof Comments
@@ -65,42 +63,49 @@ class Comments {
    * @param {Object} res express response object
    * @returns {JSON} JSON object with details of new follower
    */
-  static async getAllCommentsForArticle(req, res) {
-    const { slug } = req.params;
-    const article = await Article.findBySlug(slug);
-    if (!article) {
-      return serverResponse(res, 404, { error: 'article not found' });
+  static async getArticleComments(req, res) {
+    try {
+      const { slug } = req.params;
+      const article = await Article.findBySlug(slug);
+      if (!article) {
+        return serverResponse(res, 404, { error: 'article not found' });
+      }
+
+      let comments = await article.getComments({
+        attributes: { exclude: ['userId'] },
+        include: [
+          {
+            model: User,
+            as: 'author',
+            attributes: ['id', 'userName', 'bio', 'avatarUrl']
+          }
+        ]
+      });
+
+      if (comments.length < 1) {
+        return serverResponse(res, 200, {
+          message: 'article has no comment',
+          comments
+        });
+      }
+      const articleAuthorId = article.authorId;
+
+      comments = comments.map(async (comment) => {
+        const {
+          author: { id }
+        } = comment;
+        const isUserFollowingAuthor = await isFollowing(articleAuthorId, id);
+        const author = comment.author.dataValues;
+        author.following = isUserFollowingAuthor;
+        comment.author = author;
+        return comment;
+      });
+      comments = await Promise.all(comments);
+      const commentsCount = comments.length;
+      return serverResponse(res, 200, { comments, commentsCount });
+    } catch (error) {
+      serverError(res);
     }
-
-    let comments = await article.getComments({
-      attributes: { exclude: ['userId'] },
-      include: [
-        {
-          model: User,
-          as: 'user',
-          attributes: ['id', 'userName', 'bio', 'avatarUrl']
-        }
-      ]
-    });
-
-    if (comments.length < 1) {
-      return serverResponse(res, 404, { error: 'article has no comment' });
-    }
-    const articleAuthorId = article.userId;
-
-    comments = comments.map(async (comment) => {
-      const {
-        user: { id }
-      } = comment;
-      const isUserFollowingAuthor = await isFollowing(articleAuthorId, id);
-      const userDetails = comment.user.dataValues;
-      userDetails.following = isUserFollowingAuthor;
-      comment.user = userDetails;
-      return comment;
-    });
-    comments = await Promise.all(comments);
-    const commentsCount = comments.length;
-    return serverResponse(res, 200, { comments, commentsCount });
   }
 }
 

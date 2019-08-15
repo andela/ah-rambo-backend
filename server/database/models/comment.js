@@ -38,7 +38,7 @@ export default (sequelize, DataTypes) => {
   Comment.associate = (models) => {
     Comment.belongsTo(models.User, {
       foreignKey: 'userId',
-      as: 'user',
+      as: 'author',
       onDelete: 'CASCADE'
     });
 

@@ -79,6 +79,12 @@ export default (sequelize, DataTypes) => {
     return article;
   };
 
+  Article.findBySlug = async (slug) => {
+    const article = await Article.findOne({ where: { slug } });
+    if (article) return article;
+    return null;
+  };
+
   Article.associate = (models) => {
     Article.belongsTo(models.User, {
       foreignKey: 'authorId',

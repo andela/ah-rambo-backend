@@ -19,5 +19,6 @@ route.use('/user', userFollower);
 route.use('/articles', article);
 route.use('/tags', tag);
 route.use('/articles', comment);
+route.use('/articles', article, comment);
 
 export default route;

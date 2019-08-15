@@ -47,6 +47,13 @@ const newArticleData = {
   status: 'publish',
   tags: 'technology'
 };
+const ArticleData10 = {
+  title: ' is simply dummy text of the printing and typesetting ',
+  description: 'ext ever since the 1500s, when an unknown printer',
+  articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
+  status: 'publish'
+};
+
 const myfile = faker.image.dataUri(200, 200);
 const request = {
   file: {
@@ -96,5 +103,6 @@ export {
   fakeoutput,
   invalidArticleData,
   ArticleData4,
-  badImage
+  badImage,
+  ArticleData10
 };
