@@ -7,6 +7,7 @@ import userFollower from './userFollower';
 import profile from './profile';
 import article from './article';
 import tag from './tag';
+import comment from './comment';
 
 const route = express.Router();
 
@@ -17,5 +18,6 @@ route.use('/profiles', profile, follower);
 route.use('/user', userFollower);
 route.use('/articles', article);
 route.use('/tags', tag);
+route.use('/articles', comment);
 
 export default route;

@@ -8,6 +8,7 @@ import validateResetPassword from './resetPasswordValidation';
 import validatePagination from './paginationValidation';
 import validateArticle from './articleValidation';
 import authorizeUser from './authorizeUser';
+import validateCommentBody from './commentValidation';
 
 const middlewares = {
   verifyToken,
@@ -20,7 +21,8 @@ const middlewares = {
   multerUploads,
   validateResetPassword,
   validatePagination,
-  authorizeUser
+  authorizeUser,
+  validateCommentBody
 };
 
 export default middlewares;

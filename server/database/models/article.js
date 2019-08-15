@@ -93,7 +93,13 @@ export default (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE'
     });
+
+    Article.hasMany(models.Comment, {
+      foreignKey: 'articleId',
+      as: 'comments'
+    });
   };
+
   SequelizeSlugify.slugifyModel(Article, {
     source: ['title'],
     overwrite: false,

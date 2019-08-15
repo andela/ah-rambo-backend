@@ -6,6 +6,7 @@ import * as hobby from './hobby.test';
 import * as article from './article.test';
 import * as resetPasswordToken from './resetPasswordToken.test';
 import * as tag from './tag.test';
+import './comment.test';
 
 export {
   user,
