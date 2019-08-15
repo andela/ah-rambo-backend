@@ -17,9 +17,15 @@ const setCustomMessage = (label, action = 'user signup') => (errors) => {
       err.message = `${label} is required`;
       break;
     case 'any.allowOnly':
-      err.message = action === 'profile edit'
-        ? `${label} must only be identified by either fullname or username`
-        : `${label} must match password`;
+      if (action === 'profile edit') {
+        err.message = `${label} must only be identified by either fullname or username`;
+      }
+      if (action === 'valid status') {
+        err.message = `${label} must be a valid status try publish or draft`;
+      }
+      if (action === 'user signup') {
+        err.message = `${label} must match password`;
+      }
       break;
     case 'string.alphanum':
       err.message = `${label} should contain only letters and numbers`;
