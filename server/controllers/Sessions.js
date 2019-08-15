@@ -5,7 +5,8 @@ import {
   serverResponse,
   serverError,
   expiryDate,
-  getUserAgent
+  getUserAgent,
+  userResponse
 } from '../helpers';
 import models from '../database/models';
 
@@ -43,7 +44,7 @@ class Sessions {
         });
       }
       const { devicePlatform, userAgent } = getUserAgent(req);
-      const { id, dataValues } = user;
+      const { id } = user;
       const expiresAt = expiryDate(devicePlatform);
       const token = generateToken({ id });
       await Session.create({
@@ -55,8 +56,7 @@ class Sessions {
         devicePlatform
       });
       res.set('Authorization', token);
-      delete dataValues.password;
-      return serverResponse(res, 200, { user: { ...dataValues }, token });
+      return userResponse(res, 200, user, token);
     } catch (error) {
       serverError(res);
     }

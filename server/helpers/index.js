@@ -10,6 +10,7 @@ import getSocialUserData from './getSocialUserData';
 import imageUpload from './imageUpload';
 import emailTemplates from './emailTemplates';
 import verifyResetPasswordToken from './verifyResetPasswordToken';
+import userResponse from './userResponse';
 
 const { expiryDate } = dateHelper;
 const { sendResetPasswordEmail, sendVerificationEmail } = emailTemplates;
@@ -29,5 +30,6 @@ export {
   sendVerificationEmail,
   imageUpload,
   sendResetPasswordEmail,
-  verifyResetPasswordToken
+  verifyResetPasswordToken,
+  userResponse
 };

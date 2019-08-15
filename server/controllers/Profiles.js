@@ -1,5 +1,10 @@
 import models from '../database/models';
-import { serverResponse, serverError, imageUpload } from '../helpers';
+import {
+  serverResponse,
+  serverError,
+  imageUpload,
+  userResponse
+} from '../helpers';
 
 const { User } = models;
 
@@ -60,10 +65,30 @@ class Profiles {
         }
       );
       const currentUser = await User.findById(user.id);
-      delete currentUser.dataValues.password;
-      return serverResponse(res, 200, {
-        user: currentUser
-      });
+      return userResponse(res, 200, currentUser);
+    } catch (error) {
+      return serverError(res);
+    }
+  }
+
+  /**
+   * @name view
+   * @description allows a user to view other users profile
+   * @param {object} req request object
+   * @param {object} res response object
+   * @returns {json} the json response been return by the server
+   * @memberof ProfilesController
+   */
+  static async view(req, res) {
+    try {
+      const {
+        params: { username }
+      } = req;
+      const userProfile = await User.findByUsername(username);
+      if (!userProfile) {
+        return serverResponse(res, 404, { error: 'user does not exist' });
+      }
+      return userResponse(res, 200, userProfile);
     } catch (error) {
       return serverError(res);
     }
