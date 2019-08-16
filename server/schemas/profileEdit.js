@@ -34,5 +34,10 @@ export default {
   location: Joi.string().error(setCustomMessage('user location')),
   occupation: Joi.string()
     .regex(/^[a-zA-Z ]*$/)
-    .error(setCustomMessage('user occupation', 'profile edit'))
+    .error(setCustomMessage('user occupation', 'profile edit')),
+  role: Joi.string()
+    .min(2)
+    .max(20)
+    .regex(/^[a-zA-Z]*$/)
+    .error(setCustomMessage('role'))
 };
