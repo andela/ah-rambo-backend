@@ -6,6 +6,7 @@ import checkUserVerification from './checkUserVerification';
 import multerUploads from './multer';
 import validateResetPassword from './resetPasswordValidation';
 import validateArticle from './articleValidation';
+import authorizeUser from './authorizeUser';
 
 const middlewares = {
   verifyToken,
@@ -16,7 +17,8 @@ const middlewares = {
   validateProfileEdit,
   checkUserVerification,
   multerUploads,
-  validateResetPassword
+  validateResetPassword,
+  authorizeUser
 };
 
 export default middlewares;

@@ -272,4 +272,36 @@ describe('Test User model validations', () => {
       }
     });
   });
+
+  context('when role name is too short', () => {
+    it('returns a validation error', async () => {
+      const invalidUser = getNewUserWithProfile();
+      try {
+        await User.create({
+          ...invalidUser,
+          role: 'r'
+        });
+      } catch (error) {
+        expect(error.errors[0].message).to.equal(
+          'roles must be strings between 2 and 20 chars long'
+        );
+      }
+    });
+  });
+
+  context('when level is too short', () => {
+    it('returns a validation error', async () => {
+      const invalidUser = getNewUserWithProfile();
+      try {
+        await User.create({
+          ...invalidUser,
+          level: -1
+        });
+      } catch (error) {
+        expect(error.errors[0].message).to.equal(
+          'user level must not be less than 0'
+        );
+      }
+    });
+  });
 });
