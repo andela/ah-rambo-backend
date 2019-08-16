@@ -137,6 +137,31 @@ export default (sequelize, DataTypes) => {
           msg: 'user occupation must contain only letters and/or spaces'
         }
       }
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'user',
+      validate: {
+        len: {
+          args: [2, 20],
+          msg: 'roles must be strings between 2 and 20 chars long'
+        }
+      }
+    },
+    level: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: {
+        isInt: {
+          msg: 'user level count must be an integer'
+        },
+        min: {
+          args: [0],
+          msg: 'user level must not be less than 0'
+        }
+      }
     }
   });
 

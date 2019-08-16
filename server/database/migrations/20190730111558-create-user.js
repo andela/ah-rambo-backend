@@ -58,6 +58,14 @@ export default {
       type: Sequelize.STRING,
       allowNull: true
     },
+    role: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    level: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE
