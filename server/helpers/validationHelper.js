@@ -47,6 +47,12 @@ const setCustomMessage = (label, action = 'user signup') => (errors) => {
     case 'string.uri':
       err.message = `${label} format is invalid`;
       break;
+    case 'number.base':
+      err.message = `${label} must be a number`;
+      break;
+    case 'number.min':
+      err.message = `${label} must be greater than or equal to ${err.context.limit}`;
+      break;
     default:
       err.message = `${label} should be a string`;
       break;

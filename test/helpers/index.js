@@ -5,6 +5,7 @@ import * as findToken from './findToken.test';
 import * as dateHelper from './dateHelper.test';
 import * as emailModule from './emailModule.test';
 import * as imageUpload from './imageUpload.test';
+import * as pagination from './paginationHelper.test';
 import * as tagHelper from './tagHelper.test';
 
 export {
@@ -15,5 +16,6 @@ export {
   dateHelper,
   emailModule,
   imageUpload,
+  pagination,
   tagHelper
 };

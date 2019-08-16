@@ -11,6 +11,7 @@ import imageUpload from './imageUpload';
 import emailTemplates from './emailTemplates';
 import verifyResetPasswordToken from './verifyResetPasswordToken';
 import userResponse from './userResponse';
+import { paginationValues, pageCounter } from './paginationHelper';
 import {
   removeSpecialCharacters,
   formatTag,
@@ -37,6 +38,8 @@ export {
   sendResetPasswordEmail,
   verifyResetPasswordToken,
   userResponse,
+  paginationValues,
+  pageCounter,
   removeSpecialCharacters,
   formatTag,
   removeDuplicateTags
