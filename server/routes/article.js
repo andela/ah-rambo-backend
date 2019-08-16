@@ -1,5 +1,5 @@
 import express from 'express';
-import Article from '../controllers/Article';
+import Article from '../controllers/Articles';
 import middlewares from '../middlewares';
 
 const {

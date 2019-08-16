@@ -9,6 +9,7 @@ import './users';
 import './followers';
 import './profiles';
 import './articles';
+import './tags';
 
 const { expect } = chai;
 chai.use(chaiHttp);

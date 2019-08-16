@@ -5,28 +5,47 @@ const ArticleData = {
   description: 'ext ever since the 1500s, when an unknown printer',
   image: faker.internet.avatar(),
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
-  status: 'publish'
+  status: 'publish',
+  tags: ['tech', 'business']
 };
 
 const invalidArticleData = {
   title: ' is simply dummy text of the printing and typesetting ',
   description: 'ext ever since the 1500s, when an unknown printer',
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
-  status: 'invalid'
+  status: 'invalid',
+  tags: 'tech,business'
 };
 
 const ArticleData4 = {
   title: ' is simply dummy text of the printing and typesetting ',
   description: 'ext ever since the 1500s, when an unknown printer',
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
-  status: 'draft'
+  status: 'draft',
+  tags: 'tech,business'
 };
 
 const ArticleData2 = {
   title: ' is simply dummy text of the printing and typesetting ',
   description: 'ext ever since the 1500s, when an unknown printer',
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
+  status: 'publish',
+  tags: 'tech,business'
+};
+
+const noTagArticleData = {
+  title: ' is simply dummy text of the printing and typesetting ',
+  description: 'ext ever since the 1500s, when an unknown printer',
+  articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
   status: 'publish'
+};
+
+const newArticleData = {
+  title: ' is simply dummy text of the printing and typesetting ',
+  description: 'ext ever since the 1500s, when an unknown printer',
+  articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
+  status: 'publish',
+  tags: 'technology'
 };
 const myfile = faker.image.dataUri(200, 200);
 const request = {
@@ -41,7 +60,8 @@ const request = {
   body: {
     title: ' is simply dummy text of the printing and typesetting ',
     description: 'ext ever since the 1500s, when an unknown printer',
-    articleBody: 'ext ever since the 1500s, when an unknown printer took a ga'
+    articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
+    tags: 'tech, business'
   },
   user: { id: 1 }
 };
@@ -62,12 +82,15 @@ const badImage = {
   title: ' is simply dummy text of the printing and typesetting ',
   description: 'ext ever since the 1500s, when an unknown printer',
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
-  image: 'this is TIA'
+  image: 'this is TIA',
+  tags: 'tech,business'
 };
 
 export {
   ArticleData,
   ArticleData2,
+  noTagArticleData,
+  newArticleData,
   myfile,
   request,
   fakeoutput,
