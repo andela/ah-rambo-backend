@@ -3,11 +3,13 @@ import chaiHttp from 'chai-http';
 import { uploader } from 'cloudinary';
 import sinon from 'sinon';
 import app from '../../server';
-import ArticleController from '../../server/controllers/Article';
+import Articles from '../../server/controllers/Articles';
 import model from '../../server/database/models';
 import { getNewUser } from '../users/__mocks__';
 import {
   ArticleData2,
+  noTagArticleData,
+  newArticleData,
   ArticleData4,
   invalidArticleData,
   request
@@ -55,8 +57,31 @@ before(async () => {
 
 describe('Create Article Test', () => {
   context(
-    `when a registered user  enter article with
+    `when a registered user enter article with
     valid details with status as publish`,
+    () => {
+      it('create and publish articles successfully', async () => {
+        const response = await chai
+          .request(app)
+          .post(`${BASE_URL}/articles/create`)
+          .set('Authorization', userToken)
+          .send(noTagArticleData);
+        expect(response.status).to.equal(200);
+      });
+      it('upload image sucessfully', async () => {
+        const uploaderstub = sinon
+          .stub(uploader, 'upload')
+          .callsFake(() => data.uploaded);
+        await Articles.createArticle(request, res);
+        expect(res.statusCode).to.equal(200);
+        uploaderstub.restore();
+      });
+    }
+  );
+
+  context(
+    `when a registered user enter article with
+    valid details with status as publish and a tag`,
     () => {
       it('create and publish articles successfully', async () => {
         const response = await chai
@@ -70,12 +95,64 @@ describe('Create Article Test', () => {
         const uploaderstub = sinon
           .stub(uploader, 'upload')
           .callsFake(() => data.uploaded);
-        await ArticleController.createArticle(request, res);
+        await Articles.createArticle(request, res);
         expect(res.statusCode).to.equal(200);
         uploaderstub.restore();
       });
     }
   );
+
+  context('when a user enters a bad tag ', () => {
+    it('throws error', async () => {
+      const badArticleTag = ArticleData2;
+      badArticleTag.tags = '/;.';
+      const response = await chai
+        .request(app)
+        .post(`${BASE_URL}/articles/create`)
+        .set('Authorization', userToken)
+        .send(badArticleTag);
+      expect(response).to.have.status(400);
+      expect(response.body.error).to.equal(
+        'tags should be an array of valid strings'
+      );
+    });
+  });
+
+  context('when a user enters a tag with just a letter', () => {
+    it('throws error', async () => {
+      const badArticleTag = ArticleData2;
+      badArticleTag.tags = 'j';
+      const response = await chai
+        .request(app)
+        .post(`${BASE_URL}/articles/create`)
+        .set('Authorization', userToken)
+        .send(badArticleTag);
+      expect(response).to.have.status(422);
+      expect(response.body.errors.tags).to.equal(
+        'tags should not be less than 2 characters'
+      );
+    });
+  });
+
+  context(
+    'when a user enters a list of tags with a tag thats just a letter',
+    () => {
+      it('throws error', async () => {
+        const badArticleTag = ArticleData2;
+        badArticleTag.tags = 'j,HJFDSG';
+        const response = await chai
+          .request(app)
+          .post(`${BASE_URL}/articles/create`)
+          .set('Authorization', userToken)
+          .send(badArticleTag);
+        expect(response).to.have.status(400);
+        expect(response.body.error).to.equal(
+          'each tag must be more than a character'
+        );
+      });
+    }
+  );
+
   context(
     `when a registered user  enter valid
   article details with status as draft`,
@@ -111,12 +188,12 @@ describe('Create Article Test', () => {
         .request(app)
         .post(`${BASE_URL}/articles/create`)
         .set('Authorization', userToken)
-        .send(ArticleData2);
+        .send(newArticleData);
       expect(response).to.have.status(500);
       expect(response.body.error).to.equal(
         'server error, this will be resolved shortly'
       );
-      stub.restore();
+      Article.create.restore();
     });
   });
 });

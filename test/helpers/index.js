@@ -5,6 +5,7 @@ import * as findToken from './findToken.test';
 import * as dateHelper from './dateHelper.test';
 import * as emailModule from './emailModule.test';
 import * as imageUpload from './imageUpload.test';
+import * as tagHelper from './tagHelper.test';
 
 export {
   generateToken,
@@ -13,5 +14,6 @@ export {
   callback,
   dateHelper,
   emailModule,
-  imageUpload
+  imageUpload,
+  tagHelper
 };

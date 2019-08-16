@@ -11,6 +11,11 @@ import imageUpload from './imageUpload';
 import emailTemplates from './emailTemplates';
 import verifyResetPasswordToken from './verifyResetPasswordToken';
 import userResponse from './userResponse';
+import {
+  removeSpecialCharacters,
+  formatTag,
+  removeDuplicateTags
+} from './tagHelpers';
 
 const { expiryDate } = dateHelper;
 const { sendResetPasswordEmail, sendVerificationEmail } = emailTemplates;
@@ -31,5 +36,8 @@ export {
   imageUpload,
   sendResetPasswordEmail,
   verifyResetPasswordToken,
-  userResponse
+  userResponse,
+  removeSpecialCharacters,
+  formatTag,
+  removeDuplicateTags
 };

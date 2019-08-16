@@ -20,5 +20,10 @@ export default {
     .error(setCustomMessage('articleBody')),
   avatarUrl: Joi.string()
     .uri()
-    .error(setCustomMessage('image'))
+    .error(setCustomMessage('image')),
+  tags: Joi.string()
+    .optional()
+    .min(2)
+    .max(250)
+    .error(setCustomMessage('tags'))
 };
