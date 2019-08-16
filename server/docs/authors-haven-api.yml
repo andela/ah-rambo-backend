@@ -424,7 +424,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
+                '$ref': '#/components/schemas/serverResponse'
 
   /api/v1/users/resetpassword/{token}:
     patch:
@@ -471,8 +471,8 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"  
-                
+                '$ref': '#/components/schemas/serverResponse'
+
   /api/v1/tags:
     get:
       summary: Get all tags
@@ -483,15 +483,15 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/getTagsResponse"
+                '$ref': '#/components/schemas/getTagsResponse'
         500:
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"          
+                '$ref': '#/components/schemas/serverResponse'
 
-  /api/v1/profles/{id}:
+  /api/v1/profiles/{id}:
     patch:
       summary: Route for editing existing user
       description: Allow existing users to edit their information
@@ -569,6 +569,8 @@ paths:
                 image:
                   type: string
                   format: binary
+                tags:
+                  type: string
       security:
         - ApiKeyAuth: []
       responses:
@@ -583,7 +585,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/changeArticleErrorResponse" 
+                '$ref': '#/components/schemas/changeArticleErrorResponse'
 
   /api/v1/articles/{slug}/comments:
     post:
@@ -598,18 +600,11 @@ paths:
             schema:
               type: object
               required:
-              - comment
+                - comment
               properties:
                 comment:
                   type: text
-                  example: This is a comment. 
-
-  /api/v1/articles/{slug}/like:
-    post:
-      summary: Like article route
-      description: The endpoint that enables a specific authenticated user to like an article. The article is fetched by a unique slug.
-      security:
-        - ApiKeyAuth: []
+                  example: This is a comment.
       parameters:
         - in: path
           name: slug
@@ -620,135 +615,26 @@ paths:
       responses:
         201:
           description: Comment Added
-
         404:
           description: Article not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-
+                '$ref': '#/components/schemas/errorResponse'
         422:
           description: comment validation error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
 
         500:
-          description: Internal server error  
+          description: Internal server error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"  
-
-    /api/v1/articles/{slug}/comments:
+                '$ref': '#/components/schemas/serverResponse'
     get:
-          description: A unique slug generated for a specific article when it is created.
-          schema:
-            type: string
-      responses:
-        '201':
-          description: Article was successfully liked
-          content:
-            application/json:
-              schema:
-                '$ref': '#/components/schemas/likeArticleResponse'
-        '404':
-          description: Article to be liked was not found in the database
-          content:
-            application/json:
-              schema:
-                '$ref': '#/components/schemas/articleNotFoundResponse'
-        '400':
-          description: Article had already been liked by the user
-          content:
-            application/json:
-              schema:
-                '$ref': '#/components/schemas/articleHadBeenLikedResponse'
-        '500':
-          description: Unexpected internal server error
-          content:
-            application/json:
-              schema:
-                '$ref': '#/components/schemas/serverResponse'
-
-    delete:
-      summary: Remove an article like
-      description: The endpoint enables a specific authenticated user to remove a like he or she had added to an article. The article is fetched by a unique slug.
-      security:
-        - ApiKeyAuth: []
-      parameters:
-        - in: path
-          name: slug
-          required: true
-          description: A unique slug generated for a specific article when it is created.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Article like was successfully removed
-          content:
-            application/json:
-              schema:
-                '$ref': '#/components/schemas/removeArticleLikeResponse'
-        '404':
-          description: Article whose like is to be removed was not found in the database
-          content:
-            application/json:
-              schema:
-                '$ref': '#/components/schemas/articleNotFoundResponse'
-        '500':
-          description: Unexpected internal server error
-          content:
-            application/json:
-              schema:
-                '$ref': '#/components/schemas/serverResponse'
-
-  /api/v1/articles/{slug}/dislike:
-    post:
-      summary: Dislike article route
-      description: The endpoint that enables a specific authenticated user to dislike an article. The article is fetched by a unique slug.
-      security:
-        - ApiKeyAuth: []
-      parameters:
-        - in: path
-          name: slug
-          required: true
-          description: A unique slug generated for a specific article when it is created.
-          schema:
-            type: string
-      responses:
-        '201':
-          description: Article was successfully disliked
-          content:
-            application/json:
-              schema:
-                '$ref': '#/components/schemas/dislikeArticleResponse'
-        '404':
-          description: Article to be disliked was not found in the database
-          content:
-            application/json:
-              schema:
-                '$ref': '#/components/schemas/articleNotFoundResponse'
-        '400':
-          description: Article had already been disliked by the user
-          content:
-            application/json:
-              schema:
-                '$ref': '#/components/schemas/articleHadBeenDislikedResponse'
-        '500':
-          description: Unexpected internal server error
-          content:
-            application/json:
-              schema:
-                '$ref': '#/components/schemas/serverResponse'
-
-    delete:
-      summary: Remove an article dislike
-      description: The endpoint enables a specific authenticated user to remove a dislike he or she had added to an article. The article is fetched by a unique slug.
-      security:
-        - ApiKeyAuth: []
       parameters:
         - in: path
           name: slug
@@ -757,7 +643,7 @@ paths:
             type: string
           description: Article Slug
       summary: Route for getting comments of an article
-      description: Allow fetching of all comments 
+      description: Allow fetching of all comments
       responses:
         200:
           description: user fetched all comments on article successfully
@@ -766,38 +652,222 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         500:
-          description: Internal server error  
+          description: Internal server error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse" 
+                '$ref': '#/components/schemas/serverResponse'
 
-                     
-          description: A unique slug generated for a specific article when it is created.
+  /api/v1/categories/create:
+    post:
+      summary: Logged In admin user can create a category
+      description: Create category
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createCategory'
+      responses:
+        200:
+          description: category successfully created
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/createCategoryResponse'
+        401:
+          description: token expired
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        404:
+          description: user not found
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        409:
+          description: category already exists
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        500:
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/serverResponse'
+
+  /api/v1/articles/{slug}/like:
+    post:
+      summary: Like Article
+      description: Endpoint for liking an article
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Unique article slug
           schema:
             type: string
       responses:
-        '200':
-          description: Article dislike was successfully removed
+        201:
+          description: article successfully liked
           content:
             application/json:
               schema:
-                '$ref': '#/components/schemas/removeArticleDislikeResponse'
-        '404':
-          description: Article whose dislike is to be removed was not found in the database
+                '$ref': '#/components/schemas/likeDislikeArticleResponse'
+        200:
+          description: Article had been previously liked by the user
           content:
             application/json:
               schema:
-                '$ref': '#/components/schemas/articleNotFoundResponse'
-        '500':
+                '$ref': '#/components/schemas/previousArticleLikeDislikeResponse'
+        404:
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        401:
+          description: Authorization token not provided
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        500:
           description: Unexpected internal server error
           content:
             application/json:
               schema:
                 '$ref': '#/components/schemas/serverResponse'
-                
+  delete:
+    summary: Remove like from an article
+    description: Endpoint for removing a like on an article
+    security:
+      - ApiKeyAuth: []
+    parameters:
+      - name: slug
+        in: path
+        required: true
+        description: Unique article slug
+        schema:
+          type: string
+    responses:
+      200:
+        description: article like removed successfully
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/removeArticleLikeDislikeResponse'
+      404:
+        description: Article not found
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/errorResponse'
+      401:
+        description: Authorization token not provided
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/errorResponse'
+      500:
+        description: Unexpected internal server error
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/serverResponse'
+
+  /api/v1/articles/{slug}/dislike:
+    post:
+      summary: Dislike Article
+      description: Endpoint for disliking an article
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Unique article slug
+          schema:
+            type: string
+      responses:
+        201:
+          description: article successfully disliked
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/likeDislikeArticleResponse'
+        200:
+          description: Article had been previously disliked by the user
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/previousArticleLikeDislikeResponse'
+        404:
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        401:
+          description: Authorization token not provided
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        500:
+          description: Unexpected internal server error
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/serverResponse'
+  delete:
+    summary: Remove dislike from an article
+    description: Endpoint for removing a dislike on an article
+    security:
+      - ApiKeyAuth: []
+    parameters:
+      - name: slug
+        in: path
+        required: true
+        description: Unique article slug
+        schema:
+          type: string
+    responses:
+      200:
+        description: article dislike removed successfully
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/removeArticleLikeDislikeResponse'
+      404:
+        description: Article not found
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/errorResponse'
+      401:
+        description: Authorization token not provided
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/errorResponse'
+      500:
+        description: Unexpected internal server error
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/serverResponse'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -1082,7 +1152,7 @@ components:
       properties:
         tags:
           type: array
-          items: 
+          items:
             type: string
             example: newCategoryy
     viewResponse:
@@ -1158,8 +1228,31 @@ components:
             status:
               type: string
               example: status is required
+    createCategory:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: newCategoryy
+    createCategoryResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: newCategoryy category successfully created
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 3
+            name:
+              type: string
+              example: newCategoryy
 
-    likeArticleResponse:
+    likeDislikeArticleResponse:
       type: object
       properties:
         message:
@@ -1171,45 +1264,46 @@ components:
             id:
               type: integer
               example: 1
-            authorId:
-              type: integer
-              example: 1
             slug:
               type: string
               example: how-to-train-your-dragon
             title:
               type: string
-              example: How to Train your Dragon
+              example: How to train your dragon
             description:
               type: string
               example: Ever wonder how?
             image:
               type: string
-              example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
+              example: 
             articleBody:
               type: string
               example: It takes a Jacobian
             likesCount:
               type: integer
-              example: 1
+              example: 0
             dislikesCount:
               type: integer
               example: 0
             publishedAt:
               type: string
               format: date-time
-              example: 2019-07-16T17:32:28Z
+              example: 2017-07-21T17:32:28Z
             isArchived:
               type: boolean
               example: false
             createdAt:
               type: string
               format: date-time
-              example: 2019-07-16T17:32:28Z
+              example: 2017-07-21T17:32:28Z
             updatedAt:
               type: string
               format: date-time
-              example: 2019-07-16T17:32:28Z
+              example: 2017-07-21T17:32:28Z
+            createdAt:
+              type: string
+              format: date-time
+              example: 2017-07-21T17:32:28Z
             likes:
               type: array
               items:
@@ -1230,210 +1324,8 @@ components:
                   createdAt:
                     type: string
                     format: date-time
-                    example: 2019-07-16T17:32:28Z
+                    example: 2017-07-21T17:32:28Z
                   updatedAt:
                     type: string
                     format: date-time
-                    example: 2019-07-16T17:32:28Z
-
-    dislikeArticleResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          example: dislike added successfully
-        article:
-          type: object
-          properties:
-            id:
-              type: integer
-              example: 1
-            authorId:
-              type: integer
-              example: 1
-            slug:
-              type: string
-              example: how-to-train-your-dragon
-            title:
-              type: string
-              example: How to Train your Dragon
-            description:
-              type: string
-              example: Ever wonder how?
-            image:
-              type: string
-              example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
-            articleBody:
-              type: string
-              example: It takes a Jacobian
-            likesCount:
-              type: integer
-              example: 1
-            dislikesCount:
-              type: integer
-              example: 1
-            publishedAt:
-              type: string
-              format: date-time
-              example: 2019-07-16T17:32:28Z
-            isArchived:
-              type: boolean
-              example: false
-            createdAt:
-              type: string
-              format: date-time
-              example: 2019-07-16T17:32:28Z
-            updatedAt:
-              type: string
-              format: date-time
-              example: 2019-07-16T17:32:28Z
-            dislikes:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 1
-                  userId:
-                    type: integer
-                    example: 1
-                  contentType:
-                    type: string
-                    example: article
-                  contentId:
-                    type: integer
-                    example: 1
-                  createdAt:
-                    type: string
-                    format: date-time
-                    example: 2019-07-16T17:32:28Z
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    example: 2019-07-16T17:32:28Z
-
-    articleNotFoundResponse:
-      type: object
-      properties:
-        error:
-          type: string
-          example: article not found
-
-    articleHadBeenLikedResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          example: you have already liked this article
-
-    articleHadBeenDislikedResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          example: you have already disliked this article
-
-    removeArticleLikeResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          example: like removed successfully
-        article:
-          type: object
-          properties:
-            id:
-              type: integer
-              example: 1
-            authorId:
-              type: integer
-              example: 1
-            slug:
-              type: string
-              example: how-to-train-your-dragon
-            title:
-              type: string
-              example: How to Train your Dragon
-            description:
-              type: string
-              example: Ever wonder how?
-            image:
-              type: string
-              example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
-            articleBody:
-              type: string
-              example: It takes a Jacobian
-            likesCount:
-              type: integer
-              example: 0
-            dislikesCount:
-              type: integer
-              example: 1
-            publishedAt:
-              type: string
-              format: date-time
-              example: 2019-07-16T17:32:28Z
-            isArchived:
-              type: boolean
-              example: false
-            createdAt:
-              type: string
-              format: date-time
-              example: 2019-07-16T17:32:28Z
-            updatedAt:
-              type: string
-              format: date-time
-              example: 2019-07-16T17:32:28Z
-
-    removeArticleDislikeResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          example: dislike removed successfully
-        article:
-          type: object
-          properties:
-            id:
-              type: integer
-              example: 1
-            authorId:
-              type: integer
-              example: 1
-            slug:
-              type: string
-              example: how-to-train-your-dragon
-            title:
-              type: string
-              example: How to Train your Dragon
-            description:
-              type: string
-              example: Ever wonder how?
-            image:
-              type: string
-              example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
-            articleBody:
-              type: string
-              example: It takes a Jacobian
-            likesCount:
-              type: integer
-              example: 1
-            dislikesCount:
-              type: integer
-              example: 0
-            publishedAt:
-              type: string
-              format: date-time
-              example: 2019-07-16T17:32:28Z
-            isArchived:
-              type: boolean
-              example: false
-            createdAt:
-              type: string
-              format: date-time
-              example: 2019-07-16T17:32:28Z
-            updatedAt:
-              type: string
-              format: date-time
-              example: 2019-07-16T17:32:28Z
+                    example: 2017-07-21T17:32:28Z

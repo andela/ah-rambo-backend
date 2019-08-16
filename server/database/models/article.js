@@ -83,7 +83,6 @@ export default (sequelize, DataTypes) => {
     const article = await Article.findOne({ where: { slug } });
     if (article) return article;
     return null;
-    // return article;
   };
 
   Article.associate = (models) => {

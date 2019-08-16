@@ -47,7 +47,7 @@ const customArticleResponse = async (
  * Create like or dislike for an article
  *
  * @name createLikeOrDislike
- * @param {String} userAction - Id of the user
+ * @param {String} userAction - Action user wants to perform (like/dislike)
  * @param {String|Number} userId - Id of the user
  * @param {Object} article - selected article object
  * @returns {JSON} JSON object with details of the liked/disliked article
@@ -178,7 +178,7 @@ const createLikeOrDislike = async (userAction, userId, article) => {
         where: { userId }
       });
       if (previousArticleLikes.length) {
-        return serverResponse(res, 400, {
+        return serverResponse(res, 200, {
           message: 'you have already liked this article'
         });
       }
@@ -223,7 +223,7 @@ const createLikeOrDislike = async (userAction, userId, article) => {
         where: { userId }
       });
       if (previousArticleDislikes.length) {
-        return serverResponse(res, 400, {
+        return serverResponse(res, 200, {
           message: 'you have already disliked this article'
         });
       }

@@ -9,6 +9,7 @@ import validatePagination from './paginationValidation';
 import validateArticle from './articleValidation';
 import authorizeUser from './authorizeUser';
 import validateCommentBody from './commentValidation';
+import createCategoryValidation from './createCategoryValidation';
 
 const middlewares = {
   verifyToken,
@@ -22,7 +23,8 @@ const middlewares = {
   validateResetPassword,
   validatePagination,
   authorizeUser,
-  validateCommentBody
+  validateCommentBody,
+  createCategoryValidation
 };
 
 export default middlewares;

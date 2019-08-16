@@ -10,6 +10,11 @@ export default {
       type: Sequelize.STRING,
       allowNull: false
     },
+    description: {
+      type: Sequelize.STRING(100),
+      allowNull: false,
+      defaultValue: ''
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE

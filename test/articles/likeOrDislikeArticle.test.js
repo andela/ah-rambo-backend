@@ -66,7 +66,7 @@ describe('POST Article Like Or Dislike', () => {
     });
 
     context('when an article had been liked by the user', () => {
-      it('returns status 400 and a notification message', async () => {
+      it('returns status 200 and a notification message', async () => {
         const slug = 'how-to-train-your-dragon';
         const res = await chai
           .request(app)
@@ -75,7 +75,7 @@ describe('POST Article Like Or Dislike', () => {
           .send({});
 
         const { body } = res;
-        expect(res).to.have.status(400);
+        expect(res).to.have.status(200);
         expect(body).to.haveOwnProperty('message');
         expect(body.message).to.match(/have already liked this article/i);
       });
@@ -149,7 +149,7 @@ describe('POST Article Like Or Dislike', () => {
     });
 
     context('when an article had been disliked by the user', () => {
-      it('returns status 400 and a notification message', async () => {
+      it('returns status 200 and a notification message', async () => {
         const slug = 'how-to-train-your-dragon-2';
         const res = await chai
           .request(app)
@@ -158,7 +158,7 @@ describe('POST Article Like Or Dislike', () => {
           .send({});
 
         const { body } = res;
-        expect(res).to.have.status(400);
+        expect(res).to.have.status(200);
         expect(body).to.haveOwnProperty('message');
         expect(body.message).to.match(/have already disliked this article/i);
       });
