@@ -96,7 +96,10 @@ const request = {
     tags: 'tech, business',
     category: 'sport'
   },
-  user: { id: 1 }
+  user: { id: 1 },
+  params: {
+    slug: 'unkown'
+  }
 };
 const fakeoutput = {
   likesCount: 0,
@@ -108,7 +111,8 @@ const fakeoutput = {
   image:
     'http://res.cloudinary.com/teamrambo50/image/upload/v1565734710/k5fspd6uo4b4fw2upxlq.png',
   authorId: 17,
-  slug: 'title'
+  slug: 'title',
+  isArchived: false
 };
 
 const badImage = {

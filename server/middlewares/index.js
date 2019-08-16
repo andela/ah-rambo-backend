@@ -10,6 +10,7 @@ import validateArticle from './articleValidation';
 import authorizeUser from './authorizeUser';
 import validateCommentBody from './commentValidation';
 import createCategoryValidation from './createCategoryValidation';
+import articleEditValidation from './articleEditValidation';
 
 const middlewares = {
   verifyToken,
@@ -24,7 +25,8 @@ const middlewares = {
   validatePagination,
   authorizeUser,
   validateCommentBody,
-  createCategoryValidation
+  createCategoryValidation,
+  articleEditValidation
 };
 
 export default middlewares;
