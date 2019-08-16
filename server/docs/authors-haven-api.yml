@@ -61,8 +61,8 @@ paths:
             schema:
               type: object
               required:
-              - email
-              - password
+                - email
+                - password
               properties:
                 userLogin:
                   type: string
@@ -78,25 +78,25 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/loginResponse"
+                '$ref': '#/components/schemas/loginResponse'
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         403:
           description: Incorrect username or password
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         500:
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
+                '$ref': '#/components/schemas/serverResponse'
   /api/v1/auth/facebook:
     get:
       summary: Route for signing new using facebook
@@ -114,13 +114,13 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/SocialUserSignUp"
+                '$ref': '#/components/SocialUserSignUp'
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SocialserverResponse"
+                '$ref': '#/components/schemas/SocialserverResponse'
 
   /api/v1/auth/google:
     get:
@@ -139,13 +139,13 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/SocialUserSignUp"
+                '$ref': '#/components/SocialUserSignUp'
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SocialserverResponse"
+                '$ref': '#/components/schemas/SocialserverResponse'
 
   /api/v1/auth/twitter:
     get:
@@ -164,25 +164,25 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/SocialUserSignUp"
+                '$ref': '#/components/SocialUserSignUp'
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SocialserverResponse"
-        "403":
+                '$ref': '#/components/schemas/SocialserverResponse'
+        '403':
           description: Incorrect username or password
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "500":
+                '$ref': '#/components/schemas/errorResponse'
+        '500':
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
+                '$ref': '#/components/schemas/serverResponse'
       security:
         - BearerAuth: []
   /api/v1/profiles/{username}/follow:
@@ -197,38 +197,38 @@ paths:
           required: true
           description: Username to follow
           schema:
-            type : string
+            type: string
       responses:
-        "200":
+        '200':
           description: follow successful
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/followResponse"
-        "401":
+                '$ref': '#/components/schemas/followResponse'
+        '401':
           description: token expired
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "404":
+                '$ref': '#/components/schemas/errorResponse'
+        '404':
           description: user not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "409":
+                '$ref': '#/components/schemas/errorResponse'
+        '409':
           description: user cannot perform this action
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "500":
+                '$ref': '#/components/schemas/errorResponse'
+        '500':
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
+                '$ref': '#/components/schemas/serverResponse'
     delete:
       summary: Unfollow user route
       description: Unfollow user route
@@ -240,77 +240,77 @@ paths:
           required: true
           description: Username to unfollow
           schema:
-            type : string
+            type: string
       responses:
-        "200":
+        '200':
           description: unfollow successful
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/unfollowResponse"
-        "401":
+                '$ref': '#/components/schemas/unfollowResponse'
+        '401':
           description: token expired
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "404":
+                '$ref': '#/components/schemas/errorResponse'
+        '404':
           description: user not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "409":
+                '$ref': '#/components/schemas/errorResponse'
+        '409':
           description: user cannot perform this action
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "500":
+                '$ref': '#/components/schemas/errorResponse'
+        '500':
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"  
-                
+                '$ref': '#/components/schemas/serverResponse'
+
   /api/v1/user/followings:
     get:
       summary: User followings route
-      description: Get all user followed by a particular user 
+      description: Get all user followed by a particular user
       security:
         - ApiKeyAuth: []
       responses:
-        "200":
+        '200':
           description: request successful
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/followingResponse"
-        "401":
+                '$ref': '#/components/schemas/followingResponse'
+        '401':
           description: token expired
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "404":
+                '$ref': '#/components/schemas/errorResponse'
+        '404':
           description: user not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "409":
+                '$ref': '#/components/schemas/errorResponse'
+        '409':
           description: user cannot perform this action
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "500":
+                '$ref': '#/components/schemas/errorResponse'
+        '500':
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
-                
+                '$ref': '#/components/schemas/serverResponse'
+
   /api/v1/user/followers:
     get:
       summary: User followers route
@@ -318,36 +318,36 @@ paths:
       security:
         - ApiKeyAuth: []
       responses:
-        "200":
+        '200':
           description: request successful
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/followerResponse"
-        "401":
+                '$ref': '#/components/schemas/followerResponse'
+        '401':
           description: token expired
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "404":
+                '$ref': '#/components/schemas/errorResponse'
+        '404':
           description: user not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "409":
+                '$ref': '#/components/schemas/errorResponse'
+        '409':
           description: user cannot perform this action
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "500":
+                '$ref': '#/components/schemas/errorResponse'
+        '500':
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
+                '$ref': '#/components/schemas/serverResponse'
   /api/v1/users/verifyEmail/{token}:
     get:
       parameters:
@@ -363,7 +363,7 @@ paths:
         200:
           description: Success. Email verification was successful
         500:
-          description: Internal server errorcomponents     
+          description: Internal server errorcomponents
 
   /api/v1/users/changePassword:
     patch:
@@ -378,18 +378,18 @@ paths:
       security:
         - ApiKeyAuth: []
       responses:
-        "200":
+        '200':
           description: user password changed successfully
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/changePasswordResponse"
-        "422":
+                '$ref': '#/components/schemas/changePasswordResponse'
+        '422':
           description: password does not match validaton errors
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/changePasswordErrorResponse"
+                '$ref': '#/components/schemas/changePasswordErrorResponse'
   /api/v1/users/resetpassword:
     post:
       summary: Request reset password link route
@@ -401,7 +401,7 @@ paths:
             schema:
               type: object
               required:
-              - email  
+                - email
               properties:
                 email:
                   type: string
@@ -412,13 +412,13 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/passwordResetLinkResponse"
+                '$ref': '#/components/schemas/passwordResetLinkResponse'
         404:
           description: email address not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         500:
           description: Server Error
           content:
@@ -437,8 +437,8 @@ paths:
             schema:
               type: object
               required:
-              - password
-              - confirmPassword  
+                - password
+                - confirmPassword
               properties:
                 password:
                   type: string
@@ -459,13 +459,13 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/passwordResetResponse"
+                '$ref': '#/components/schemas/passwordResetResponse'
         401:
           description: reset link has expired, invalid or been used
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         500:
           description: reset link has expired, invalid or been used
           content:
@@ -490,10 +490,10 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/serverResponse"          
-           
-  /api/v1/profiles/{id}:
+
+  /api/v1/profles/{id}:
     patch:
-      summary: Route for editing existing user 
+      summary: Route for editing existing user
       description: Allow existing users to edit their information
       security:
         - ApiKeyAuth: []
@@ -503,7 +503,7 @@ paths:
           required: true
           description: user id
           schema:
-            type : string
+            type: string
       requestBody:
         required: false
         content:
@@ -517,7 +517,7 @@ paths:
         409:
           description: Conflict. Email or username exists
         500:
-          description: Internal server error  
+          description: Internal server error
   /api/v1/profiles/{username}:
     get:
       parameters:
@@ -526,7 +526,7 @@ paths:
           required: true
           description: users username
           schema:
-            type : string
+            type: string
       summary: Route for getting other users profile
       description: Allow user to view other user details
       responses:
@@ -535,20 +535,19 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/viewResponse"
+                '$ref': '#/components/schemas/viewResponse'
         404:
           description: user does not exist
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         500:
-          description: Internal server error  
+          description: Internal server error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"                    
-          description: Internal server error
+                '$ref': '#/components/schemas/serverResponse'
   /api/v1/articles/create:
     post:
       summary: A user can create an article
@@ -573,13 +572,13 @@ paths:
       security:
         - ApiKeyAuth: []
       responses:
-        "200":
+        '200':
           description: user article created successfully
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/createArticleResponse"
-        "422":
+                '$ref': '#/components/schemas/createArticleResponse'
+        '422':
           description: validaton errors
           content:
             application/json:
@@ -604,6 +603,13 @@ paths:
                 comment:
                   type: text
                   example: This is a comment. 
+
+  /api/v1/articles/{slug}/like:
+    post:
+      summary: Like article route
+      description: The endpoint that enables a specific authenticated user to like an article. The article is fetched by a unique slug.
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: slug
@@ -638,6 +644,111 @@ paths:
 
     /api/v1/articles/{slug}/comments:
     get:
+          description: A unique slug generated for a specific article when it is created.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Article was successfully liked
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/likeArticleResponse'
+        '404':
+          description: Article to be liked was not found in the database
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/articleNotFoundResponse'
+        '400':
+          description: Article had already been liked by the user
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/articleHadBeenLikedResponse'
+        '500':
+          description: Unexpected internal server error
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/serverResponse'
+
+    delete:
+      summary: Remove an article like
+      description: The endpoint enables a specific authenticated user to remove a like he or she had added to an article. The article is fetched by a unique slug.
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          description: A unique slug generated for a specific article when it is created.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Article like was successfully removed
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/removeArticleLikeResponse'
+        '404':
+          description: Article whose like is to be removed was not found in the database
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/articleNotFoundResponse'
+        '500':
+          description: Unexpected internal server error
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/serverResponse'
+
+  /api/v1/articles/{slug}/dislike:
+    post:
+      summary: Dislike article route
+      description: The endpoint that enables a specific authenticated user to dislike an article. The article is fetched by a unique slug.
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          description: A unique slug generated for a specific article when it is created.
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Article was successfully disliked
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/dislikeArticleResponse'
+        '404':
+          description: Article to be disliked was not found in the database
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/articleNotFoundResponse'
+        '400':
+          description: Article had already been disliked by the user
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/articleHadBeenDislikedResponse'
+        '500':
+          description: Unexpected internal server error
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/serverResponse'
+
+    delete:
+      summary: Remove an article dislike
+      description: The endpoint enables a specific authenticated user to remove a dislike he or she had added to an article. The article is fetched by a unique slug.
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: slug
@@ -664,6 +775,29 @@ paths:
                 "$ref": "#/components/schemas/serverResponse" 
 
                      
+          description: A unique slug generated for a specific article when it is created.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Article dislike was successfully removed
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/removeArticleDislikeResponse'
+        '404':
+          description: Article whose dislike is to be removed was not found in the database
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/articleNotFoundResponse'
+        '500':
+          description: Unexpected internal server error
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/serverResponse'
+                
 components:
   securitySchemes:
     BearerAuth:
@@ -676,11 +810,11 @@ components:
   UserSignUp:
     type: object
     required:
-    - firstName
-    - lastName
-    - userName
-    - email
-    - password
+      - firstName
+      - lastName
+      - userName
+      - email
+      - password
     properties:
       firstName:
         type: string
@@ -703,12 +837,12 @@ components:
   SocialUserSignUp:
     type: object
     required:
-    - firstName
-    - lastName
-    - userName
-    - email
-    - password
-    - token
+      - firstName
+      - lastName
+      - userName
+      - email
+      - password
+      - token
     properties:
       id:
         type: string
@@ -737,8 +871,8 @@ components:
   changePasswordDetails:
     type: object
     required:
-    - password
-    - confirmPassword
+      - password
+      - confirmPassword
     properties:
       password:
         type: string
@@ -749,11 +883,11 @@ components:
   EditUser:
     type: object
     required:
-    - firstName
-    - lastName
-    - userName
-    - email
-    - avatarUrl
+      - firstName
+      - lastName
+      - userName
+      - email
+      - avatarUrl
     properties:
       firstName:
         type: string
@@ -778,7 +912,7 @@ components:
         user:
           type: object
           properties:
-            id: 
+            id:
               type: integer
               example: 1
             userName:
@@ -828,7 +962,7 @@ components:
             data:
               type: object
               properties:
-                id: 
+                id:
                   type: integer
                   example: 1
                 userId:
@@ -843,7 +977,7 @@ components:
         data:
           type: object
           properties:
-            id: 
+            id:
               type: integer
             message:
               type: string
@@ -856,7 +990,7 @@ components:
           items:
             type: object
             properties:
-              id: 
+              id:
                 type: integer
                 example: 1
               userId:
@@ -868,7 +1002,7 @@ components:
               following:
                 type: object
                 properties:
-                  id: 
+                  id:
                     type: integer
                     example: 1
                   userName:
@@ -891,7 +1025,7 @@ components:
           items:
             type: object
             properties:
-              id: 
+              id:
                 type: integer
                 example: 1
               userId:
@@ -903,7 +1037,7 @@ components:
               follower:
                 type: object
                 properties:
-                  id: 
+                  id:
                     type: integer
                     example: 1
                   userName:
@@ -954,7 +1088,7 @@ components:
     viewResponse:
       type: object
       properties:
-        id: 
+        id:
           type: integer
           example: 1
         firstName:
@@ -993,7 +1127,7 @@ components:
         image:
           type: string
           example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
-        authorId: 
+        authorId:
           type: integer
           example: 3
         publishedAt:
@@ -1024,13 +1158,282 @@ components:
             status:
               type: string
               example: status is required
-          
-          
-      
 
-        
+    likeArticleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: like added successfully
+        article:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            authorId:
+              type: integer
+              example: 1
+            slug:
+              type: string
+              example: how-to-train-your-dragon
+            title:
+              type: string
+              example: How to Train your Dragon
+            description:
+              type: string
+              example: Ever wonder how?
+            image:
+              type: string
+              example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
+            articleBody:
+              type: string
+              example: It takes a Jacobian
+            likesCount:
+              type: integer
+              example: 1
+            dislikesCount:
+              type: integer
+              example: 0
+            publishedAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z
+            isArchived:
+              type: boolean
+              example: false
+            createdAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z
+            updatedAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z
+            likes:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  userId:
+                    type: integer
+                    example: 1
+                  contentType:
+                    type: string
+                    example: article
+                  contentId:
+                    type: integer
+                    example: 1
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: 2019-07-16T17:32:28Z
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    example: 2019-07-16T17:32:28Z
 
+    dislikeArticleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: dislike added successfully
+        article:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            authorId:
+              type: integer
+              example: 1
+            slug:
+              type: string
+              example: how-to-train-your-dragon
+            title:
+              type: string
+              example: How to Train your Dragon
+            description:
+              type: string
+              example: Ever wonder how?
+            image:
+              type: string
+              example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
+            articleBody:
+              type: string
+              example: It takes a Jacobian
+            likesCount:
+              type: integer
+              example: 1
+            dislikesCount:
+              type: integer
+              example: 1
+            publishedAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z
+            isArchived:
+              type: boolean
+              example: false
+            createdAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z
+            updatedAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z
+            dislikes:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  userId:
+                    type: integer
+                    example: 1
+                  contentType:
+                    type: string
+                    example: article
+                  contentId:
+                    type: integer
+                    example: 1
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: 2019-07-16T17:32:28Z
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    example: 2019-07-16T17:32:28Z
 
+    articleNotFoundResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: article not found
 
+    articleHadBeenLikedResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: you have already liked this article
 
+    articleHadBeenDislikedResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: you have already disliked this article
 
+    removeArticleLikeResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: like removed successfully
+        article:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            authorId:
+              type: integer
+              example: 1
+            slug:
+              type: string
+              example: how-to-train-your-dragon
+            title:
+              type: string
+              example: How to Train your Dragon
+            description:
+              type: string
+              example: Ever wonder how?
+            image:
+              type: string
+              example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
+            articleBody:
+              type: string
+              example: It takes a Jacobian
+            likesCount:
+              type: integer
+              example: 0
+            dislikesCount:
+              type: integer
+              example: 1
+            publishedAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z
+            isArchived:
+              type: boolean
+              example: false
+            createdAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z
+            updatedAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z
+
+    removeArticleDislikeResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: dislike removed successfully
+        article:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            authorId:
+              type: integer
+              example: 1
+            slug:
+              type: string
+              example: how-to-train-your-dragon
+            title:
+              type: string
+              example: How to Train your Dragon
+            description:
+              type: string
+              example: Ever wonder how?
+            image:
+              type: string
+              example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
+            articleBody:
+              type: string
+              example: It takes a Jacobian
+            likesCount:
+              type: integer
+              example: 1
+            dislikesCount:
+              type: integer
+              example: 0
+            publishedAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z
+            isArchived:
+              type: boolean
+              example: false
+            createdAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z
+            updatedAt:
+              type: string
+              format: date-time
+              example: 2019-07-16T17:32:28Z

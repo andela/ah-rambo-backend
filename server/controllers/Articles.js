@@ -1,13 +1,89 @@
-import model from '../database/models';
+import models from '../database/models';
 import { imageUpload, serverResponse, serverError } from '../helpers';
 import Tags from './Tags';
 
-const { Article } = model;
+const { Article, Like, Dislike } = models;
+
+/**
+ * Returns server response for the article like/dislike operation
+ *
+ * @name customArticleResponse
+ * @param {Object} res - ExpressJS response object
+ * @param {Number} statusCode - Response status code
+ * @param {String} slug - Article slug
+ * @param {String|Number} userId - Id of the user
+ * @param {String} userAction - Action user wants to perform (like/dislike)
+ * @param {String} message - Custom response message for the client
+ * @returns {JSON} JSON object with details of the liked/disliked article
+ */
+const customArticleResponse = async (
+  res,
+  statusCode,
+  slug,
+  userId,
+  userAction,
+  message
+) => {
+  const includeLikeOrDislike = userAction === 'like'
+    ? [{ model: Like, as: 'likes', where: { userId } }]
+    : [{ model: Dislike, as: 'dislikes', where: { userId } }];
+
+  const article = userAction === 'removeLikeOrDislike'
+    ? await Article.findOne({
+      where: { slug }
+    })
+    : await Article.findOne({
+      where: { slug },
+      include: includeLikeOrDislike
+    });
+
+  return serverResponse(res, statusCode, {
+    message,
+    article
+  });
+};
+
+/**
+ * Create like or dislike for an article
+ *
+ * @name createLikeOrDislike
+ * @param {String} userAction - Id of the user
+ * @param {String|Number} userId - Id of the user
+ * @param {Object} article - selected article object
+ * @returns {JSON} JSON object with details of the liked/disliked article
+ */
+const createLikeOrDislike = async (userAction, userId, article) => {
+  const articleIdFilter = { where: { id: article.id } };
+  const model = userAction === 'like' ? Dislike : Like;
+  await model.destroy({
+    where: {
+      userId,
+      contentType: 'article',
+      contentId: article.id
+    }
+  });
+
+  if (userAction === 'like') {
+    const dislikesCount = await article.countDislikes();
+    await Article.update({ dislikesCount }, { where: { id: article.id } });
+
+    await article.createLike({ userId });
+    const likesCount = await article.countLikes();
+    await Article.update({ likesCount }, articleIdFilter);
+  } else {
+    const likesCount = await article.countLikes();
+    await Article.update({ likesCount }, articleIdFilter);
+
+    await article.createDislike({ userId });
+    const dislikesCount = await article.countDislikes();
+    await Article.update({ dislikesCount }, articleIdFilter);
+  }
+};
+
 /**
  * @export
  * @class Articles
- */
-class Articles {
+ */ class Articles {
   /**
    * @name createArticle
    * @async
@@ -76,5 +152,189 @@ class Articles {
       };
     }
   }
+
+  /**
+   * Adds like to an article
+   *
+   * @name addLike
+   * @async
+   * @static
+   * @memberof Articles
+   * @param { Object } req express request object
+   * @param { Object } res express response object
+   * @returns { JSON } Details of the article and the like / dislike object
+   */
+  static async addLike(req, res) {
+    const { id: userId } = req.user;
+    const { slug } = req.params;
+
+    try {
+      const article = await Article.findBySlug(slug);
+      if (!article) {
+        return serverResponse(res, 404, { error: 'article not found' });
+      }
+
+      const previousArticleLikes = await article.getLikes({
+        where: { userId }
+      });
+      if (previousArticleLikes.length) {
+        return serverResponse(res, 400, {
+          message: 'you have already liked this article'
+        });
+      }
+
+      await createLikeOrDislike('like', userId, article);
+      customArticleResponse(
+        res,
+        201,
+        slug,
+        userId,
+        'like',
+        'like added successfully'
+      );
+    } catch (error) {
+      return serverError(res);
+    }
+  }
+
+  /**
+   * Adds like or dislike to an article
+   * Adds dislike to an article
+   *
+   * @name addDislike
+   * @async
+   * @static
+   * @memberof Articles
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} Details of the article and the like/dislike object
+   */
+  static async addDislike(req, res) {
+    const { id: userId } = req.user;
+    const { slug } = req.params;
+
+    try {
+      const article = await Article.findBySlug(slug);
+      if (!article) {
+        return serverResponse(res, 404, { error: 'article not found' });
+      }
+
+      const previousArticleDislikes = await article.getDislikes({
+        where: { userId }
+      });
+      if (previousArticleDislikes.length) {
+        return serverResponse(res, 400, {
+          message: 'you have already disliked this article'
+        });
+      }
+
+      await createLikeOrDislike('dislike', userId, article);
+      customArticleResponse(
+        res,
+        201,
+        slug,
+        userId,
+        'dislike',
+        'dislike added successfully'
+      );
+    } catch (error) {
+      return serverError(res);
+    }
+  }
+
+  /**
+   * Removes like from an article
+   *
+   * @name removeLike
+   * @async
+   * @static
+   * @memberof Articles
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} Details of the article and the like/dislike object
+   */
+  static async removeLike(req, res) {
+    const { id: userId } = req.user;
+    const { slug } = req.params;
+
+    try {
+      const article = await Article.findBySlug(slug);
+      if (!article) {
+        return serverResponse(res, 404, { error: 'article not found' });
+      }
+
+      const articleIdFilter = { where: { id: article.id } };
+      const likeOrDislikeRemovalFilter = {
+        where: {
+          userId,
+          contentType: 'article',
+          contentId: article.id
+        }
+      };
+
+      await Like.destroy(likeOrDislikeRemovalFilter);
+      const likesCount = await article.countLikes();
+      await Article.update({ likesCount }, articleIdFilter);
+
+      customArticleResponse(
+        res,
+        200,
+        slug,
+        userId,
+        'removeLikeOrDislike',
+        'like removed successfully'
+      );
+    } catch (error) {
+      return serverError(res);
+    }
+  }
+
+  /**
+   * Removes dislike from an article
+   *
+   * @name removeDislike
+   * @async
+   * @static
+   * @memberof Articles
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} Details of the article and the like/dislike object
+   */
+  static async removeDislike(req, res) {
+    const { id: userId } = req.user;
+    const { slug } = req.params;
+
+    try {
+      const article = await Article.findBySlug(slug);
+      if (!article) {
+        return serverResponse(res, 404, { error: 'article not found' });
+      }
+
+      const articleIdFilter = { where: { id: article.id } };
+      const likeOrDislikeRemovalFilter = {
+        where: {
+          userId,
+          contentType: 'article',
+          contentId: article.id
+        }
+      };
+
+      await Dislike.destroy(likeOrDislikeRemovalFilter);
+      const dislikesCount = await article.countDislikes();
+      await Article.update({ dislikesCount }, articleIdFilter);
+
+      customArticleResponse(
+        res,
+        200,
+        slug,
+        userId,
+        'removeLikeOrDislike',
+        'dislike removed successfully'
+      );
+    } catch (error) {
+      return serverError(res);
+    }
+  }
 }
+
 export default Articles;

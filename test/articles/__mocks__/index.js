@@ -93,6 +93,15 @@ const badImage = {
   tags: 'tech,business'
 };
 
+const authenticatedUser = {
+  firstName: faker.name.firstName(),
+  lastName: faker.name.lastName(),
+  userName: 'ahRambo50',
+  email: 'authors.haven@haven.com',
+  password: 'authors.haven@haven.com',
+  confirmPassword: 'authors.haven@haven.com'
+};
+
 export {
   ArticleData,
   ArticleData2,
@@ -104,5 +113,6 @@ export {
   invalidArticleData,
   ArticleData4,
   badImage,
-  ArticleData10
+  ArticleData10,
+  authenticatedUser
 };

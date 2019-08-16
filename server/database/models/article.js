@@ -83,6 +83,7 @@ export default (sequelize, DataTypes) => {
     const article = await Article.findOne({ where: { slug } });
     if (article) return article;
     return null;
+    // return article;
   };
 
   Article.associate = (models) => {
@@ -104,6 +105,21 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'articleId',
       as: 'comments'
     });
+
+    Article.hasMany(models.Like, {
+      foreignKey: 'contentId',
+      as: 'likes',
+      scope: {
+        contentType: 'article'
+      }
+    });
+    Article.hasMany(models.Dislike, {
+      foreignKey: 'contentId',
+      as: 'dislikes',
+      scope: {
+        contentType: 'article'
+      }
+    });
   };
 
   SequelizeSlugify.slugifyModel(Article, {
@@ -111,5 +127,6 @@ export default (sequelize, DataTypes) => {
     overwrite: false,
     replacement: '-'
   });
+
   return Article;
 };
