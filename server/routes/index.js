@@ -9,6 +9,7 @@ import article from './article';
 import tag from './tag';
 import comment from './comment';
 import category from './category';
+import search from './search';
 
 const route = express.Router();
 
@@ -21,5 +22,6 @@ route.use('/articles', article);
 route.use('/tags', tag);
 route.use('/articles', article, comment);
 route.use('/categories', category);
+route.use('/search', search);
 
 export default route;

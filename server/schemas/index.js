@@ -4,6 +4,7 @@ import paginationSchema from './pagination';
 import article from './article';
 import comment from './comment';
 import category from './category';
+import searchSchema from './search';
 
 export {
   userSignup,
@@ -11,5 +12,6 @@ export {
   category,
   article,
   paginationSchema,
-  comment
+  comment,
+  searchSchema
 };

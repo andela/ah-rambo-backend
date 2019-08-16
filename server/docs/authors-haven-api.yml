@@ -703,7 +703,52 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/serverResponse"
-                     
+
+  /api/v1/search/?user=JhayXXX:
+    get:
+      summary: Route for searching users, articles or tags
+      description: Pass in a user, tag, or article and a value to search for
+      parameters:
+        - in: query
+          name: user
+          description: value to search for from registered users
+          schema:
+            type : string
+        - in: query
+          name: tags
+          description: value to search for from available tags
+          schema:
+            type : string
+        - in: query
+          name: article
+          description: value to search for from articles created
+          schema:
+            type : string
+        - in: query
+          name: global
+          description: value to search for across all tables
+          schema:
+            type : string
+      responses:
+        200:
+          description: search details fetched successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/viewResponse"
+        404:
+          description: no items matching the search query were found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        500:
+          description: Internal server error  
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"   
+
 components:
   securitySchemes:
     BearerAuth:

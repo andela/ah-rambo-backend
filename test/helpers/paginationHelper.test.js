@@ -16,7 +16,7 @@ describe('Pagination values function test', () => {
       const values = paginationValues({ page: 2, pageItems: 7 });
       expect(values).to.be.an('object');
       expect(values).to.have.property('offset', 7);
-      expect(values).to.have.property('limit', 14);
+      expect(values).to.have.property('limit', 7);
     });
   });
 });
@@ -33,7 +33,7 @@ context('when the pagination function is called with characters', () => {
     const values = paginationValues({ page: 4, pageItems: 't' });
     expect(values).to.be.an('object');
     expect(values).to.have.property('offset', 30);
-    expect(values).to.have.property('limit', 40);
+    expect(values).to.have.property('limit', 10);
   });
 
   it('returns the default values for offset passed a character', () => {
@@ -60,6 +60,14 @@ describe('Page Counter Test', () => {
       expect(values).to.be.an('object');
       expect(totalPages).to.equal(4);
       expect(itemsOnPage).to.equal(7);
+    });
+
+    it('returns correct information on items on page', () => {
+      const values = pageCounter(4, 4, 8);
+      const { totalPages, itemsOnPage } = values;
+      expect(values).to.be.an('object');
+      expect(totalPages).to.equal(1);
+      expect(itemsOnPage).to.equal(0);
     });
   });
 });

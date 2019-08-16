@@ -1,10 +1,10 @@
 /**
- * @name paginationValues
- * @description function that returns offset and limit for pagination
- * @param {Object} query object with page and pageItems as integers
- * @returns {(offset|limit)} offset and limit to pagenate request
+ * @name pageParser
+ * @param {Number} page Page number to be returned
+ * @param {Number} pageItems Number of items on page
+ * @returns {Object} parsed values of arguments
  */
-const paginationValues = ({ page, pageItems }) => {
+const pageParser = (page, pageItems) => {
   const defaultPage = 1;
   const defaultPageItems = 10;
   const base = 10;
@@ -19,8 +19,19 @@ const paginationValues = ({ page, pageItems }) => {
     parsedPageItems = defaultPageItems;
   }
 
+  return { parsedPage, parsedPageItems };
+};
+
+/**
+ * @name paginationValues
+ * @description function that returns offset and limit for pagination
+ * @param {Object} query object with page and pageItems as integers
+ * @returns {(offset|limit)} offset and limit to pagenate request
+ */
+const paginationValues = ({ page, pageItems }) => {
+  const { parsedPage, parsedPageItems } = pageParser(page, pageItems);
   const offset = (parsedPage - 1) * parsedPageItems;
-  const limit = offset + parsedPageItems;
+  const limit = parsedPageItems;
   return { offset, limit };
 };
 
@@ -32,11 +43,18 @@ const paginationValues = ({ page, pageItems }) => {
  * @returns {(totalPages|itemsOnPage)} object with number of items returned
  */
 const pageCounter = (count, page, pageItems) => {
-  const totalPages = Math.ceil(count / pageItems);
-  const lastPage = count - (page - 1) * pageItems;
-  const totalPageCheck = totalPages === page || totalPages === 0;
-  const itemsOnPage = totalPageCheck ? lastPage : pageItems;
-  return { totalPages, itemsOnPage };
+  const { parsedPage, parsedPageItems } = pageParser(page, pageItems);
+  let itemsOnPage;
+  const totalPages = Math.ceil(count / parsedPageItems);
+  const lastPage = count - (parsedPage - 1) * parsedPageItems;
+  const totalPageCheck = totalPages === parsedPage;
+  if (totalPages < parsedPage) {
+    itemsOnPage = 0;
+  } else {
+    itemsOnPage = totalPageCheck ? lastPage : parsedPageItems;
+  }
+
+  return { totalPages, itemsOnPage, parsedPage };
 };
 
 export { paginationValues, pageCounter };

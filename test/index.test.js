@@ -12,6 +12,7 @@ import './articles';
 import './tags';
 import './comments';
 import './categories';
+import './search';
 
 const { expect } = chai;
 chai.use(chaiHttp);
