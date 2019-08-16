@@ -109,7 +109,7 @@ describe('Add Comments to Article Tests', async () => {
   context(
     `
   when authenticated user attempts submitting number 
-  of chars above required`,
+  of chars above 5000`,
     () => {
       it('returns error', async () => {
         const res = await chai
