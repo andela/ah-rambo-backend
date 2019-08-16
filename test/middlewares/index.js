@@ -5,6 +5,7 @@ import * as checkUserVerification from './checkUserVerification.test';
 import * as paginationValidation from './paginationValidation.test';
 import * as authorizeUser from './authorizeUser.test';
 import './commentValidation.test';
+import * as createCategoryValidation from './createCategoryValidation.test';
 
 export default {
   verifyToken,
@@ -12,5 +13,6 @@ export default {
   profileValidation,
   checkUserVerification,
   paginationValidation,
-  authorizeUser
+  authorizeUser,
+  createCategoryValidation
 };
