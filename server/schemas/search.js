@@ -18,10 +18,6 @@ export default {
     .optional()
     .min(1)
     .error(setCustomMessage('Global')),
-  category: Joi.string()
-    .optional()
-    .min(1)
-    .error(setCustomMessage('Global')),
   page: Joi.number()
     .optional()
     .min(1)
@@ -29,5 +25,5 @@ export default {
   pageItems: Joi.number()
     .optional()
     .min(1)
-    .error(setCustomMessage('Page Size'))
+    .error(setCustomMessage('Page Items'))
 };

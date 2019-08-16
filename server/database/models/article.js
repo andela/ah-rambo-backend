@@ -96,7 +96,6 @@ export default (sequelize, DataTypes) => {
   Article.associate = (models) => {
     Article.belongsTo(models.User, {
       foreignKey: 'authorId',
-      as: 'Author',
       onDelete: 'CASCADE'
     });
     Article.belongsToMany(models.Tag, {
