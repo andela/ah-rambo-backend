@@ -56,4 +56,20 @@ const getUserThatEditsProfile = () => {
   return userThatEditsProfile;
 };
 
-export { getNewUser, getNewUserWithProfile, getUserThatEditsProfile };
+/**
+ * @name getComment
+ * @returns {Object} comment characters
+ */
+const getComment = () => {
+  const comment = {
+    valid: faker.lorem.paragraphs(5)
+  };
+  return comment.valid;
+};
+
+export {
+  getNewUser,
+  getNewUserWithProfile,
+  getUserThatEditsProfile,
+  getComment
+};

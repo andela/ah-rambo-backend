@@ -425,6 +425,7 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/serverResponse"
+
   /api/v1/users/resetpassword/{token}:
     patch:
       summary: Reset password route
@@ -583,7 +584,86 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/changeArticleErrorResponse"                  
+                "$ref": "#/components/schemas/changeArticleErrorResponse" 
+
+  /api/v1/articles/{slug}/comments:
+    post:
+      summary: Authenticated user can make comment
+      description: Route allows users to add comments tom article
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - comment
+              properties:
+                comment:
+                  type: text
+                  example: This is a comment. 
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+          description: Article Slug
+      responses:
+        201:
+          description: Comment Added
+
+        404:
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+
+        422:
+          description: comment validation error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+
+        500:
+          description: Internal server error  
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"  
+
+    /api/v1/articles/{slug}/comments:
+    get:
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+          description: Article Slug
+      summary: Route for getting comments of an article
+      description: Allow fetching of all comments 
+      responses:
+        200:
+          description: user fetched all comments on article successfully
+        404:
+          description: article not found/no comments on article
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        500:
+          description: Internal server error  
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse" 
+
+                     
 components:
   securitySchemes:
     BearerAuth:

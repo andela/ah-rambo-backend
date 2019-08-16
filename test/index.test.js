@@ -10,6 +10,7 @@ import './followers';
 import './profiles';
 import './articles';
 import './tags';
+import './comments';
 
 const { expect } = chai;
 chai.use(chaiHttp);

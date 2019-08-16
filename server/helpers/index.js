@@ -17,6 +17,7 @@ import {
   formatTag,
   removeDuplicateTags
 } from './tagHelpers';
+import isFollowing from './isFollowing';
 
 const { expiryDate } = dateHelper;
 const { sendResetPasswordEmail, sendVerificationEmail } = emailTemplates;
@@ -42,5 +43,6 @@ export {
   pageCounter,
   removeSpecialCharacters,
   formatTag,
-  removeDuplicateTags
+  removeDuplicateTags,
+  isFollowing
 };

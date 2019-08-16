@@ -79,6 +79,12 @@ export default (sequelize, DataTypes) => {
     return article;
   };
 
+  Article.findBySlug = async (slug) => {
+    const article = await Article.findOne({ where: { slug } });
+    if (article) return article;
+    return null;
+  };
+
   Article.associate = (models) => {
     Article.belongsTo(models.User, {
       foreignKey: 'authorId',
@@ -93,7 +99,13 @@ export default (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE'
     });
+
+    Article.hasMany(models.Comment, {
+      foreignKey: 'articleId',
+      as: 'comments'
+    });
   };
+
   SequelizeSlugify.slugifyModel(Article, {
     source: ['title'],
     overwrite: false,
