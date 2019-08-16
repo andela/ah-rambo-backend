@@ -107,6 +107,69 @@ class Comments {
       serverError(res);
     }
   }
+
+  /**
+   * @name delete
+   * @async
+   * @static
+   * @memberof Comments
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} JSON object with message on deleted message
+   */
+  static async delete(req, res) {
+    try {
+      const { slug, id } = req.params;
+      const { id: userId } = req.user;
+      const article = await Article.findBySlug(slug);
+      if (!article) {
+        return serverResponse(res, 404, { error: 'article not found' });
+      }
+      const articleId = article.id;
+      const deleteComment = await Comment.destroy({
+        where: { id, articleId, userId }
+      });
+      if (!deleteComment) {
+        return serverResponse(res, 404, { error: 'comment not found' });
+      }
+      return serverResponse(res, 200, { message: 'comment deleted' });
+    } catch (error) {
+      serverError(res);
+    }
+  }
+
+  /**
+   * @name update
+   * @async
+   * @static
+   * @memberof Comments
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} JSON object with details of update message
+   */
+  static async update(req, res) {
+    try {
+      const { slug, id } = req.params;
+      const { id: userId } = req.user;
+      let { comment } = req.body;
+      const article = await Article.findBySlug(slug);
+      if (!article) {
+        return serverResponse(res, 404, { error: 'article not found' });
+      }
+      const articleId = article.id;
+      const [rowsUpdate, [updatedComment]] = await Comment.update(
+        { comment },
+        { returning: true, where: { id, userId, articleId } }
+      );
+      if (rowsUpdate < 1) {
+        return serverResponse(res, 404, { error: 'comment not found' });
+      }
+      comment = updatedComment.dataValues;
+      return serverResponse(res, 200, { message: 'comment updated', comment });
+    } catch (error) {
+      serverError(res);
+    }
+  }
 }
 
 export default Comments;

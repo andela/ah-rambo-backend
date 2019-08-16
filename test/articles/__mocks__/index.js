@@ -33,6 +33,13 @@ const ArticleData2 = {
   tags: 'tech,business'
 };
 
+const ArticleData20 = {
+  title: ' is simply dummy text of the printing and typesetting ',
+  description: 'ext ever since the 1500s, when an unknown printer',
+  articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
+  status: 'publish'
+};
+
 const noTagArticleData = {
   title: ' is simply dummy text of the printing and typesetting ',
   description: 'ext ever since the 1500s, when an unknown printer',
@@ -104,5 +111,6 @@ export {
   invalidArticleData,
   ArticleData4,
   badImage,
-  ArticleData10
+  ArticleData10,
+  ArticleData20
 };

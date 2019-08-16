@@ -67,9 +67,22 @@ const getComment = () => {
   return comment.valid;
 };
 
+/**
+ * @name sampleCategory
+ * @returns {Object} details of a user that wants to edit profile
+ */
+const sampleCategory = () => {
+  const sample = {
+    name: faker.commerce.department(),
+    description: faker.lorem.sentence()
+  };
+  return sample;
+};
+
 export {
   getNewUser,
   getNewUserWithProfile,
   getUserThatEditsProfile,
-  getComment
+  getComment,
+  sampleCategory
 };

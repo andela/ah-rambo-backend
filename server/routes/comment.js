@@ -20,6 +20,23 @@ route.post(
   Comments.create
 );
 
+route.patch(
+  '/:slug/comments/:id',
+  verifyToken,
+  getSessionFromToken,
+  checkUserVerification,
+  validateCommentBody,
+  Comments.update
+);
+
+route.delete(
+  '/:slug/comments/:id',
+  verifyToken,
+  getSessionFromToken,
+  checkUserVerification,
+  Comments.delete
+);
+
 route.get('/:slug/comments', Comments.getArticleComments);
 
 export default route;
