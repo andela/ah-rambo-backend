@@ -12,6 +12,11 @@ import emailTemplates from './emailTemplates';
 import verifyResetPasswordToken from './verifyResetPasswordToken';
 import userResponse from './userResponse';
 import { paginationValues, pageCounter } from './paginationHelper';
+import {
+  removeSpecialCharacters,
+  formatTag,
+  removeDuplicateTags
+} from './tagHelpers';
 
 const { expiryDate } = dateHelper;
 const { sendResetPasswordEmail, sendVerificationEmail } = emailTemplates;
@@ -34,5 +39,8 @@ export {
   verifyResetPasswordToken,
   userResponse,
   paginationValues,
-  pageCounter
+  pageCounter,
+  removeSpecialCharacters,
+  formatTag,
+  removeDuplicateTags
 };

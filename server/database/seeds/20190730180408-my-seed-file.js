@@ -53,6 +53,24 @@ export default {
         level: 4,
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        firstName: 'demo',
+        lastName: 'user',
+        userName: 'demoUser',
+        email: 'demoUser@gmail.com',
+        password:
+            '$2y$12$3t1adkk7/grjsz2cG5hlXOTO8LwZUmGeG7zs6udoH78MeoPNmXQ.y',
+        bio: 'This is a simple bio of demo user',
+        role: 'superadmin',
+        level: 5,
+        followingsCount: 1,
+        followersCount: 1,
+        identifiedBy: 'username',
+        location: 'Lagos, Nigeria',
+        occupation: 'Software Engineer',
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ],
     {}

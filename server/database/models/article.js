@@ -74,10 +74,23 @@ export default (sequelize, DataTypes) => {
     },
     {}
   );
+  Article.findById = async (id) => {
+    const article = await Article.findOne({ where: { id } });
+    return article;
+  };
+
   Article.associate = (models) => {
     Article.belongsTo(models.User, {
       foreignKey: 'authorId',
       as: 'Author',
+      onDelete: 'CASCADE'
+    });
+    Article.belongsToMany(models.Tag, {
+      foreignKey: 'articleId',
+      otherKey: 'tagId',
+      through: 'ArticleTags',
+      as: 'tags',
+      onUpdate: 'CASCADE',
       onDelete: 'CASCADE'
     });
   };
