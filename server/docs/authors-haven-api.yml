@@ -548,7 +548,6 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/serverResponse"                    
-          description: Internal server error
   /api/v1/articles/create:
     post:
       summary: A user can create an article
@@ -570,6 +569,8 @@ paths:
                 image:
                   type: string
                   format: binary
+                tags:
+                  type: string
       security:
         - ApiKeyAuth: []
       responses:
@@ -614,14 +615,12 @@ paths:
       responses:
         201:
           description: Comment Added
-
         404:
           description: Article not found
           content:
             application/json:
               schema:
                 "$ref": "#/components/schemas/errorResponse"
-
         422:
           description: comment validation error
           content:
@@ -634,9 +633,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"  
-
-    /api/v1/articles/{slug}/comments:
+                "$ref": "#/components/schemas/serverResponse"
     get:
       parameters:
         - in: path
@@ -661,8 +658,51 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse" 
+                "$ref": "#/components/schemas/serverResponse"   
 
+  /api/v1/categories/create:
+    post:
+      summary: Logged In admin user can create a category
+      description: Create category
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createCategory'
+      responses:
+        200:
+          description: category successfully created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/createCategoryResponse"
+        401:
+          description: token expired
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        404:
+          description: user not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        409:
+          description: category already exists
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        500:
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"
                      
 components:
   securitySchemes:
@@ -1024,13 +1064,26 @@ components:
             status:
               type: string
               example: status is required
-          
-          
-      
-
-        
-
-
-
-
-
+    createCategory:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: newCategoryy
+    createCategoryResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: newCategoryy category successfully created
+        data:
+          type: object
+          properties:
+            id: 
+              type: integer
+              example: 3
+            name:
+              type: string
+              example: newCategoryy

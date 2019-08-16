@@ -56,12 +56,14 @@ export default {
       },
       {
         firstName: 'demo',
-        lastName: 'user',
+        lastName: 'User',
         userName: 'demoUser',
         email: 'demoUser@gmail.com',
         password:
-            '$2y$12$3t1adkk7/grjsz2cG5hlXOTO8LwZUmGeG7zs6udoH78MeoPNmXQ.y',
-        bio: 'This is a simple bio of demo user',
+            '$2a$10$0dVjZKAHBb6Lg.dnujRwme1WbhMAfCIj02uptPxO.u5gNIi5DoqtW',
+        avatarUrl:
+            'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png',
+        bio: 'This is a simple bio of Escanor the sin of pride',
         role: 'superadmin',
         level: 5,
         followingsCount: 1,
