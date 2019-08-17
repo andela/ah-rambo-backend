@@ -1,4 +1,5 @@
 import SequelizeSlugify from 'sequelize-slugify';
+import { Op } from 'sequelize';
 
 export default (sequelize, DataTypes) => {
   const Article = sequelize.define(
@@ -82,6 +83,127 @@ export default (sequelize, DataTypes) => {
     },
     {}
   );
+
+  Article.getSearchVector = () => '_search';
+
+  Article.search = async (query, limit, offset) => {
+    query = sequelize.getQueryInterface().escape(query);
+
+    const queryResult = await sequelize.query(
+      `
+      SELECT "Article".*, "comments"."comment" AS "comment",
+      "comments->author"."firstName" AS "firstName", 
+      "comments->author"."lastName" AS "lastName", 
+      "comments->author"."userName" AS "userName", 
+      "comments->author"."avatarUrl" AS "avatarUrl"
+      FROM (SELECT "Article"."id", "Article"."slug", "Article"."title", 
+      "Article"."description", "Article"."image", "Article"."articleBody", 
+      "Article"."likesCount", "Article"."dislikesCount", 
+      "Article"."publishedAt" FROM "Articles" AS "Article" WHERE 
+      "${Article.getSearchVector()}" @@ plainto_tsquery('english', ${query})
+      AND "Article"."isArchived" = false AND "Article"."publishedAt" IS NOT NULL
+      LIMIT ${limit} OFFSET ${offset}) 
+      AS "Article" LEFT OUTER JOIN "Comments" AS "comments" 
+      ON "Article"."id" = "comments"."articleId" LEFT OUTER JOIN
+      "Users" AS "comments->author" 
+      ON "comments"."userId" = "comments->author"."id"
+      `
+    );
+
+    if (!queryResult[0].length) return { count: 0, results: [] };
+
+    const formattedResponse = queryResult[0].map((item, index, array) => {
+      const comments = [];
+
+      if (item.comment) {
+        comments.push({
+          comment: item.comment,
+          author: {
+            firstName: item.firstName,
+            lastName: item.lastName,
+            userName: item.userName,
+            avatarUrl: item.avatarUrl
+          }
+        });
+      }
+
+      ['comment', 'firstName', 'lastName', 'userName', 'avatarUrl'].forEach(
+        prop => delete item[prop]
+      );
+
+      item.comments = comments;
+      return array;
+    });
+
+    const items = formattedResponse[0];
+
+    const results = items.reduce((acc, value) => {
+      const key = value.id;
+      if (acc[key]) {
+        acc[key] = {
+          ...acc[key],
+          comments: [...acc[key].comments, { ...value.comments[0] }]
+        };
+      } else {
+        acc[key] = { ...value };
+      }
+      return acc;
+    }, {});
+
+    return { count: queryResult[1].rowCount, results: [results] };
+  };
+
+  Article.findByPage = async (offset, limit, models) => {
+    const { count, rows } = await Article.findAndCountAll({
+      distinct: true,
+      where: {
+        isArchived: false,
+        publishedAt: {
+          [Op.ne]: null
+        }
+      },
+      attributes: [
+        'slug',
+        'title',
+        'description',
+        'image',
+        'articleBody',
+        'likesCount',
+        'dislikesCount',
+        'publishedAt'
+      ],
+      limit,
+      offset,
+      include: [
+        {
+          model: models.Comment,
+          as: 'comments',
+          attributes: ['comment'],
+          include: [
+            {
+              model: models.User,
+              as: 'author',
+              attributes: [
+                'firstName',
+                'lastName',
+                'userName',
+                'avatarUrl',
+                'bio'
+              ]
+            }
+          ]
+        },
+        {
+          model: models.Tag,
+          as: 'tags',
+          attributes: ['name'],
+          through: { attributes: [] }
+        }
+      ]
+    });
+    return { count, results: rows };
+  };
+
   Article.findById = async (id) => {
     const article = await Article.findOne({ where: { id } });
     return article;
@@ -96,6 +218,7 @@ export default (sequelize, DataTypes) => {
   Article.associate = (models) => {
     Article.belongsTo(models.User, {
       foreignKey: 'authorId',
+      as: 'Author',
       onDelete: 'CASCADE'
     });
     Article.belongsToMany(models.Tag, {

@@ -6,10 +6,7 @@ export default {
     .optional()
     .min(1)
     .error(setCustomMessage('User')),
-  article: Joi.string()
-    .optional()
-    .min(1)
-    .error(setCustomMessage('Article')),
+  article: Joi.optional().error(setCustomMessage('Article')),
   tag: Joi.string()
     .optional()
     .min(1)
@@ -18,6 +15,10 @@ export default {
     .optional()
     .min(1)
     .error(setCustomMessage('Global')),
+  category: Joi.string()
+    .optional()
+    .min(1)
+    .error(setCustomMessage('Category')),
   page: Joi.number()
     .optional()
     .min(1)

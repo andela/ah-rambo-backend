@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+
 export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: {
@@ -190,6 +192,48 @@ export default (sequelize, DataTypes) => {
     );
     return user[0];
   };
+
+  User.search = async (_, limit, offset, searchFields, models) => {
+    const { count, rows } = await User.findAndCountAll({
+      distinct: true,
+      where: {
+        [Op.or]: searchFields
+      },
+      attributes: [
+        'firstName',
+        'lastName',
+        'userName',
+        'identifiedBy',
+        'avatarUrl',
+        'bio',
+        'followingsCount',
+        'followersCount'
+      ],
+      limit,
+      offset,
+      include: [
+        {
+          model: models.Article,
+          as: 'articles',
+          attributes: [
+            'slug',
+            'title',
+            'description',
+            'image',
+            'articleBody',
+            'likesCount',
+            'dislikesCount',
+            'publishedAt'
+          ],
+          include: [
+            { model: models.Comment, as: 'comments', attributes: ['comment'] }
+          ]
+        }
+      ]
+    });
+    return { count, results: rows };
+  };
+
   User.associate = (models) => {
     User.hasMany(models.Session, {
       foreignKey: 'userId',
