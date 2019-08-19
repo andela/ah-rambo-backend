@@ -25,5 +25,9 @@ export default {
     .optional()
     .min(2)
     .max(250)
-    .error(setCustomMessage('tags'))
+    .error(setCustomMessage('tags')),
+  category: Joi.string()
+    .required()
+    .min(2)
+    .error(setCustomMessage('category'))
 };

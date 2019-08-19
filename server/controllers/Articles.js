@@ -80,6 +80,12 @@ const createLikeOrDislike = async (userAction, userId, article) => {
   }
 };
 
+import { Op } from 'sequelize';
+import model from '../database/models';
+import { imageUpload, serverResponse, serverError } from '../helpers';
+import Tags from './Tags';
+
+const { Article, Category } = model;
 /**
  * @export
  * @class Articles
@@ -101,25 +107,36 @@ const createLikeOrDislike = async (userAction, userId, article) => {
         body,
         user: { id }
       } = req;
-      const { status, articleBody, tags } = body;
+      const { status, articleBody, category } = body;
+      let { tags } = body;
 
       const publishedAt = status === 'draft' || articleBody === undefined ? null : Date.now();
       let createTags;
+      const categoryDetails = await Category.findOne({
+        where: { [Op.or]: [{ name: category }, { name: 'other' }] }
+      });
+      if (categoryDetails.name === 'other') tags += `,${category}`;
       if (tags) {
         createTags = await Tags.create(tags);
         const error = Articles.canTag(createTags);
         if (error) return serverResponse(res, error.status, error.message);
       }
       if (file) image = await imageUpload(req);
+
       const myArticle = await Article.create({
         ...body,
         image,
         authorId: id,
-        publishedAt
+        publishedAt,
+        categoryId: categoryDetails.id
       });
-
       const associateTags = (await Tags.associateArticle(myArticle.id, createTags)) || [];
       myArticle.dataValues.tagList = associateTags;
+      myArticle.dataValues.category = {
+        id: myArticle.categoryId,
+        name: categoryDetails.name
+      };
+      delete myArticle.dataValues.categoryId;
       return serverResponse(res, 200, myArticle.dataValues);
     } catch (error) {
       return serverError(res);

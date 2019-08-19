@@ -3,6 +3,11 @@ export default {
     'Categories',
     [
       {
+        name: 'other',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
         name: 'Arts & Entertainment',
         createdAt: new Date(),
         updatedAt: new Date()
