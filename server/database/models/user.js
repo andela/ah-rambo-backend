@@ -222,10 +222,11 @@ export default (sequelize, DataTypes) => {
       as: 'ResetPassword',
       onDelete: 'CASCADE'
     });
+
     User.hasMany(models.Article, {
       foreignKey: 'authorId',
       onDelete: 'CASCADE',
-      as: 'AuthorArticles'
+      as: 'articles'
     });
 
     User.hasMany(models.Comment, {

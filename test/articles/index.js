@@ -1,3 +1,5 @@
 import * as createArticle from './create.test';
+import * as likeOrDislikeArticle from './likeOrDislikeArticle.test';
+import * as removeArticleLikeOrDislike from './removeArticleLikeOrDislike.test';
 
-export default createArticle;
+export { createArticle, likeOrDislikeArticle, removeArticleLikeOrDislike };

@@ -61,8 +61,8 @@ paths:
             schema:
               type: object
               required:
-              - email
-              - password
+                - email
+                - password
               properties:
                 userLogin:
                   type: string
@@ -78,25 +78,25 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/loginResponse"
+                '$ref': '#/components/schemas/loginResponse'
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         403:
           description: Incorrect username or password
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         500:
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
+                '$ref': '#/components/schemas/serverResponse'
   /api/v1/auth/facebook:
     get:
       summary: Route for signing new using facebook
@@ -114,13 +114,13 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/SocialUserSignUp"
+                '$ref': '#/components/SocialUserSignUp'
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SocialserverResponse"
+                '$ref': '#/components/schemas/SocialserverResponse'
 
   /api/v1/auth/google:
     get:
@@ -139,13 +139,13 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/SocialUserSignUp"
+                '$ref': '#/components/SocialUserSignUp'
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SocialserverResponse"
+                '$ref': '#/components/schemas/SocialserverResponse'
 
   /api/v1/auth/twitter:
     get:
@@ -164,25 +164,25 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/SocialUserSignUp"
+                '$ref': '#/components/SocialUserSignUp'
         400:
           description: Bad request
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/SocialserverResponse"
-        "403":
+                '$ref': '#/components/schemas/SocialserverResponse'
+        '403':
           description: Incorrect username or password
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "500":
+                '$ref': '#/components/schemas/errorResponse'
+        '500':
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
+                '$ref': '#/components/schemas/serverResponse'
       security:
         - BearerAuth: []
   /api/v1/profiles/{username}/follow:
@@ -197,38 +197,38 @@ paths:
           required: true
           description: Username to follow
           schema:
-            type : string
+            type: string
       responses:
-        "200":
+        '200':
           description: follow successful
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/followResponse"
-        "401":
+                '$ref': '#/components/schemas/followResponse'
+        '401':
           description: token expired
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "404":
+                '$ref': '#/components/schemas/errorResponse'
+        '404':
           description: user not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "409":
+                '$ref': '#/components/schemas/errorResponse'
+        '409':
           description: user cannot perform this action
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "500":
+                '$ref': '#/components/schemas/errorResponse'
+        '500':
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
+                '$ref': '#/components/schemas/serverResponse'
     delete:
       summary: Unfollow user route
       description: Unfollow user route
@@ -240,77 +240,77 @@ paths:
           required: true
           description: Username to unfollow
           schema:
-            type : string
+            type: string
       responses:
-        "200":
+        '200':
           description: unfollow successful
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/unfollowResponse"
-        "401":
+                '$ref': '#/components/schemas/unfollowResponse'
+        '401':
           description: token expired
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "404":
+                '$ref': '#/components/schemas/errorResponse'
+        '404':
           description: user not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "409":
+                '$ref': '#/components/schemas/errorResponse'
+        '409':
           description: user cannot perform this action
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "500":
+                '$ref': '#/components/schemas/errorResponse'
+        '500':
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"  
-                
+                '$ref': '#/components/schemas/serverResponse'
+
   /api/v1/user/followings:
     get:
       summary: User followings route
-      description: Get all user followed by a particular user 
+      description: Get all user followed by a particular user
       security:
         - ApiKeyAuth: []
       responses:
-        "200":
+        '200':
           description: request successful
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/followingResponse"
-        "401":
+                '$ref': '#/components/schemas/followingResponse'
+        '401':
           description: token expired
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "404":
+                '$ref': '#/components/schemas/errorResponse'
+        '404':
           description: user not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "409":
+                '$ref': '#/components/schemas/errorResponse'
+        '409':
           description: user cannot perform this action
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "500":
+                '$ref': '#/components/schemas/errorResponse'
+        '500':
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
-                
+                '$ref': '#/components/schemas/serverResponse'
+
   /api/v1/user/followers:
     get:
       summary: User followers route
@@ -318,36 +318,36 @@ paths:
       security:
         - ApiKeyAuth: []
       responses:
-        "200":
+        '200':
           description: request successful
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/followerResponse"
-        "401":
+                '$ref': '#/components/schemas/followerResponse'
+        '401':
           description: token expired
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "404":
+                '$ref': '#/components/schemas/errorResponse'
+        '404':
           description: user not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "409":
+                '$ref': '#/components/schemas/errorResponse'
+        '409':
           description: user cannot perform this action
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
-        "500":
+                '$ref': '#/components/schemas/errorResponse'
+        '500':
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
+                '$ref': '#/components/schemas/serverResponse'
   /api/v1/users/verifyEmail/{token}:
     get:
       parameters:
@@ -363,7 +363,7 @@ paths:
         200:
           description: Success. Email verification was successful
         500:
-          description: Internal server errorcomponents     
+          description: Internal server errorcomponents
 
   /api/v1/users/changePassword:
     patch:
@@ -378,18 +378,18 @@ paths:
       security:
         - ApiKeyAuth: []
       responses:
-        "200":
+        '200':
           description: user password changed successfully
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/changePasswordResponse"
-        "422":
+                '$ref': '#/components/schemas/changePasswordResponse'
+        '422':
           description: password does not match validaton errors
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/changePasswordErrorResponse"
+                '$ref': '#/components/schemas/changePasswordErrorResponse'
   /api/v1/users/resetpassword:
     post:
       summary: Request reset password link route
@@ -401,7 +401,7 @@ paths:
             schema:
               type: object
               required:
-              - email  
+                - email
               properties:
                 email:
                   type: string
@@ -412,19 +412,19 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/passwordResetLinkResponse"
+                '$ref': '#/components/schemas/passwordResetLinkResponse'
         404:
           description: email address not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         500:
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
+                '$ref': '#/components/schemas/serverResponse'
 
   /api/v1/users/resetpassword/{token}:
     patch:
@@ -437,8 +437,8 @@ paths:
             schema:
               type: object
               required:
-              - password
-              - confirmPassword  
+                - password
+                - confirmPassword
               properties:
                 password:
                   type: string
@@ -459,20 +459,20 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/passwordResetResponse"
+                '$ref': '#/components/schemas/passwordResetResponse'
         401:
           description: reset link has expired, invalid or been used
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         500:
           description: reset link has expired, invalid or been used
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"  
-                
+                '$ref': '#/components/schemas/serverResponse'
+
   /api/v1/tags:
     get:
       summary: Get all tags
@@ -483,17 +483,17 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/getTagsResponse"
+                '$ref': '#/components/schemas/getTagsResponse'
         500:
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"          
-           
+                '$ref': '#/components/schemas/serverResponse'
+
   /api/v1/profiles/{id}:
     patch:
-      summary: Route for editing existing user 
+      summary: Route for editing existing user
       description: Allow existing users to edit their information
       security:
         - ApiKeyAuth: []
@@ -503,7 +503,7 @@ paths:
           required: true
           description: user id
           schema:
-            type : string
+            type: string
       requestBody:
         required: false
         content:
@@ -517,7 +517,7 @@ paths:
         409:
           description: Conflict. Email or username exists
         500:
-          description: Internal server error  
+          description: Internal server error
   /api/v1/profiles/{username}:
     get:
       parameters:
@@ -526,7 +526,7 @@ paths:
           required: true
           description: users username
           schema:
-            type : string
+            type: string
       summary: Route for getting other users profile
       description: Allow user to view other user details
       responses:
@@ -535,19 +535,19 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/viewResponse"
+                '$ref': '#/components/schemas/viewResponse'
         404:
           description: user does not exist
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         500:
-          description: Internal server error  
+          description: Internal server error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"                    
+                '$ref': '#/components/schemas/serverResponse'
   /api/v1/articles/create:
     post:
       summary: A user can create an article
@@ -574,18 +574,18 @@ paths:
       security:
         - ApiKeyAuth: []
       responses:
-        "200":
+        '200':
           description: user article created successfully
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/createArticleResponse"
-        "422":
+                '$ref': '#/components/schemas/createArticleResponse'
+        '422':
           description: validaton errors
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/changeArticleErrorResponse" 
+                '$ref': '#/components/schemas/changeArticleErrorResponse'
 
   /api/v1/articles/{slug}/comments:
     post:
@@ -600,11 +600,11 @@ paths:
             schema:
               type: object
               required:
-              - comment
+                - comment
               properties:
                 comment:
                   type: text
-                  example: This is a comment. 
+                  example: This is a comment.
       parameters:
         - in: path
           name: slug
@@ -620,20 +620,20 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         422:
           description: comment validation error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
 
         500:
-          description: Internal server error  
+          description: Internal server error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
+                '$ref': '#/components/schemas/serverResponse'
     get:
       parameters:
         - in: path
@@ -643,7 +643,7 @@ paths:
             type: string
           description: Article Slug
       summary: Route for getting comments of an article
-      description: Allow fetching of all comments 
+      description: Allow fetching of all comments
       responses:
         200:
           description: user fetched all comments on article successfully
@@ -652,13 +652,13 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         500:
-          description: Internal server error  
+          description: Internal server error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"   
+                '$ref': '#/components/schemas/serverResponse'
 
   /api/v1/categories/create:
     post:
@@ -678,32 +678,196 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/createCategoryResponse"
+                '$ref': '#/components/schemas/createCategoryResponse'
         401:
           description: token expired
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         404:
           description: user not found
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         409:
           description: category already exists
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/errorResponse"
+                '$ref': '#/components/schemas/errorResponse'
         500:
           description: Server Error
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse"
-                     
+                '$ref': '#/components/schemas/serverResponse'
+
+  /api/v1/articles/{slug}/like:
+    post:
+      summary: Like Article
+      description: Endpoint for liking an article
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Unique article slug
+          schema:
+            type: string
+      responses:
+        201:
+          description: article successfully liked
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/likeDislikeArticleResponse'
+        200:
+          description: Article had been previously liked by the user
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/previousArticleLikeDislikeResponse'
+        404:
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        401:
+          description: Authorization token not provided
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        500:
+          description: Unexpected internal server error
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/serverResponse'
+  delete:
+    summary: Remove like from an article
+    description: Endpoint for removing a like on an article
+    security:
+      - ApiKeyAuth: []
+    parameters:
+      - name: slug
+        in: path
+        required: true
+        description: Unique article slug
+        schema:
+          type: string
+    responses:
+      200:
+        description: article like removed successfully
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/removeArticleLikeDislikeResponse'
+      404:
+        description: Article not found
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/errorResponse'
+      401:
+        description: Authorization token not provided
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/errorResponse'
+      500:
+        description: Unexpected internal server error
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/serverResponse'
+
+  /api/v1/articles/{slug}/dislike:
+    post:
+      summary: Dislike Article
+      description: Endpoint for disliking an article
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Unique article slug
+          schema:
+            type: string
+      responses:
+        201:
+          description: article successfully disliked
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/likeDislikeArticleResponse'
+        200:
+          description: Article had been previously disliked by the user
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/previousArticleLikeDislikeResponse'
+        404:
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        401:
+          description: Authorization token not provided
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        500:
+          description: Unexpected internal server error
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/serverResponse'
+  delete:
+    summary: Remove dislike from an article
+    description: Endpoint for removing a dislike on an article
+    security:
+      - ApiKeyAuth: []
+    parameters:
+      - name: slug
+        in: path
+        required: true
+        description: Unique article slug
+        schema:
+          type: string
+    responses:
+      200:
+        description: article dislike removed successfully
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/removeArticleLikeDislikeResponse'
+      404:
+        description: Article not found
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/errorResponse'
+      401:
+        description: Authorization token not provided
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/errorResponse'
+      500:
+        description: Unexpected internal server error
+        content:
+          application/json:
+            schema:
+              '$ref': '#/components/schemas/serverResponse'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -716,11 +880,11 @@ components:
   UserSignUp:
     type: object
     required:
-    - firstName
-    - lastName
-    - userName
-    - email
-    - password
+      - firstName
+      - lastName
+      - userName
+      - email
+      - password
     properties:
       firstName:
         type: string
@@ -743,12 +907,12 @@ components:
   SocialUserSignUp:
     type: object
     required:
-    - firstName
-    - lastName
-    - userName
-    - email
-    - password
-    - token
+      - firstName
+      - lastName
+      - userName
+      - email
+      - password
+      - token
     properties:
       id:
         type: string
@@ -777,8 +941,8 @@ components:
   changePasswordDetails:
     type: object
     required:
-    - password
-    - confirmPassword
+      - password
+      - confirmPassword
     properties:
       password:
         type: string
@@ -789,11 +953,11 @@ components:
   EditUser:
     type: object
     required:
-    - firstName
-    - lastName
-    - userName
-    - email
-    - avatarUrl
+      - firstName
+      - lastName
+      - userName
+      - email
+      - avatarUrl
     properties:
       firstName:
         type: string
@@ -818,7 +982,7 @@ components:
         user:
           type: object
           properties:
-            id: 
+            id:
               type: integer
               example: 1
             userName:
@@ -868,7 +1032,7 @@ components:
             data:
               type: object
               properties:
-                id: 
+                id:
                   type: integer
                   example: 1
                 userId:
@@ -883,7 +1047,7 @@ components:
         data:
           type: object
           properties:
-            id: 
+            id:
               type: integer
             message:
               type: string
@@ -896,7 +1060,7 @@ components:
           items:
             type: object
             properties:
-              id: 
+              id:
                 type: integer
                 example: 1
               userId:
@@ -908,7 +1072,7 @@ components:
               following:
                 type: object
                 properties:
-                  id: 
+                  id:
                     type: integer
                     example: 1
                   userName:
@@ -931,7 +1095,7 @@ components:
           items:
             type: object
             properties:
-              id: 
+              id:
                 type: integer
                 example: 1
               userId:
@@ -943,7 +1107,7 @@ components:
               follower:
                 type: object
                 properties:
-                  id: 
+                  id:
                     type: integer
                     example: 1
                   userName:
@@ -988,13 +1152,13 @@ components:
       properties:
         tags:
           type: array
-          items: 
+          items:
             type: string
             example: newCategoryy
     viewResponse:
       type: object
       properties:
-        id: 
+        id:
           type: integer
           example: 1
         firstName:
@@ -1033,7 +1197,7 @@ components:
         image:
           type: string
           example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
-        authorId: 
+        authorId:
           type: integer
           example: 3
         publishedAt:
@@ -1081,9 +1245,87 @@ components:
         data:
           type: object
           properties:
-            id: 
+            id:
               type: integer
               example: 3
             name:
               type: string
               example: newCategoryy
+
+    likeDislikeArticleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: like added successfully
+        article:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            slug:
+              type: string
+              example: how-to-train-your-dragon
+            title:
+              type: string
+              example: How to train your dragon
+            description:
+              type: string
+              example: Ever wonder how?
+            image:
+              type: string
+              example: 
+            articleBody:
+              type: string
+              example: It takes a Jacobian
+            likesCount:
+              type: integer
+              example: 0
+            dislikesCount:
+              type: integer
+              example: 0
+            publishedAt:
+              type: string
+              format: date-time
+              example: 2017-07-21T17:32:28Z
+            isArchived:
+              type: boolean
+              example: false
+            createdAt:
+              type: string
+              format: date-time
+              example: 2017-07-21T17:32:28Z
+            updatedAt:
+              type: string
+              format: date-time
+              example: 2017-07-21T17:32:28Z
+            createdAt:
+              type: string
+              format: date-time
+              example: 2017-07-21T17:32:28Z
+            likes:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  userId:
+                    type: integer
+                    example: 1
+                  contentType:
+                    type: string
+                    example: article
+                  contentId:
+                    type: integer
+                    example: 1
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: 2017-07-21T17:32:28Z
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    example: 2017-07-21T17:32:28Z
