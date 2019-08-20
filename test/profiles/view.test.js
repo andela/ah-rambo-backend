@@ -14,12 +14,69 @@ chai.use(chaiHttp);
 const baseUrl = process.env.BASE_URL;
 
 describe('GET Profile', () => {
-  context('when a user checks their profile', () => {
-    it(' returns the user profile', async () => {
+  let userToken;
+
+  before(async () => {
+    const response = await chai
+      .request(app)
+      .post(`${baseUrl}/sessions/create`)
+      .send({
+        userLogin: 'Jhayeuiui',
+        password: 'incorrect'
+      });
+    userToken = response.body.token;
+  });
+
+  context('when a logged in user checks other users profile', () => {
+    it('returns the user profile', async () => {
       const response = await chai
         .request(app)
-        .get(`${baseUrl}/profiles/JhayXXX`);
+        .get(`${baseUrl}/profiles/Jhayeuiui`)
+        .set('Authorization', userToken);
       expect(response).to.have.status(200);
+      expect(response.body.user).to.not.have.property(
+        'password',
+        'level',
+        'role',
+        'email',
+        'id'
+      );
+      expect(response.body.user).to.have.any.keys(
+        'firstName',
+        'lastName',
+        'userName',
+        'avatarUrl',
+        'bio',
+        'followingsCount',
+        'followersCount',
+        'identifiedBy',
+        'location',
+        'occupation'
+      );
+    });
+  });
+
+  context('when a visitor checks other users profile', () => {
+    it('returns the user profile', async () => {
+      const response = await chai
+        .request(app)
+        .get(`${baseUrl}/profiles/Jhayeuiui`);
+      expect(response).to.have.status(200);
+      expect(response.body.user).to.have.any.keys(
+        'firstName',
+        'lastName',
+        'userName',
+        'identifiedBy',
+        'avatarUrl',
+        'bio',
+        'followingsCount',
+        'followersCount'
+      );
+      expect(response.body.user).to.not.have.property(
+        'password',
+        'occupation',
+        'location'
+      );
     });
   });
 
