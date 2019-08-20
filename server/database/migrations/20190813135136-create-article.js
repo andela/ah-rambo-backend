@@ -1,5 +1,3 @@
-import { userInfo } from 'os';
-
 export default {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Articles', {
     id: {

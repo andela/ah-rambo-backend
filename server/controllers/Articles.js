@@ -2,7 +2,9 @@ import models from '../database/models';
 import { imageUpload, serverResponse, serverError } from '../helpers';
 import Tags from './Tags';
 
-const { Article, Like, Dislike } = models;
+const {
+  Article, Like, Dislike, Category
+} = models;
 
 /**
  * Returns server response for the article like/dislike operation
@@ -80,12 +82,6 @@ const createLikeOrDislike = async (userAction, userId, article) => {
   }
 };
 
-import { Op } from 'sequelize';
-import model from '../database/models';
-import { imageUpload, serverResponse, serverError } from '../helpers';
-import Tags from './Tags';
-
-const { Article, Category } = model;
 /**
  * @export
  * @class Articles
@@ -107,15 +103,21 @@ const { Article, Category } = model;
         body,
         user: { id }
       } = req;
-      const { status, articleBody, category } = body;
+      const { status, articleBody } = body;
+      let { category } = body;
+      category = category.toLowerCase();
       let { tags } = body;
-
       const publishedAt = status === 'draft' || articleBody === undefined ? null : Date.now();
       let createTags;
-      const categoryDetails = await Category.findOne({
-        where: { [Op.or]: [{ name: category }, { name: 'other' }] }
+      let categoryDetails = await Category.findOne({
+        where: { name: category }
       });
-      if (categoryDetails.name === 'other') tags += `,${category}`;
+      if (categoryDetails === null) {
+        categoryDetails = await Category.findOne({
+          where: { name: 'other' }
+        });
+      }
+      if (categoryDetails.name === 'other' && category !== 'other') tags += `,${category}`;
       if (tags) {
         createTags = await Tags.create(tags);
         const error = Articles.canTag(createTags);

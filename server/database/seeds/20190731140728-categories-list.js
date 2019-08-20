@@ -8,27 +8,27 @@ export default {
         updatedAt: new Date()
       },
       {
-        name: 'Arts & Entertainment',
+        name: 'arts & entertainment',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Industry',
+        name: 'industry',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Innovation & Tech',
+        name: 'innovation & tech',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Life',
+        name: 'life',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Society',
+        name: 'society',
         createdAt: new Date(),
         updatedAt: new Date()
       }

@@ -17,7 +17,7 @@ export default {
     .error(setCustomMessage('status', 'valid status')),
   articleBody: Joi.string()
     .min(2)
-    .error(setCustomMessage('articleBody')),
+    .error(setCustomMessage('article body')),
   avatarUrl: Joi.string()
     .uri()
     .error(setCustomMessage('image')),
