@@ -1,6 +1,8 @@
 import express from 'express';
-import Article from '../controllers/Articles';
+import Articles from '../controllers/Articles';
 import middlewares from '../middlewares';
+
+const router = express.Router();
 
 const {
   multerUploads,
@@ -9,7 +11,13 @@ const {
   validateArticle,
   checkUserVerification
 } = middlewares;
-const router = express.Router();
+
+const protectedRoutesMiddlewares = [
+  verifyToken,
+  getSessionFromToken,
+  checkUserVerification
+];
+
 router.post(
   '/create',
   verifyToken,
@@ -17,6 +25,15 @@ router.post(
   checkUserVerification,
   multerUploads('image'),
   validateArticle,
-  Article.createArticle
+  Articles.createArticle
 );
+router.post('/:slug/like', protectedRoutesMiddlewares, Articles.addLike);
+router.post('/:slug/dislike', protectedRoutesMiddlewares, Articles.addDislike);
+router.delete('/:slug/like', protectedRoutesMiddlewares, Articles.removeLike);
+router.delete(
+  '/:slug/dislike',
+  protectedRoutesMiddlewares,
+  Articles.removeDislike
+);
+
 export default router;
