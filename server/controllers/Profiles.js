@@ -6,6 +6,10 @@ import {
   userResponse
 } from '../helpers';
 
+import middlewares from '../middlewares';
+
+const { verifyToken } = middlewares;
+
 const { User } = models;
 
 /**
@@ -82,16 +86,79 @@ class Profiles {
   static async view(req, res) {
     try {
       const {
-        params: { username }
+        params: { username },
+        headers: { authorization }
       } = req;
       const userProfile = await User.findByUsername(username);
       if (!userProfile) {
         return serverResponse(res, 404, { error: 'user does not exist' });
       }
-      return userResponse(res, 200, userProfile);
+
+      if (authorization) {
+        return verifyToken(req, res, Profiles.authView(res, userProfile));
+      }
+      const {
+        firstName,
+        lastName,
+        userName,
+        identifiedBy,
+        avatarUrl,
+        bio,
+        followingsCount,
+        followersCount
+      } = userProfile;
+      return serverResponse(res, 200, {
+        user: {
+          firstName,
+          lastName,
+          userName,
+          identifiedBy,
+          avatarUrl,
+          bio,
+          followingsCount,
+          followersCount
+        }
+      });
     } catch (error) {
       return serverError(res);
     }
+  }
+
+  /**
+   * @name authView
+   * @description allows a user to view other users profile
+   * @param {object} res response object
+   * @param {object} userProfile user object
+   * @returns {json} the json response been return by the server
+   * @memberof ProfilesController
+   */
+  static authView(res, userProfile) {
+    const {
+      firstName,
+      lastName,
+      userName,
+      avatarUrl,
+      bio,
+      followingsCount,
+      followersCount,
+      identifiedBy,
+      location,
+      occupation
+    } = userProfile;
+    return serverResponse(res, 200, {
+      user: {
+        firstName,
+        lastName,
+        userName,
+        avatarUrl,
+        bio,
+        followingsCount,
+        followersCount,
+        identifiedBy,
+        location,
+        occupation
+      }
+    });
   }
 }
 
