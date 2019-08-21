@@ -6,6 +6,9 @@ import {
   searchCategorizer,
   pageCounter
 } from '../helpers';
+import models from '../database/models';
+
+const { User, Article } = models;
 
 /**
  * @class
@@ -28,16 +31,8 @@ class Search {
       modelToSearch: { model }
     } = searchCategories;
     const searchResponse = await Search.modelSearch(req.query, res, model);
-    if (searchResponse.count <= 0) {
-      return serverResponse(res, 404, {
-        error: 'your query did not match any results'
-      });
-    }
     const pageDetails = pageCounter(searchResponse.count, page, pageItems);
     const { totalPages, itemsOnPage, parsedPage } = pageDetails;
-    if (!itemsOnPage) {
-      return serverResponse(res, 404, { error: 'page not found', totalPages });
-    }
 
     return serverResponse(res, 200, {
       currentPage: parsedPage,
@@ -56,10 +51,39 @@ class Search {
   static async modelSearch(query, res, model) {
     try {
       const { searchFields } = searchCategorizer(query);
+      const isArchived = model === Article ? { isArchived: false } : '';
+      let attributes;
+      if (model === User) {
+        attributes = [
+          'firstName',
+          'lastName',
+          'userName',
+          'identifiedBy',
+          'avatarUrl',
+          'bio',
+          'followingsCount',
+          'followersCount'
+        ];
+      } else if (model === Article) {
+        attributes = [
+          'slug',
+          'title',
+          'description',
+          'image',
+          'articleBody',
+          'likesCount',
+          'dislikesCount',
+          'publishedAt'
+        ];
+      } else {
+        attributes = ['name'];
+      }
       const searchResult = await model.findAndCountAll({
         where: {
-          [Op.or]: searchFields
+          [Op.or]: searchFields,
+          ...isArchived
         },
+        attributes,
         ...paginationValues(query)
       });
       return searchResult;
