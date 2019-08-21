@@ -571,6 +571,8 @@ paths:
                   format: binary
                 tags:
                   type: string
+                category:
+                  type: string
       security:
         - ApiKeyAuth: []
       responses:
@@ -1313,6 +1315,13 @@ components:
           type: string
           format: date-time
           example: title-1
+        category:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
     changeArticleErrorResponse:
       type: object
       properties:

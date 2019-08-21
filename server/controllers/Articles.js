@@ -2,7 +2,9 @@ import models from '../database/models';
 import { imageUpload, serverResponse, serverError } from '../helpers';
 import Tags from './Tags';
 
-const { Article, Like, Dislike } = models;
+const {
+  Article, Like, Dislike, Category
+} = models;
 
 /**
  * Returns server response for the article like/dislike operation
@@ -101,25 +103,42 @@ const createLikeOrDislike = async (userAction, userId, article) => {
         body,
         user: { id }
       } = req;
-      const { status, articleBody, tags } = body;
-
+      const { status, articleBody } = body;
+      let { category } = body;
+      category = category.toLowerCase();
+      let { tags } = body;
       const publishedAt = status === 'draft' || articleBody === undefined ? null : Date.now();
       let createTags;
+      let categoryDetails = await Category.findOne({
+        where: { name: category }
+      });
+      if (categoryDetails === null) {
+        categoryDetails = await Category.findOne({
+          where: { name: 'other' }
+        });
+      }
+      if (categoryDetails.name === 'other' && category !== 'other') tags += `,${category}`;
       if (tags) {
         createTags = await Tags.create(tags);
         const error = Articles.canTag(createTags);
         if (error) return serverResponse(res, error.status, error.message);
       }
       if (file) image = await imageUpload(req);
+
       const myArticle = await Article.create({
         ...body,
         image,
         authorId: id,
-        publishedAt
+        publishedAt,
+        categoryId: categoryDetails.id
       });
-
       const associateTags = (await Tags.associateArticle(myArticle.id, createTags)) || [];
       myArticle.dataValues.tagList = associateTags;
+      myArticle.dataValues.category = {
+        id: myArticle.categoryId,
+        name: categoryDetails.name
+      };
+      delete myArticle.dataValues.categoryId;
       return serverResponse(res, 200, myArticle.dataValues);
     } catch (error) {
       return serverError(res);

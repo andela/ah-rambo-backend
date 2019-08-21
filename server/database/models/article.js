@@ -37,6 +37,14 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: true
       },
+      authorId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
       likesCount: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
@@ -118,6 +126,11 @@ export default (sequelize, DataTypes) => {
       scope: {
         contentType: 'article'
       }
+    });
+    Article.belongsTo(models.Category, {
+      foreignKey: 'categoryId',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
     });
   };
 

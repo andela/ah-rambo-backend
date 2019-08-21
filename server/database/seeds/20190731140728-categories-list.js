@@ -3,27 +3,32 @@ export default {
     'Categories',
     [
       {
-        name: 'Arts & Entertainment',
+        name: 'other',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Industry',
+        name: 'arts & entertainment',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Innovation & Tech',
+        name: 'industry',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Life',
+        name: 'innovation & tech',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name: 'Society',
+        name: 'life',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name: 'society',
         createdAt: new Date(),
         updatedAt: new Date()
       }

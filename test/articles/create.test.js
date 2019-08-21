@@ -12,7 +12,9 @@ import {
   newArticleData,
   ArticleData4,
   invalidArticleData,
-  request
+  request,
+  ArticleData5,
+  categoryDetails
 } from './__mocks__';
 
 chai.use(chaiHttp);
@@ -32,7 +34,8 @@ const res = {
     return this;
   }
 };
-const { Article } = model;
+
+const { Article, Category } = model;
 const data = {
   uploaded: {
     url:
@@ -57,7 +60,7 @@ before(async () => {
 
 describe('Create Article Test', () => {
   context(
-    `when a registered user enter article with
+    `when user enter article with
     valid details with status as publish`,
     () => {
       it('create and publish articles successfully', async () => {
@@ -72,9 +75,13 @@ describe('Create Article Test', () => {
         const uploaderstub = sinon
           .stub(uploader, 'upload')
           .callsFake(() => data.uploaded);
+        const category = sinon
+          .stub(Category, 'findOne')
+          .callsFake(() => categoryDetails);
         await Articles.createArticle(request, res);
         expect(res.statusCode).to.equal(200);
         uploaderstub.restore();
+        category.restore();
       });
     }
   );
@@ -103,8 +110,9 @@ describe('Create Article Test', () => {
   );
 
   context('when a user enters a bad tag ', () => {
-    it('throws error', async () => {
+    it('returns error', async () => {
       const badArticleTag = ArticleData2;
+      badArticleTag.category = 'Industry';
       badArticleTag.tags = '/;.';
       const response = await chai
         .request(app)
@@ -119,7 +127,7 @@ describe('Create Article Test', () => {
   });
 
   context('when a user enters a tag with just a letter', () => {
-    it('throws error', async () => {
+    it('returns error', async () => {
       const badArticleTag = ArticleData2;
       badArticleTag.tags = 'j';
       const response = await chai
@@ -135,9 +143,9 @@ describe('Create Article Test', () => {
   });
 
   context(
-    'when a user enters a list of tags with a tag thats just a letter',
+    'when a user enters a list of tags, with a tag thats just a letter',
     () => {
-      it('throws error', async () => {
+      it('returns error', async () => {
         const badArticleTag = ArticleData2;
         badArticleTag.tags = 'j,HJFDSG';
         const response = await chai
@@ -169,7 +177,7 @@ describe('Create Article Test', () => {
     }
   );
   context('when user enters invalid details', () => {
-    it('throw error', async () => {
+    it('returns error', async () => {
       const response = await chai
         .request(app)
         .post(`${BASE_URL}/articles/create`)
@@ -180,7 +188,7 @@ describe('Create Article Test', () => {
   });
 
   context('when there is an internal error', () => {
-    it('will throw error', async () => {
+    it('returns error', async () => {
       const stub = sinon.stub(Article, 'create');
       const error = new Error('server error, this will be resolved shortly');
       stub.yields(error);
@@ -193,7 +201,50 @@ describe('Create Article Test', () => {
       expect(response.body.error).to.equal(
         'server error, this will be resolved shortly'
       );
-      Article.create.restore();
+      stub.restore();
+    });
+  });
+
+  context(
+    `when a user  enter valid
+  article details with a valid category`,
+    async () => {
+      it('create an articles with category', async () => {
+        const response = await chai
+          .request(app)
+          .post(`${BASE_URL}/articles/create`)
+          .set('Authorization', userToken)
+          .send(ArticleData4);
+        expect(response.body.category.name).to.equal('other');
+        expect(response.status).to.equal(200);
+      });
+    }
+  );
+
+  context('when user enters non-existing category', () => {
+    it('add the category to tag', async () => {
+      const response = await chai
+        .request(app)
+        .post(`${BASE_URL}/articles/create`)
+        .set('Authorization', userToken)
+        .send(ArticleData5);
+      expect(response.status).to.equal(200);
+      expect(response.body.category.name).to.equal('other');
+      expect(response.body.tagList[2]).to.equal('lifestyle');
+    });
+  });
+
+  context('when user enters category as other', () => {
+    it('does not add the category to tag', async () => {
+      ArticleData5.category = 'other';
+      const response = await chai
+        .request(app)
+        .post(`${BASE_URL}/articles/create`)
+        .set('Authorization', userToken)
+        .send(ArticleData5);
+      expect(response.status).to.equal(200);
+      expect(response.body.category.name).to.equal('other');
+      expect(response.body.tagList[2]).to.not.equal('other');
     });
   });
 });
