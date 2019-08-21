@@ -868,6 +868,103 @@ paths:
             schema:
               '$ref': '#/components/schemas/serverResponse'
 
+  /api/v1/articles/{slug}/comments/{commentId}:
+    patch:
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+          description: Article Slug
+        - in: path
+          name: commentId
+          required: true
+          schema:
+            type: integer
+          description: Comment Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - comment
+              properties:
+                comment:
+                  type: text
+                  example: This is a comment. 
+      summary: Route to update comment of an article
+      description: Allows owner of a comment to update 
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: comment updated successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/updateCommentResponse"
+        404:
+          description: article not found/no comments on article
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        500:
+          description: Internal server error  
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse"  
+                
+    delete:
+      summary: Route to delete comment
+      description: Allows owner of a comment to delete comment 
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+          description: Article Slug
+        - in: path
+          name: commentId
+          required: true
+          schema:
+            type: integer
+          description: Comment Id
+      responses:
+        200:
+          description: comment deleted successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/updateCommentResponse"
+        401:
+          description: authentication error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+
+        404:
+          description: article not found/no comments for article
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/errorResponse"
+        500:
+          description: Internal server error  
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/serverResponse" 
+      
+                     
 components:
   securitySchemes:
     BearerAuth:
@@ -1329,3 +1426,9 @@ components:
                     type: string
                     format: date-time
                     example: 2017-07-21T17:32:28Z
+    updateCommentResponse:
+      type: object
+      properties:
+        message:
+          type: string 
+         

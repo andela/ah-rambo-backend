@@ -13,11 +13,28 @@ const {
 
 route.post(
   '/:slug/comments',
+  validateCommentBody,
   verifyToken,
   getSessionFromToken,
   checkUserVerification,
-  validateCommentBody,
   Comments.create
+);
+
+route.patch(
+  '/:slug/comments/:id',
+  validateCommentBody,
+  verifyToken,
+  getSessionFromToken,
+  checkUserVerification,
+  Comments.update
+);
+
+route.delete(
+  '/:slug/comments/:id',
+  verifyToken,
+  getSessionFromToken,
+  checkUserVerification,
+  Comments.delete
 );
 
 route.get('/:slug/comments', Comments.getArticleComments);
