@@ -869,6 +869,49 @@ paths:
           application/json:
             schema:
               '$ref': '#/components/schemas/serverResponse'
+  /api/v1/articles/update/{slug}:
+    patch:
+      summary: A user can update article
+      description: update Articles
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                articleBody:
+                  type: string
+                description:
+                  type: string
+                status:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+          description: Article Slug
+      responses:
+        "200":
+          description: user article created successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/updateArticleResponse"
+        "422":
+          description: validaton errors
+          content:
+            application/json:
+             schema:
+                "$ref": "#/components/schemas/updateArticleErrorResponse"
 
   /api/v1/articles/{slug}/comments/{commentId}:
     patch:
@@ -1441,3 +1484,61 @@ components:
         message:
           type: string 
          
+    updateArticleResponse:
+      type: object
+      properties:
+        likesCount:
+          type: integer
+          example: 1
+        dislikesCount:
+          type: integer
+          example: 2
+        isArchived:
+          type: boolean
+          example: true
+        id:
+          type: integer
+          example: 1
+        articleBody:
+          type: string
+          example: loremhipsondossantos
+        titile:
+          type: string
+          example: loremhipsondossantos
+        description:
+          type: string
+          example: loremhipsondossantos
+        image:
+          type: string
+          example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
+        authorId: 
+          type: integer
+          example: 3
+        publishedAt:
+          type: string
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        updatedAt:
+          type: string
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        createdAt:
+          type: string
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        slug:
+          type: string
+          format: date-time
+          example: title-1
+    updateArticleErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            title:
+              type: string
+              example: title should not be less than 3 characters
+            status:
+              type: string
+              example: status is required
