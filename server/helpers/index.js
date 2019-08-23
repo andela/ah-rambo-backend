@@ -18,6 +18,7 @@ import {
   removeDuplicateTags
 } from './tagHelpers';
 import isFollowing from './isFollowing';
+import searchCategorizer from './searchCategorizer';
 
 const { expiryDate } = dateHelper;
 const { sendResetPasswordEmail, sendVerificationEmail } = emailTemplates;
@@ -44,5 +45,6 @@ export {
   removeSpecialCharacters,
   formatTag,
   removeDuplicateTags,
-  isFollowing
+  isFollowing,
+  searchCategorizer
 };
