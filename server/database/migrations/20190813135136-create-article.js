@@ -22,7 +22,18 @@ export default {
       type: Sequelize.TEXT
     },
     authorId: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
+    },
+    categoryId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Categories',
+        key: 'id'
+      }
     },
     likesCount: {
       type: Sequelize.INTEGER

@@ -29,6 +29,11 @@ export default (sequelize, DataTypes) => {
       through: 'UserCategory',
       as: 'users'
     });
+    Category.hasMany(models.Article, {
+      foreignKey: 'categoryId',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
+    });
   };
   return Category;
 };

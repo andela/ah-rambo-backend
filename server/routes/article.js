@@ -9,7 +9,8 @@ const {
   getSessionFromToken,
   verifyToken,
   validateArticle,
-  checkUserVerification
+  checkUserVerification,
+  articleEditValidation
 } = middlewares;
 
 const protectedRoutesMiddlewares = [
@@ -36,4 +37,13 @@ router.delete(
   Articles.removeDislike
 );
 
+router.patch(
+  '/update/:slug',
+  verifyToken,
+  getSessionFromToken,
+  checkUserVerification,
+  multerUploads('image'),
+  articleEditValidation,
+  Articles.update
+);
 export default router;

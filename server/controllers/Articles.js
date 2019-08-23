@@ -2,7 +2,9 @@ import models from '../database/models';
 import { imageUpload, serverResponse, serverError } from '../helpers';
 import Tags from './Tags';
 
-const { Article, Like, Dislike } = models;
+const {
+  Article, Like, Dislike, Category
+} = models;
 
 /**
  * Returns server response for the article like/dislike operation
@@ -101,25 +103,42 @@ const createLikeOrDislike = async (userAction, userId, article) => {
         body,
         user: { id }
       } = req;
-      const { status, articleBody, tags } = body;
-
+      const { status, articleBody } = body;
+      let { category } = body;
+      category = category.toLowerCase();
+      let { tags } = body;
       const publishedAt = status === 'draft' || articleBody === undefined ? null : Date.now();
       let createTags;
+      let categoryDetails = await Category.findOne({
+        where: { name: category }
+      });
+      if (categoryDetails === null) {
+        categoryDetails = await Category.findOne({
+          where: { name: 'other' }
+        });
+      }
+      if (categoryDetails.name === 'other' && category !== 'other') tags += `,${category}`;
       if (tags) {
         createTags = await Tags.create(tags);
         const error = Articles.canTag(createTags);
         if (error) return serverResponse(res, error.status, error.message);
       }
       if (file) image = await imageUpload(req);
+
       const myArticle = await Article.create({
         ...body,
         image,
         authorId: id,
-        publishedAt
+        publishedAt,
+        categoryId: categoryDetails.id
       });
-
       const associateTags = (await Tags.associateArticle(myArticle.id, createTags)) || [];
       myArticle.dataValues.tagList = associateTags;
+      myArticle.dataValues.category = {
+        id: myArticle.categoryId,
+        name: categoryDetails.name
+      };
+      delete myArticle.dataValues.categoryId;
       return serverResponse(res, 200, myArticle.dataValues);
     } catch (error) {
       return serverError(res);
@@ -331,6 +350,82 @@ const createLikeOrDislike = async (userAction, userId, article) => {
         'removeLikeOrDislike',
         'dislike removed successfully'
       );
+    } catch (error) {
+      return serverError(res);
+    }
+  }
+
+  /**
+   * update an article
+   *
+   * @name update
+   * @async
+   * @static
+   * @memberof Articles
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} Details of the article and the updated
+   */
+  static async update(req, res) {
+    try {
+      let image;
+      const {
+        file,
+        body,
+        user: { id }
+      } = req;
+      if (Object.keys(body).length === 0) {
+        serverResponse(res, 422, { error: 'request body should not be empty' });
+      }
+      let { category } = body;
+      let { tags } = body;
+      let categoryDetails;
+      const { slug } = req.params;
+      const articleDetails = await Article.findBySlug(slug);
+      if (articleDetails === null || articleDetails.isArchived) {
+        return serverResponse(res, 404, { error: 'article not found' });
+      }
+      if (category) {
+        category = category.toLowerCase();
+        categoryDetails = await Category.findOne({
+          where: { name: category }
+        });
+        if (categoryDetails === null) {
+          categoryDetails = await Category.findOne({
+            where: { name: 'other' }
+          });
+        }
+        if (categoryDetails.name === 'other' && category !== 'other') tags += `,${category}`;
+        articleDetails.categoryId = categoryDetails.id;
+      }
+      let createTags;
+      if (tags) {
+        createTags = await Tags.create(tags);
+        const error = Articles.canTag(createTags);
+        if (error) return serverResponse(res, error.status, error.message);
+        await Tags.associateArticle(articleDetails.id, createTags);
+      }
+      if (file) image = await imageUpload(req);
+      const { status, articleBody } = body;
+      const publishedAt = status === 'draft' || articleBody === undefined ? null : Date.now();
+      const updated = await Article.update(
+        {
+          ...body,
+          publishedAt,
+          image,
+          categoryId: articleDetails.categoryId
+        },
+        { where: { slug, authorId: id }, returning: true }
+      );
+      if (!updated[0]) {
+        return serverResponse(res, 403, { message: 'article not updated' });
+      }
+      const updatedArticle = updated[1][0].dataValues;
+      const aritcleCategory = await articleDetails.getCategory();
+      const updatedTags = await articleDetails.getTags();
+      updatedArticle.tagList = updatedTags.map(({ name }) => name);
+      updatedArticle.category = aritcleCategory;
+      return serverResponse(res, 200, { ...updatedArticle });
     } catch (error) {
       return serverError(res);
     }

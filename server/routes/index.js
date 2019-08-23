@@ -18,9 +18,8 @@ route.use('/sessions', session);
 route.use('/auth', auth);
 route.use('/profiles', profile, follower);
 route.use('/user', userFollower);
-route.use('/articles', article);
-route.use('/tags', tag);
 route.use('/articles', article, comment);
+route.use('/tags', tag);
 route.use('/categories', category);
 route.use('/search', search);
 

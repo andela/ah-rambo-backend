@@ -11,6 +11,7 @@ import authorizeUser from './authorizeUser';
 import validateCommentBody from './commentValidation';
 import createCategoryValidation from './createCategoryValidation';
 import validateSearch from './searchValidation';
+import articleEditValidation from './articleEditValidation';
 
 const middlewares = {
   verifyToken,
@@ -26,7 +27,8 @@ const middlewares = {
   authorizeUser,
   validateCommentBody,
   createCategoryValidation,
-  validateSearch
+  validateSearch,
+  articleEditValidation
 };
 
 export default middlewares;

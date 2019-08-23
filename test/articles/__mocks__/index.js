@@ -6,6 +6,8 @@ const ArticleData = {
   image: faker.internet.avatar(),
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
   status: 'publish',
+  authorId: 1,
+  categoryId: 1,
   tags: ['tech', 'business']
 };
 
@@ -22,7 +24,17 @@ const ArticleData4 = {
   description: 'ext ever since the 1500s, when an unknown printer',
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
   status: 'draft',
-  tags: 'tech,business'
+  tags: 'tech,business',
+  category: 'other'
+};
+
+const ArticleData5 = {
+  title: ' is simply dummy text of the printing and typesetting ',
+  description: 'ext ever since the 1500s, when an unknown printer',
+  articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
+  status: 'draft',
+  tags: 'tech,business',
+  category: 'Lifestyle'
 };
 
 const ArticleData2 = {
@@ -30,14 +42,25 @@ const ArticleData2 = {
   description: 'ext ever since the 1500s, when an unknown printer',
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
   status: 'publish',
-  tags: 'tech,business'
+  tags: 'tech,business',
+  category: 'sport'
+};
+
+const ArticleData20 = {
+  title: ' is simply dummy text of the printing and typesetting ',
+  description: 'ext ever since the 1500s, when an unknown printer',
+  articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
+  status: 'publish',
+  tags: 'tech,business',
+  category: 'sport'
 };
 
 const noTagArticleData = {
   title: ' is simply dummy text of the printing and typesetting ',
   description: 'ext ever since the 1500s, when an unknown printer',
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
-  status: 'publish'
+  status: 'publish',
+  category: 'sport'
 };
 
 const newArticleData = {
@@ -45,13 +68,15 @@ const newArticleData = {
   description: 'ext ever since the 1500s, when an unknown printer',
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
   status: 'publish',
-  tags: 'technology'
+  tags: 'technology',
+  category: 'Life'
 };
 const ArticleData10 = {
   title: ' is simply dummy text of the printing and typesetting ',
   description: 'ext ever since the 1500s, when an unknown printer',
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
-  status: 'publish'
+  status: 'publish',
+  category: 'Life'
 };
 
 const myfile = faker.image.dataUri(200, 200);
@@ -68,9 +93,13 @@ const request = {
     title: ' is simply dummy text of the printing and typesetting ',
     description: 'ext ever since the 1500s, when an unknown printer',
     articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
-    tags: 'tech, business'
+    tags: 'tech, business',
+    category: 'sport'
   },
-  user: { id: 1 }
+  user: { id: 1 },
+  params: {
+    slug: 'unkown'
+  }
 };
 const fakeoutput = {
   likesCount: 0,
@@ -82,7 +111,8 @@ const fakeoutput = {
   image:
     'http://res.cloudinary.com/teamrambo50/image/upload/v1565734710/k5fspd6uo4b4fw2upxlq.png',
   authorId: 17,
-  slug: 'title'
+  slug: 'title',
+  isArchived: false
 };
 
 const badImage = {
@@ -90,7 +120,13 @@ const badImage = {
   description: 'ext ever since the 1500s, when an unknown printer',
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
   image: 'this is TIA',
-  tags: 'tech,business'
+  tags: 'tech,business',
+  category: 'business'
+};
+
+const categoryDetails = {
+  name: '',
+  id: 1
 };
 
 const authenticatedUser = {
@@ -113,6 +149,9 @@ export {
   invalidArticleData,
   ArticleData4,
   badImage,
+  ArticleData5,
   ArticleData10,
-  authenticatedUser
+  ArticleData20,
+  authenticatedUser,
+  categoryDetails
 };
