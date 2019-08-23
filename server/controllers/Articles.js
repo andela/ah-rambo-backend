@@ -158,7 +158,8 @@ const createLikeOrDislike = async (userAction, userId, article) => {
       return {
         status: 400,
         message: {
-          error: 'each tag must be more than a character'
+          error:
+            'tags cannot be more than 15 and each tag must be more than a character'
         }
       };
     }

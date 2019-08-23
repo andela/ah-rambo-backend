@@ -44,7 +44,7 @@ class Tags {
   static async create(tagList) {
     if (!tagList || tagList.length < 1) return null;
     const tagArray = tagList.split(',');
-    if (tagArray.some(tag => tag.length < 2)) return false;
+    if (tagArray.some(tag => tag.length < 2) || tagArray.length > 15) return false;
     const plainTags = tagArray
       .map(eachTag => formatTag(eachTag))
       .filter(tag => tag !== '');

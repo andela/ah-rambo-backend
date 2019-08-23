@@ -46,6 +46,27 @@ const ArticleData2 = {
   category: 'sport'
 };
 
+const ArticleData3 = {
+  title: ' is simply dummy text of the printing and typesetting ',
+  description: 'ext ever since the 1500s, when an unknown printer',
+  articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
+  status: 'publish',
+  tags: ' technnnnn , businesssss  ',
+  category: 'sport'
+};
+
+const surplusTagArticleData = {
+  title: ' is simply dummy text of the printing and typesetting ',
+  description: 'ext ever since the 1500s, when an unknown printer',
+  articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
+  status: 'publish',
+  tags: Array(17)
+    .fill('-')
+    .map(item => faker.commerce.department())
+    .join(),
+  category: 'sport'
+};
+
 const ArticleData20 = {
   title: ' is simply dummy text of the printing and typesetting ',
   description: 'ext ever since the 1500s, when an unknown printer',
@@ -153,5 +174,7 @@ export {
   ArticleData10,
   ArticleData20,
   authenticatedUser,
-  categoryDetails
+  categoryDetails,
+  ArticleData3,
+  surplusTagArticleData
 };
