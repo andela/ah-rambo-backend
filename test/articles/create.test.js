@@ -14,7 +14,9 @@ import {
   invalidArticleData,
   request,
   ArticleData5,
-  categoryDetails
+  categoryDetails,
+  ArticleData3,
+  surplusTagArticleData
 } from './__mocks__';
 
 chai.use(chaiHttp);
@@ -142,6 +144,37 @@ describe('Create Article Test', () => {
     });
   });
 
+  context('when a user submits an article with tags that has spaces', () => {
+    it('formats the spaces', async () => {
+      const response = await chai
+        .request(app)
+        .post(`${BASE_URL}/articles/create`)
+        .set('Authorization', userToken)
+        .send(ArticleData3);
+      expect(response.status).to.equal(200);
+      expect(response.body.tagList).to.be.an('array');
+      expect(response.body.tagList).to.have.members([
+        'technnnnn',
+        'businesssss',
+        'sport'
+      ]);
+    });
+  });
+
+  context('when a user submits an article with more than 15 tags', () => {
+    it('returns error', async () => {
+      const response = await chai
+        .request(app)
+        .post(`${BASE_URL}/articles/create`)
+        .set('Authorization', userToken)
+        .send(surplusTagArticleData);
+      expect(response).to.have.status(400);
+      expect(response.body.error).to.equal(
+        'tags cannot be more than 15 and each tag must be more than a character'
+      );
+    });
+  });
+
   context(
     'when a user enters a list of tags, with a tag thats just a letter',
     () => {
@@ -155,7 +188,7 @@ describe('Create Article Test', () => {
           .send(badArticleTag);
         expect(response).to.have.status(400);
         expect(response.body.error).to.equal(
-          'each tag must be more than a character'
+          'tags cannot be more than 15 and each tag must be more than a character'
         );
       });
     }

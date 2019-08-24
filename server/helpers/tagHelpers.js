@@ -12,14 +12,15 @@ const removeSpecialCharacters = name => name.replace(/[^a-z0-9]/gi, '').toLowerC
  */
 const formatTag = (name) => {
   let formattedName = name.replace(/[^a-z0-9\s]/gi, '-').toLowerCase();
-  while (/--|-\s+-/.test(formattedName) || /\s\s/.test(formattedName)) {
+  while (
+    /--+|-+\s+-+|\s+-+\s+/.test(formattedName)
+    || /\s\s+/.test(formattedName)
+  ) {
     formattedName = formattedName
-      .replace(/--|-\s+-/gi, '-')
-      .replace(/\s\s/gi, ' ')
-      .trimEnd()
-      .trimStart();
+      .replace(/--+|-+\s+-+|\s+-+\s+/gi, '-')
+      .replace(/\s\s+/gi, ' ');
   }
-  return formattedName === '-' ? '' : formattedName;
+  return formattedName === '-' ? '' : formattedName.trimEnd().trimStart();
 };
 
 /**
