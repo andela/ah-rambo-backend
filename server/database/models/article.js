@@ -26,7 +26,7 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
         defaultValue:
-          'http://res.cloudinary.com/teamrambo50/image/upload/v1565884519/fazaithupzfod35wxwys.png',
+          'http://res.cloudinary.com/teamrambo50/image/upload/v1567524113/pgkcpg4prdi5p2fpiorq.png',
         validate: {
           isUrl: {
             msg: 'image must be a valid url path'
