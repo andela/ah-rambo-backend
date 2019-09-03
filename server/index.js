@@ -6,6 +6,7 @@ import YAML from 'yamljs';
 import path from 'path';
 import Debug from 'debug';
 import session from 'express-session';
+import cors from 'cors';
 import routes from './routes';
 
 const PORT = process.env.PORT || 9000;
@@ -26,6 +27,7 @@ app.use(
     saveUninitialized: true
   })
 );
+app.use(cors());
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
