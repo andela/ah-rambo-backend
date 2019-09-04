@@ -46,4 +46,12 @@ router.patch(
   articleEditValidation,
   Articles.update
 );
+
+router.get(
+  '/user',
+  verifyToken,
+  getSessionFromToken,
+  checkUserVerification,
+  Articles.userArticles
+);
 export default router;
