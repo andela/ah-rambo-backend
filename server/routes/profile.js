@@ -22,6 +22,6 @@ route.patch(
   Profiles.update
 );
 
-route.get('/:username', Profiles.view);
+route.get('/:userDetail', Profiles.view);
 
 export default route;

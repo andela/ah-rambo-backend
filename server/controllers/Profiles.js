@@ -86,10 +86,18 @@ class Profiles {
   static async view(req, res) {
     try {
       const {
-        params: { username },
+        params: { userDetail },
         headers: { authorization }
       } = req;
-      const userProfile = await User.findByUsername(username);
+
+      let userProfile;
+
+      if (/.+@.+\.[A-Za-z]+$/.test(userDetail)) {
+        userProfile = await User.findByEmail(userDetail);
+      } else {
+        userProfile = await User.findByUsername(userDetail);
+      }
+
       if (!userProfile) {
         return serverResponse(res, 404, { error: 'user does not exist' });
       }

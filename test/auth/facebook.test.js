@@ -64,14 +64,20 @@ describe('facebook login test', () => {
     sinon.assert.calledOnce(json);
   });
   it('register a new user sucessfully', async () => {
-    const res = { status() {}, json() {} };
-    const status = sinon.stub(res, 'status').returnsThis();
-    const json = sinon.stub(res, 'json').returnsThis();
+    const res = {
+      status() {
+        return '302';
+      },
+      json() {},
+      redirect() {}
+    };
     const Sessions = sinon.stub(Session, 'create').returns(false);
     const findOrCreate = sinon.stub(User, 'findOrCreate').returns(users);
+    const redirect = sinon.stub(res, 'redirect').returnsThis();
+    const status = sinon.stub(res, 'status').returnsThis();
     await Auth.socialLogin(request, res);
-    sinon.assert.calledOnce(status);
-    sinon.assert.calledOnce(json);
+    sinon.assert.calledOnce(redirect);
+    expect(status).to.calledWith(301);
     Sessions.restore();
     findOrCreate.restore();
   });
