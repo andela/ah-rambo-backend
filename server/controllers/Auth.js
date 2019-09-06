@@ -1,9 +1,4 @@
-import {
-  getUserAgent,
-  createSocialUsers,
-  serverResponse,
-  getSocialUserData
-} from '../helpers';
+import { getUserAgent, createSocialUsers, getSocialUserData } from '../helpers';
 /**
  * @export
  * @class Auth
@@ -32,7 +27,9 @@ class Auth {
     };
     const user = await createSocialUsers(data);
     delete user.password;
-    serverResponse(response, 200, user);
+    response
+      .status(301)
+      .redirect(`${process.env.CLIENT_URL}?token=${user.token}&email=${email}`);
   }
 }
 export default Auth;

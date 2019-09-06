@@ -56,11 +56,35 @@ describe('GET Profile', () => {
     });
   });
 
-  context('when a visitor checks other users profile', () => {
+  context('when a visitor checks other users profile by username', () => {
     it('returns the user profile', async () => {
       const response = await chai
         .request(app)
         .get(`${baseUrl}/profiles/Jhayeuiui`);
+      expect(response).to.have.status(200);
+      expect(response.body.user).to.have.any.keys(
+        'firstName',
+        'lastName',
+        'userName',
+        'identifiedBy',
+        'avatarUrl',
+        'bio',
+        'followingsCount',
+        'followersCount'
+      );
+      expect(response.body.user).to.not.have.property(
+        'password',
+        'occupation',
+        'location'
+      );
+    });
+  });
+
+  context('when a visitor checks other users profile by email', () => {
+    it('returns the user profile', async () => {
+      const response = await chai
+        .request(app)
+        .get(`${baseUrl}/profiles/lucasi.jz@andela.com`);
       expect(response).to.have.status(200);
       expect(response.body.user).to.have.any.keys(
         'firstName',
