@@ -10,6 +10,8 @@ const {
   getSessionFromToken
 } = middlewares;
 
+route.get('/', Categories.getAll);
+
 route.post(
   '/create',
   verifyToken,
