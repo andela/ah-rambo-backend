@@ -23,14 +23,20 @@ const res = {
   status(responseStatus) {
     this.statusCode = responseStatus;
     return this;
+  },
+  redirect(url) {
+    this.statusCode = url;
+    return this;
   }
 };
 describe('google login test', () => {
   it('logs in such user successfully', async () => {
     const Sessions = sinon.stub(Session, 'create').returns(false);
     const findOrCreate = sinon.stub(User, 'findOrCreate').returns(users);
+    const redirect = sinon.stub(res, 'redirect').returnsThis();
     await Auth.socialLogin(request2, res);
-    expect(res.statusCode).to.equals(200);
+    sinon.assert.calledOnce(redirect);
+    expect(res.statusCode).to.equals(301);
     Sessions.restore();
     findOrCreate.restore();
   });

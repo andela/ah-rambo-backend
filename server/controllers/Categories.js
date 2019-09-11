@@ -37,6 +37,24 @@ class Categories {
       serverError(res);
     }
   }
+
+  /**
+   * @name getAll
+   * @async
+   * @static
+   * @memberof Categories
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} server response
+   */
+  static async getAll(req, res) {
+    try {
+      const allCategories = await Category.findAll();
+      return serverResponse(res, 200, { categories: allCategories });
+    } catch (error) {
+      serverError(res);
+    }
+  }
 }
 
 export default Categories;

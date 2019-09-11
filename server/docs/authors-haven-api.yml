@@ -795,43 +795,43 @@ paths:
             application/json:
               schema:
                 '$ref': '#/components/schemas/serverResponse'
-  delete:
-    summary: Remove like from an article
-    description: Endpoint for removing a like on an article
-    security:
-      - ApiKeyAuth: []
-    parameters:
-      - name: slug
-        in: path
-        required: true
-        description: Unique article slug
-        schema:
-          type: string
-    responses:
-      200:
-        description: article like removed successfully
-        content:
-          application/json:
-            schema:
-              '$ref': '#/components/schemas/removeArticleLikeDislikeResponse'
-      404:
-        description: Article not found
-        content:
-          application/json:
-            schema:
-              '$ref': '#/components/schemas/errorResponse'
-      401:
-        description: Authorization token not provided
-        content:
-          application/json:
-            schema:
-              '$ref': '#/components/schemas/errorResponse'
-      500:
-        description: Unexpected internal server error
-        content:
-          application/json:
-            schema:
-              '$ref': '#/components/schemas/serverResponse'
+    delete:
+      summary: Remove like from an article
+      description: Endpoint for removing a like on an article
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Unique article slug
+          schema:
+            type: string
+      responses:
+        200:
+          description: article like removed successfully
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/removeArticleLikeDislikeResponse'
+        404:
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        401:
+          description: Authorization token not provided
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        500:
+          description: Unexpected internal server error
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/serverResponse'
 
   /api/v1/articles/{slug}/dislike:
     post:
@@ -877,43 +877,43 @@ paths:
             application/json:
               schema:
                 '$ref': '#/components/schemas/serverResponse'
-  delete:
-    summary: Remove dislike from an article
-    description: Endpoint for removing a dislike on an article
-    security:
-      - ApiKeyAuth: []
-    parameters:
-      - name: slug
-        in: path
-        required: true
-        description: Unique article slug
-        schema:
-          type: string
-    responses:
-      200:
-        description: article dislike removed successfully
-        content:
-          application/json:
-            schema:
-              '$ref': '#/components/schemas/removeArticleLikeDislikeResponse'
-      404:
-        description: Article not found
-        content:
-          application/json:
-            schema:
-              '$ref': '#/components/schemas/errorResponse'
-      401:
-        description: Authorization token not provided
-        content:
-          application/json:
-            schema:
-              '$ref': '#/components/schemas/errorResponse'
-      500:
-        description: Unexpected internal server error
-        content:
-          application/json:
-            schema:
-              '$ref': '#/components/schemas/serverResponse'
+    delete:
+      summary: Remove dislike from an article
+      description: Endpoint for removing a dislike on an article
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Unique article slug
+          schema:
+            type: string
+      responses:
+        200:
+          description: article dislike removed successfully
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/removeArticleLikeDislikeResponse'
+        404:
+          description: Article not found
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        401:
+          description: Authorization token not provided
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        500:
+          description: Unexpected internal server error
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/serverResponse'
   /api/v1/articles/update/{slug}:
     patch:
       summary: A user can update article
@@ -1052,7 +1052,29 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/serverResponse" 
+                "$ref": "#/components/schemas/serverResponse"
+                
+  api/v1/articles/getUserArticles:
+    get:
+      summary: Get all user articles
+      description: Get all user articles and counts
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: request successful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/alluserArticleResponse"
+        '401':
+          description: request unsuccessful
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/alluserError"
+    
+
       
                      
 components:
@@ -1494,10 +1516,6 @@ components:
               type: string
               format: date-time
               example: 2017-07-21T17:32:28Z
-            createdAt:
-              type: string
-              format: date-time
-              example: 2017-07-21T17:32:28Z
             likes:
               type: array
               items:
@@ -1587,3 +1605,54 @@ components:
             status:
               type: string
               example: status is required
+    alluserArticleResponse:
+      type: object
+      properties:
+        myarticle:
+          type: object
+          properties:
+            count:
+              type: integer
+            rows:
+              type: array
+              items:
+                 type: object
+                 properties:
+                  id:
+                    type: integer
+                  slug:
+                    type: string
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  image: 
+                    type: string
+                  articleBody:
+                    type: string
+                  authorId: 
+                    type: integer
+                  categoryId: 
+                    type: integer
+                  likesCount:
+                    type: integer
+                  dislikesCount:
+                    type: integer
+                  publishedAt:
+                    type: string
+                    format: date-time
+                    example: 2017-07-21T17:32:28Z
+                  isArchived: 
+                    type: boolean
+                  createdAt: 
+                    type: integer
+                    format: date-time
+                  updatedAt:
+                    type: integer
+                    format: date-time
+    alluserError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: no token provided

@@ -431,6 +431,36 @@ const createLikeOrDislike = async (userAction, userId, article) => {
       return serverError(res);
     }
   }
+
+  /**
+   * gets all author's article
+   *
+   * @name userArticles
+   * @async
+   * @static
+   * @memberof Articles
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} Details of the users article
+   */
+  static async userArticles(req, res) {
+    try {
+      const userArticle = await Article.findAndCountAll({
+        where: {
+          authorId: req.user.id
+        }
+      });
+      const articles = {
+        total: userArticle.count,
+        data: userArticle.rows
+      };
+      res.status(200).send({
+        articles
+      });
+    } catch (error) {
+      return serverError(res);
+    }
+  }
 }
 
 export default Articles;
