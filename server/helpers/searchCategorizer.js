@@ -1,7 +1,9 @@
 import { Op } from 'sequelize';
 import models from '../database/models';
 
-const { User, Tag, Article } = models;
+const {
+  User, Tag, Article, Category
+} = models;
 
 /**
  * @name searchCategorizer
@@ -10,10 +12,10 @@ const { User, Tag, Article } = models;
  */
 const searchCategorizer = (queryParams) => {
   const queryObject = Object.keys(queryParams);
-  const allowedQueries = ['article', 'user', 'tag'];
+  const allowedQueries = ['article', 'user', 'tag', 'category'];
 
   const userQuery = allowedQueries.find(query => queryObject.includes(query));
-  if (!userQuery) return null;
+  if (!userQuery || !queryParams[userQuery]) return null;
 
   const searchQuery = { [Op.iLike]: `%${queryParams[`${userQuery}`]}%` };
 
@@ -28,6 +30,10 @@ const searchCategorizer = (queryParams) => {
     },
     tag: {
       model: Tag,
+      fields: ['name']
+    },
+    category: {
+      model: Category,
       fields: ['name']
     }
   };

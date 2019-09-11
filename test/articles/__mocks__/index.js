@@ -73,7 +73,7 @@ const ArticleData20 = {
   articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
   status: 'publish',
   tags: 'tech,business',
-  category: 'sport'
+  category: 'life'
 };
 
 const noTagArticleData = {

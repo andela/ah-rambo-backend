@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-
 import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';
@@ -9,16 +7,11 @@ import * as dbData from '../config/config';
 config();
 
 const base = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV;
 const db = {};
 const dbUrl = dbData[env];
 
-let sequelize;
-if (dbUrl.use_env_variable) {
-  sequelize = new Sequelize(process.env[dbUrl.use_env_variable], dbUrl);
-} else {
-  sequelize = new Sequelize(dbUrl.database, dbUrl.user, dbUrl.password, dbUrl);
-}
+const sequelize = new Sequelize(process.env[dbUrl.use_env_variable], dbUrl);
 
 fs.readdirSync(__dirname)
   .filter(

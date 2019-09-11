@@ -6,10 +6,7 @@ export default {
     .optional()
     .min(1)
     .error(setCustomMessage('User')),
-  article: Joi.string()
-    .optional()
-    .min(1)
-    .error(setCustomMessage('Article')),
+  article: Joi.optional().error(setCustomMessage('Article')),
   tag: Joi.string()
     .optional()
     .min(1)
@@ -21,7 +18,7 @@ export default {
   category: Joi.string()
     .optional()
     .min(1)
-    .error(setCustomMessage('Global')),
+    .error(setCustomMessage('Category')),
   page: Joi.number()
     .optional()
     .min(1)
@@ -29,5 +26,5 @@ export default {
   pageItems: Joi.number()
     .optional()
     .min(1)
-    .error(setCustomMessage('Page Size'))
+    .error(setCustomMessage('Page Items'))
 };
