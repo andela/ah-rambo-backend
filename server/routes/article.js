@@ -13,11 +13,7 @@ const {
   articleEditValidation
 } = middlewares;
 
-const protectedRoutesMiddlewares = [
-  verifyToken,
-  getSessionFromToken,
-  checkUserVerification
-];
+const protectedRoutesMiddlewares = [verifyToken, getSessionFromToken];
 
 router.post(
   '/create',
@@ -36,6 +32,7 @@ router.delete(
   protectedRoutesMiddlewares,
   Articles.removeDislike
 );
+router.get('/read/:slug', Articles.viewArticle);
 
 router.patch(
   '/update/:slug',

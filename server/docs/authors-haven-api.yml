@@ -957,6 +957,36 @@ paths:
             application/json:
              schema:
                 "$ref": "#/components/schemas/updateArticleErrorResponse"
+  /api/v1/articles/{slug}:
+    get:
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: article slug
+          schema:
+            type: string
+      summary: Route for viewing an article
+      description: Allow users to view an article
+      responses:
+        200:
+          description: article fetched successfully
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/viewArticle'
+        404:
+          description: article not found
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/errorResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/serverResponse'
 
   /api/v1/articles/{slug}/comments/{commentId}:
     patch:
@@ -1656,3 +1686,42 @@ components:
         message:
           type: string
           example: no token provided
+    viewArticle:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: seven
+        description:
+          type: string
+          example: pride
+        image:
+          type: string
+          example: 'https://res.cloudinary.com/teamrambo50/image/upload/v1565160704/avatar-1577909_1280_xsoxql.png'
+        articleBody:
+          type: string
+          example: prider
+        likesCount:
+          type: integer
+          example: 1
+        dislikesCount:
+          type: integer
+          example: 0
+        publishedAt:
+              type: string
+              format: date-time
+              example: 2017-07-21T17:32:28Z
+        createdAt:
+              type: string
+              format: date-time
+              example: 2017-07-21T17:32:28Z
+        updatedAt:
+              type: string
+              format: date-time
+              example: 2017-07-21T17:32:28Z
+        authorId:
+              type: integer
+              example: 1

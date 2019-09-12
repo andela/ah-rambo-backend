@@ -29,7 +29,9 @@ class Auth {
     delete user.password;
     response
       .status(301)
-      .redirect(`${process.env.CLIENT_URL}?token=${user.token}&email=${email}`);
+      .redirect(
+        `${process.env.CLIENT_URL}?token=${user.token}&username=${email}`
+      );
   }
 }
 export default Auth;

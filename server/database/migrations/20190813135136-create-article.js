@@ -38,6 +38,10 @@ export default {
     likesCount: {
       type: Sequelize.INTEGER
     },
+    views: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0
+    },
     dislikesCount: {
       type: Sequelize.INTEGER
     },

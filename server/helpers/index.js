@@ -19,6 +19,7 @@ import {
 } from './tagHelpers';
 import isFollowing from './isFollowing';
 import searchCategorizer from './searchCategorizer';
+import articleResponse from './articleResponse';
 
 const { expiryDate } = dateHelper;
 const { sendResetPasswordEmail, sendVerificationEmail } = emailTemplates;
@@ -46,5 +47,6 @@ export {
   formatTag,
   removeDuplicateTags,
   isFollowing,
-  searchCategorizer
+  searchCategorizer,
+  articleResponse
 };
