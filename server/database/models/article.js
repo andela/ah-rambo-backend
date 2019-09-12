@@ -59,6 +59,19 @@ export default (sequelize, DataTypes) => {
           }
         }
       },
+      views: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        validate: {
+          isInt: {
+            msg: 'likes count must be integers'
+          },
+          min: {
+            args: [0],
+            msg: 'articles likes count must not be less than 0'
+          }
+        }
+      },
       dislikesCount: {
         type: DataTypes.INTEGER,
         defaultValue: 0,

@@ -2,7 +2,14 @@ import models from '../database/models';
 import { serverResponse, serverError } from '../helpers';
 
 const { User, UserFollower } = models;
-const userAttributes = ['id', 'firstName', 'lastName', 'userName', 'email'];
+const userAttributes = [
+  'id',
+  'firstName',
+  'lastName',
+  'userName',
+  'email',
+  'avatarUrl'
+];
 
 /**
  * @export

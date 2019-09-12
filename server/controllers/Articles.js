@@ -1,10 +1,25 @@
 import models from '../database/models';
-import { imageUpload, serverResponse, serverError } from '../helpers';
+import {
+  imageUpload,
+  serverResponse,
+  serverError,
+  articleResponse,
+  isFollowing
+} from '../helpers';
 import Tags from './Tags';
+import middlewares from '../middlewares';
 
 const {
-  Article, Like, Dislike, Category
+  Article,
+  Like,
+  Dislike,
+  Category,
+  Comment,
+  Tag,
+  User,
+  UserFollower
 } = models;
+const { verifyToken, getSessionFromToken } = middlewares;
 
 /**
  * Returns server response for the article like/dislike operation
@@ -460,6 +475,106 @@ const createLikeOrDislike = async (userAction, userId, article) => {
     } catch (error) {
       return serverError(res);
     }
+  }
+
+  /**
+   *
+   * @name viewArticle
+   * @async
+   * @static
+   * @memberof Articles
+   * @param {Object} req express request object
+   * @param {Object} res express response object
+   * @returns {JSON} Details of the article and the updated
+   */
+  static async viewArticle(req, res) {
+    try {
+      const {
+        params: { slug },
+        headers: { authorization }
+      } = req;
+      const article = await Article.findOne({
+        where: { slug },
+        include: [
+          { model: Category, attributes: ['name'] },
+          {
+            model: User,
+            as: 'Author',
+            attributes: ['id', 'firstName', 'lastName', 'userName', 'avatarUrl']
+          },
+          'tags',
+          {
+            model: Comment,
+            as: 'comments',
+            include: [
+              {
+                model: User,
+                as: 'author',
+                attributes: [
+                  'id',
+                  'firstName',
+                  'lastName',
+                  'userName',
+                  'avatarUrl'
+                ]
+              }
+            ]
+          },
+          {
+            model: Like,
+            as: 'likes',
+            include: [{ model: User, attributes: ['userName', 'avatarUrl'] }]
+          },
+          {
+            model: Dislike,
+            as: 'dislikes',
+            include: [{ model: User, attributes: ['userName', 'avatarUrl'] }]
+          }
+        ]
+      });
+
+      if (authorization) {
+        return verifyToken(req, res, () => getSessionFromToken(req, res, () => Articles.authView(req, res, article)));
+      }
+      if (!article || article.isArchived || !article.publishedAt) {
+        return serverResponse(res, 404, { error: 'article not found' });
+      }
+
+      await Article.update({ views: article.views + 1 }, { where: { slug } });
+      await article.dataValues.comments.map(async ({ dataValues }) => {
+        dataValues.following = await isFollowing(
+          article.Author.id,
+          dataValues.author.id
+        );
+        return dataValues;
+      });
+      return articleResponse(res, 200, article);
+    } catch (error) {
+      return serverError(res);
+    }
+  }
+
+  /**
+   * @name authView
+   * @description allows a user to view their own article
+   * @param {object} req
+   * @param {object} res
+   * @param {object} article
+   * @returns {json} the json response returned by the server
+   * @memberof ProfilesController
+   */
+  static authView(req, res, article) {
+    const {
+      user: { id: userId }
+    } = req;
+
+    if (article && userId === article.authorId) {
+      return serverResponse(res, 200, { article });
+    }
+    if (!article || article.isArchived || !article.publishedAt) {
+      return serverResponse(res, 404, { error: 'article not found' });
+    }
+    return articleResponse(res, 200, article);
   }
 }
 

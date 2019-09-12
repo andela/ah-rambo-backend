@@ -65,6 +65,34 @@ describe('Article Model Test', () => {
     });
   });
 
+  context('when views is a negative number', () => {
+    const ArticleTest = { ...ArticleData };
+    ArticleTest.views = -1;
+    it('throws an error', async () => {
+      try {
+        await Article.create({ ...ArticleTest });
+      } catch (error) {
+        expect(error.errors[0].message).to.equal(
+          'articles likes count must not be less than 0'
+        );
+      }
+    });
+  });
+
+  context('when likes is a negative number', () => {
+    const badlikes = { ...ArticleData };
+    badlikes.likesCount = -1;
+    it('throws an error', async () => {
+      try {
+        await Article.create({ ...badlikes });
+      } catch (error) {
+        expect(error.errors[0].message).to.equal(
+          'articles likes count must not be less than 0'
+        );
+      }
+    });
+  });
+
   context('when dislikes is a negative number', () => {
     const badlikes = { ...ArticleData };
     badlikes.dislikesCount = -1;

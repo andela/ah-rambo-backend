@@ -159,6 +159,14 @@ const authenticatedUser = {
   confirmPassword: 'authors.haven@haven.com'
 };
 
+const checkmateArticleData = {
+  title: ' checkmate ',
+  description: 'ext ever since the 1500s, when an unknown printer',
+  articleBody: 'ext ever since the 1500s, when an unknown printer took a ga',
+  status: 'publish',
+  category: 'sport'
+};
+
 export {
   ArticleData,
   ArticleData2,
@@ -176,5 +184,6 @@ export {
   authenticatedUser,
   categoryDetails,
   ArticleData3,
-  surplusTagArticleData
+  surplusTagArticleData,
+  checkmateArticleData
 };
